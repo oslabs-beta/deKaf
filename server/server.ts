@@ -1,11 +1,16 @@
 //** Express server imports **//
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 3000;
 
 //** Additional imports **//
 const path = require('path');
 
+//routers
+const dbRouter = require("./routes/dbRouter.ts");
+const kafkaRouter = require("./routes/kafkaRouter.ts");
+const userRouter = require("./routes/userRouter.ts");
 
 //** Serve all compiled files when running the production build **//
 app.use(express.static(path.resolve(__dirname, '../src')));
