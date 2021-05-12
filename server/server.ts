@@ -18,7 +18,7 @@ app.use(express.json());
 
 
 //** Route handler to serve the basic file in case of no webpack build **//
-app.get('/', (req, res) => {
+app.get('/', (req:any, res:any) => {
     return res.status(200).sendFile(path.join(__dirname, '../src/index.html')); 
 }); 
 
@@ -28,10 +28,10 @@ app.get('/', (req, res) => {
 
 
 //** No route / 404 Handler **//
-app.use('*', (req, res) => res.status(404).send('Error 404: This page doesn\'t exist!'));
+app.use('*', (req:any, res:any) => res.status(404).send('Error 404: This page doesn\'t exist!'));
 
 //** Global Error Handler **//
-app.use((err, req, res, next) => {
+app.use((err:any, req:any, res:any, next:any) => {
     const defaultErr = {
       log: 'Express error handler caught unknown middleware error',
       status: 500,
