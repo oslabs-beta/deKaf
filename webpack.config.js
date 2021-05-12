@@ -5,7 +5,7 @@ module.exports = {
     // mode set to currect process
     mode: process.env.NODE_ENV,
     //entry point for compiling
-    entry: './src/index.js',
+    entry: './src/index.tsx',
     output: {
         //path to our build directory
         path: path.resolve(__dirname, 'build'),
@@ -22,13 +22,13 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/,
+                test: /\.(ts|tsx)$/,
                 exclude: /node_modules/,
                 use: {
                     // Translates React to js
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-env','@babel/preset-react']
+                        presets: ['@babel/preset-env','@babel/preset-react', '@babel/preset-typescript']
                     }
                 }
             },
