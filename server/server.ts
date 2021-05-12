@@ -1,11 +1,16 @@
 //** Express server imports **//
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 3000;
 
 //** Additional imports **//
 const path = require('path');
 
+//routers
+const dbRouter = require("./routes/dbRouter.ts");
+const kafkaRouter = require("./routes/kafkaRouter.ts");
+const userRouter = require("./routes/userRouter.ts");
 
 //** Serve all compiled files when running the production build **//
 app.use(express.static(path.resolve(__dirname, '../src')));
@@ -18,7 +23,7 @@ app.use(express.json());
 
 
 //** Route handler to serve the basic file in case of no webpack build **//
-app.get('/', (req:any, res:any) => {
+app.get('/', (req, res) => {
     return res.status(200).sendFile(path.join(__dirname, '../src/index.html')); 
 }); 
 
@@ -28,10 +33,10 @@ app.get('/', (req:any, res:any) => {
 
 
 //** No route / 404 Handler **//
-app.use('*', (req:any, res:any) => res.status(404).send('Error 404: This page doesn\'t exist!'));
+app.use('*', (req, res) => res.status(404).send('Error 404: This page doesn\'t exist!'));
 
 //** Global Error Handler **//
-app.use((err:any, req:any, res:any, next:any) => {
+app.use((err, req, res, next) => {
     const defaultErr = {
       log: 'Express error handler caught unknown middleware error',
       status: 500,

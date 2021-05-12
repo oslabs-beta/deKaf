@@ -1,17 +1,6 @@
 const { Pool } = require("pg");
 require('dotenv').config();
 
-/*Schema set up as below - used CREATE TABLE in ElephantSQL to make the schema. Syntax used listed below:
-CREATE TABLE faves (
-image TEXT,
-commonname TEXT,
-scientific TEXT,
-edible BOOLEAN,
-vegetable TEXT,
-notes TEXT
-);
-*/
-
 
 //URI to elephantSQL database that will store the users favorite plants and any notes that add to those faves
 const PG_URI = process.env.pgURI;
