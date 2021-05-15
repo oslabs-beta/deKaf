@@ -1,7 +1,31 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Switch, useLocation } from 'react-router-dom';
+
+// @ts-ignore
+import NavBar from './Navbar.tsx';
+// @ts-ignore
+import Home from './Base/Home.tsx';
+// @ts-ignore
+import Login from './Base/Login.tsx';
+// @ts-ignore
+import Signup from './Base/Signup.tsx';
+// @ts-ignore
+import About from './Base/About.tsx';
+// @ts-ignore
+import UserPage from './UserPage/UserPage.tsx';
 
 const App = () => {
-    // Add code here
+    // const [session, setSession] = useState(null);
+
+    // useEffect (() => {
+    //     fetch('/user/verifySession')
+    //     .then(data => data.json()
+    //     .then(data => {
+    //     //   check for session on server, return session id or no session
+    //     //   if (data.message) return;
+    //     //   if (data.ssid) setSession(data.ssid)
+    //     }))
+    //   }, [session])
 
     // return (
     //     <div className="app-container">
@@ -11,6 +35,17 @@ const App = () => {
 
     return (
         <div className = 'app-wrapper'>
+            Component rendering test!
+            <NavBar />
+            <div className="content-container">
+                <Switch>
+                    <Route exact path="/" render={() => <Home />} />
+                    <Route exact path="/login" render={() => <Login />} />
+                    <Route exact path="/signup" render={() => <Signup />} />
+                    <Route exact path="/about" render={() => <About />} />
+                    <Route exact path="/user" render={() => <UserPage />} />
+                </Switch>
+            </div>
             <nav>
                 <div className = 'logo'>(Logo)</div>
                 <div className = 'nav-right'>

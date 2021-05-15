@@ -18,18 +18,19 @@ app.use('/build', express.static(path.join(__dirname, '../build')));
 
 //** Automatically parse urlencoded body content from incoming requests and place it in req.body **//
 app.use(express.json());
-//** We can install body parser later if needed **//
-// app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.urlencoded({extended: true}));
 
 
-//** Route handler to serve the basic file in case of no webpack build **//
-app.get('/', (req, res) => {
-    return res.status(200).sendFile(path.join(__dirname, '../src/index.html')); 
-}); 
+//** Middleware to serve the main html file **//
+const serveMainFile = (req, res) => {
+    return res.status(200).sendFile(path.join(__dirname, '../src/index.html'));
+}
 
-
-
-
+//** Routes requiring main file **//
+app.get('/', serveMainFile);
+app.get('/login', serveMainFile)
+app.get('/signup', serveMainFile)
+app.get('/about', serveMainFile)
 
 
 //** No route / 404 Handler **//
