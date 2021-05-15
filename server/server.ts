@@ -7,7 +7,7 @@ const PORT = 3000;
 //** Additional imports **//
 const path = require('path');
 
-//routers
+//require routers
 const dbRouter = require("./routes/dbRouter.ts");
 const kafkaRouter = require("./routes/kafkaRouter.ts");
 const userRouter = require("./routes/userRouter.ts");
@@ -27,6 +27,10 @@ app.get('/', (req, res) => {
     return res.status(200).sendFile(path.join(__dirname, '../src/index.html')); 
 }); 
 
+//functionality routes
+app.use('/user', userRouter);
+app.use('/kafka', kafkaRouter);
+app.use('/db', dbRouter);
 
 
 
