@@ -33,7 +33,16 @@ app.use('/kafka', kafkaRouter);
 app.use('/db', dbRouter);
 
 
+//** Middleware to serve the main html file **//
+const serveMainFile = (req, res) => {
+    return res.status(200).sendFile(path.join(__dirname, '../src/index.html'));
+}
 
+//** Routes requiring main file **//
+app.get('/', serveMainFile);
+app.get('/login', serveMainFile)
+app.get('/signup', serveMainFile)
+app.get('/about', serveMainFile)
 
 
 //** No route / 404 Handler **//
