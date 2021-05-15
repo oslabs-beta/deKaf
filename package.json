@@ -30,11 +30,17 @@
     "cookie-parser": "^1.4.5",
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
+<<<<<<< HEAD
     "path": "^0.12.7",
     "pg": "^8.6.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.2.0",
+=======
+    "react-router-dom": "^5.2.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+>>>>>>> cedd88b7a46623db5367af690a7ab6f8f759b807
     "sass": "^1.32.13",
     "ts-node": "^9.1.1"
   },
