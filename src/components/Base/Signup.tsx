@@ -56,24 +56,24 @@ const Signup = () => {
     return (
         <div className='login-wrapper'>
             <div className='logo'>(Logo image will go here)</div>
-            <div className='logo-caption'>A visualization tool for Kafka consumer metrics</div>
+            {/* <div className='logo-caption'>A visualization tool for Kafka consumer metrics</div> */}
 
             <div className='login-container'>
-                <h3>Signup to deKaf</h3>
+                <h3>Create a deKaf account</h3>
                 <hr />
-                <form id='login' onChange={onUserLogin}>
+                <div className='login-signup-form'>
                     <input id='user' name='user' placeholder='Username' type='text' />
                     <br />
                     <input id='password' name='password' placeholder='Password' type='password' />
                     <br />
-                    <input id='passwordConf' name='passwordConf' placeholder='Password Confirm' type='password' />
+                    <input id='passwordConf' name='passwordConf' placeholder='Confirm password' type='password' />
                     <br />
-                    <button id='submit' type='submit'>Log in</button>
-                </form>
+                    <button id='signup-submit' onClick={onUserLogin}>Create account</button>
+                </div>
                 <div className='info'>{info}</div>
             </div>
 
-            <div className='new-user'>Already have an account? <Link to='/login'>Login</Link>.</div>
+            <div className='new-user'>Already have an account? <Link to='/login'>Log in here</Link>.</div>
         </div>
     )
 }
