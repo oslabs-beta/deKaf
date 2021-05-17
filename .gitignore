@@ -106,3 +106,6 @@ dist
 # Extra ignores
 build/
 package-lock
+
+# error log
+myapp.log
