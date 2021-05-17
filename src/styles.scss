@@ -23,7 +23,6 @@ body {
         display: flex;
         justify-content: space-between;
         padding: 12px 18px;
-        box-shadow: 2px 1px 8px 1px darken($linen, 5%);
 
         a {
             text-decoration: none;
@@ -40,12 +39,21 @@ body {
         }
     }
 
+    #top-nav-flex {
+        padding: 12px 18px;
+        box-shadow: 2px 1px 8px 1px darken($linen, 5%);
+    }
+
     h1 {
         font-family: 'Oxanium', cursive;
     }
 
+    h2 {
+        font-family: 'Oxanium', cursive;
+    }
+
     .banner {
-        height: 50vh;
+        height: 380px;
         color: $blackCoffee;
         box-shadow: 2px 1px 8px 1px darken($linen, 5%);
 
@@ -79,6 +87,7 @@ body {
             background: darken($avocado, 30%);
             // border: 1px solid $blackCoffee;
             color: $blackCoffee;
+            cursor: pointer;
         }
     }
 
@@ -211,6 +220,7 @@ body {
                     background: darken($avocado, 30%);
                     // border: 1px solid $blackCoffee;
                     color: $blackCoffee;
+                    cursor: pointer;
                 }
             }
         }
@@ -273,10 +283,6 @@ body {
             width: 80%;
             margin: 30px auto;
 
-            h2 {
-                font-family: 'Oxanium', cursive;
-            }
-
             .panel-content {
                 display: flex;
                 min-height: 200px;
@@ -300,21 +306,53 @@ body {
         }
     }
 
+    // User home page styling
+    #top-nav-fixed {
+        position: sticky;
+        top: 0;
+        // padding: 10px;
+    }
+
     #user-wrapper {
         display: flex;
         justify-content: space-between;
-        height: 100%;
 
         .left-nav {
-            background: cyan;
-            width: 15%;
+            background: lighten($linen, 2%);
+            width: 200px;
             display: block;
-            overflow: auto;
+            position: fixed;
+            top: 49.6px;
+            height: 100%;
+
+            .left-option {
+                padding: 10px;
+                border-bottom: 2px solid white;
+            }
         }
 
         .gallery {
-            background: yellow;
-            width: 85%;
+            width: 100%;
+            margin-left: 200px;
+
+            .gallery-header {
+                padding: 10px;
+                margin: 10px 10px 0 10px;
+            }
+
+            .cards-container {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: repeat(auto-fill, auto);
+                grid-row-gap: 0.5em;
+                grid-column-gap: 0.5em;
+                background-color: inherit;
+                padding: 10px;
+    
+                .broker-card {
+                    border: 1px solid blue;
+                }
+            }
         }
     }
 }

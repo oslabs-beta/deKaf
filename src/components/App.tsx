@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Switch, useLocation } from 'react-route
 // @ts-ignore
 import NavBar from './Navbar.tsx';
 // @ts-ignore
+import TopNav from './UserPage/TopNav.tsx';
+// @ts-ignore
 import Home from './Base/Home.tsx';
 // @ts-ignore
 import Login from './Base/Login.tsx';
@@ -35,7 +37,11 @@ const App = () => {
 
     return (
         <div className='app-wrapper'>
-            <NavBar />
+            {/* <NavBar /> */}
+            <Switch>
+                <Route path='/user' render={() => <TopNav />} />
+                <Route path='/' render={() => <NavBar />} />
+            </Switch>
             <div className="content-container">
                 <Switch>
                     <Route exact path="/" render={() => <Home />} />
