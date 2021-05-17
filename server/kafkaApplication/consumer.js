@@ -123,70 +123,70 @@ consumer.run = async () => {
     })
 
 
-    // await consumer.run({
-    //   'eachMessage': async ({ topic, partition, message }) => {
-    //     console.log('in the consumer running')
-    //     console.log({
-    //       // key: message.key.toString(),
-    //       value: message.value.toString(),
-    //       partition: partition,
-    //       topic: topic
-    //     })
-    //     // let data = {value: message.value.toString(), partition: partition}
-    //     // buffer.queue(data)
-    //     console.log(consumer.events)
-    //     const { REQUEST, FETCH } = consumer.events;
-    //     const request = requestFunc(REQUEST);
-    //     // console.log(request)
-    //     // const req = consumer.on(REQUEST, (e) => {
-    //     //   console.log('in the request fun')
-    //     //   // console.log(e)
-    //     //   const { payload } = e
-    //     //   // console.log(payload)
-    //     //   // const messageQ = 'in the request';
-    //     //   // const partition = 5;
-    //     //   // const queryString = {
-    //     //   //   text: 'INSERT INTO data (message, partition) VALUES ($1, $2)',
-    //     //   //   values: [messageQ, partition],
-    //     //   //   rowMode: 'array'
-    //     //   // }
-    //     //   // console.log('before query')
-    //     //   // db.query(queryString)
-    //     //   // .catch(e => console.log(`error in addTodb`, e));
-    //     //   return payload
+    await consumer.run({
+      'eachMessage': async ({ topic, partition, message }) => {
+        console.log('in the consumer running')
+        console.log({
+          // key: message.key.toString(),
+          value: message.value.toString(),
+          partition: partition,
+          topic: topic
+        })
+        // let data = {value: message.value.toString(), partition: partition}
+        // buffer.queue(data)
+        console.log(consumer.events)
+        const { REQUEST, FETCH } = consumer.events;
+        const request = requestFunc(REQUEST);
+        // console.log(request)
+        // const req = consumer.on(REQUEST, (e) => {
+        //   console.log('in the request fun')
+        //   // console.log(e)
+        //   const { payload } = e
+        //   // console.log(payload)
+        //   // const messageQ = 'in the request';
+        //   // const partition = 5;
+        //   // const queryString = {
+        //   //   text: 'INSERT INTO data (message, partition) VALUES ($1, $2)',
+        //   //   values: [messageQ, partition],
+        //   //   rowMode: 'array'
+        //   // }
+        //   // console.log('before query')
+        //   // db.query(queryString)
+        //   // .catch(e => console.log(`error in addTodb`, e));
+        //   return payload
           
-    //     // })
-    //     // console.log('outside of on')
-    //     // console.log(req)
-    //     // // const fetch = fetchFunc(FETCH);
-    //     // const data = {value:  message.value.toString(), partition: partition};
-    //     // const sampleData = JSON.stringify(data)
-    //     // console.log('before write fole sybz')
-    //     // // fs.appendFileSync('./sampleData.json', sampleData)
-    //     // console.log('after file sync')
-    //     // console.log(request);
-    //     const messageQ = 'this is a big test';
-    //     const queryString = {
-    //       text: 'INSERT INTO data2 (message, partition) VALUES ($1, $2)',
-    //       values: [messageQ, partition],
-    //       rowMode: 'array'
-    //     }
-    //     console.log('before query')
-    //     db.query(queryString)
-    //     .catch(e => console.log(`error in addTodb`, e));
-    //     // console.log('after query')
-    //     // addToDb(data)
-    //     // addToDb(data)
-    //     // .catch(err => console.log(`error adding to db ${err}`, err))
+        // })
+        // console.log('outside of on')
+        // console.log(req)
+        // // const fetch = fetchFunc(FETCH);
+        // const data = {value:  message.value.toString(), partition: partition};
+        // const sampleData = JSON.stringify(data)
+        // console.log('before write fole sybz')
+        // // fs.appendFileSync('./sampleData.json', sampleData)
+        // console.log('after file sync')
+        // console.log(request);
+        const messageQ = 'this is a big test';
+        const queryString = {
+          text: 'INSERT INTO data2 (message, partition) VALUES ($1, $2)',
+          values: [messageQ, partition],
+          rowMode: 'array'
+        }
+        console.log('before query')
+        db.query(queryString)
+        .catch(e => console.log(`error in addTodb`, e));
+        // console.log('after query')
+        // addToDb(data)
+        // addToDb(data)
+        // .catch(err => console.log(`error adding to db ${err}`, err))
         
-    //     // console.log('test')
-    //     // let str = message.value.toString()
-    //     // queue.add(str)
-    //     // console.log('consumer events');
-    //     // console.log(consumer.events)
-    //     // consumer.close();
-    //   }
-    // })
+        // console.log('test')
+        // let str = message.value.toString()
+        // queue.add(str)
+        // console.log('consumer events');
+        // console.log(consumer.events)
+        // consumer.close();
+      }
+    })
     function requestFunc(REQUEST) {
       const req = consumer.on(REQUEST, (e) => {
         console.log('in the request fun')
