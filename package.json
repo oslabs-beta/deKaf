@@ -2,7 +2,7 @@
   "name": "dekaf",
   "version": "0.0.1",
   "description": "A web app for Kafka metrics vizualisation and managment.",
-  "main": "/src/index.ts",
+  "main": "/src/index.tsx",
   "scripts": {
     "start": "cross-env NODE_ENV=production node server/server.ts",
     "build": "cross-env NODE_ENV=production webpack",
@@ -30,13 +30,16 @@
     "cookie-parser": "^1.4.5",
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
-    "path": "^0.12.7",
+    "react-router-dom": "^5.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "ts-node": "^9.1.1",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "sass": "^1.32.13"
   },
   "devDependencies": {
+    "path": "^0.12.7",
+    "pg": "^8.6.0",
     "@babel/core": "^7.14.0",
     "@babel/preset-env": "^7.14.1",
     "@babel/preset-react": "^7.13.13",
@@ -51,6 +54,7 @@
     "css-loader": "^5.2.4",
     "file-loader": "^6.2.0",
     "nodemon": "^2.0.7",
+    "sass-loader": "^11.1.0",
     "style-loader": "^2.0.0",
     "ts-loader": "^9.1.2",
     "typescript": "^4.2.4",
