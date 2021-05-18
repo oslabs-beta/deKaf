@@ -31,13 +31,15 @@ const kafkaController = {
       rowMode: 'array'
     }
     const messageData = await dbKafka.query(messageQueryString);
-    console.log(messageData.rows);
+    // console.log(messageData.rows);
+    messageCounter = messageData.rowCount;
     const messageDataArray = [];
     messageData.rows.forEach((el) => {
       messageDataArray.push(el[0])
     })
     // console.log(messageDataArray)
     res.locals.messageData = messageDataArray;
+    res.locals.messageCounter = messageCounter;
     // console.log('test')
     return next();
   },
@@ -45,15 +47,32 @@ const kafkaController = {
   async getRequestData(req, res, next) {
     let requestCounter = 0;
     const requestQueryString = {
-      text: `SELECT request_data AS requestData FROM consumer_requests WHERE _id > requestCounter`,
+      text: `SELECT request_data AS requestData FROM consumer_requests WHERE _id > ${requestCounter}`,
       rowMode: 'array'
     }
-    const requestData = dbKafka.query(requestQueryString);
-    console.log(requestData.rows);
+    const requestData = await dbKafka.query(requestQueryString);
+    // console.log(requestData);
+    requestCounter = requestData.rowCount;
+    const requestDataArray = [];
+    requestData.rows.forEach((el) => {
+      requestDataArray.push(el[0])
+    })
+    // console.log(requestDataArray)
+    res.locals.requestData = requestDataArray;
+    res.locals.requestCounter = requestCounter;
     return next();
   },
 
-  // async get
+  async getProducerData(req, res, next) {
+    let producerCounter = 0;
+    const producerQueryString = {
+      text: `SELECT request_data AS requestData FROM producer WHERE _id > ${producerCounter}`,
+      rowMode: 'array'
+    }
+    const producerData = await dbKafka.query(producerQueryString);
+    console.log(producerData);
+    return next();
+  }
 
 };
 

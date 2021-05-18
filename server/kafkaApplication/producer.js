@@ -1,6 +1,6 @@
 const { Kafka } = require('kafkajs');
 
-const db = require('../models/userModel')
+const db = require('../models/userModel.ts')
 // const queue = require('../dataStorage/queue.js');
 
 const producer = {};
@@ -43,8 +43,14 @@ async function run(dataMessage) {
     console.log('producer events');
     console.log(producer.events);
     const { REQUEST } = producer.events;
-    producer.on(REQUEST, (e) => {
+    producer.on(REQUEST, async (e) => {
       console.log(e);
+      const queryString = {
+        text: `INSERT INTO producer (request_data) VALUES ($1)`,
+        values: [e],
+        rowMode: 'array'
+      }
+      // await db.query(queryString);
     })
 
     
