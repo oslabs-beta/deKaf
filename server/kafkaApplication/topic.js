@@ -68,7 +68,7 @@ topic.run = async () => {
     process.exit(0);
   }
 }
-// topic.run();
+topic.run();
 
 module.exports = topic;
 

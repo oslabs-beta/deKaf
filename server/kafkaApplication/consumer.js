@@ -138,7 +138,7 @@ consumer.run = async (userId) => {
 
         //querying the main message into the db
         const dataId = await mainMessageQueryFunc(topic, partition, message, userId);
-        console.log(dataId);
+        // console.log(dataId);
 
         console.log(consumer.events)
         // deconstructing the events our of consumer
@@ -158,23 +158,32 @@ consumer.run = async (userId) => {
         partition: partition,
         topic: topic
       }
+      console.log(messageData)
+      const testQueryString = {
+        text: `INSERT INTO data2 (message, partition) VALUES ($1, $2)`,
+        values: ['this is another test', 1],
+        rowMode: 'array'
+      }
       const queryString = {
         text: 'INSERT INTO consumers (user_id, message_data) VALUES ($1, $2) RETURNING _id AS dataId',
         values: [userId, messageData],
         rowMode: 'array'
       }
       console.log('before query')
-      const result = await db.query(queryString)
+      const testQuery = await db.query(testQueryString)
+      // const result = await db.query(queryString)
       .catch(e => console.log(`error in addTodb`, e));
-      const dataId = result.rows[0][0];
-      console.log(dataId)
-      return dataId;
+      // const dataId = result.rows[0][0];
+      // console.log(dataId)
+      // return dataId;
     }
 
     async function requestFunc(REQUEST, dataId) {
       const req = consumer.on(REQUEST, (e) => {
         console.log('in the request fun')
-        const { payload } = e
+        console.log(e)
+        const { payload } = e;
+        // console.log(payload)
         const queryString = {
           text: 'INSERT INTO consumer_requests (request_data, data_id) VALUES ($1, $2)',
           values: [payload, dataId],
