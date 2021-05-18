@@ -17,8 +17,9 @@ const pool = new Pool({
 
 // exporting module with some console logs
 module.exports = {
-  query: (text:string, params, callback) => {
+  query: (text, params, callback) => {
     // console.log("executed query", text);
+    //params = pool.connectionString;
     // console.log("executed params", params);
     // console.log("executed callback", callback);
     return pool.query(text, params, callback);

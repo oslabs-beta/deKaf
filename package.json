@@ -53,6 +53,7 @@
     "cross-env": "^7.0.3",
     "css-loader": "^5.2.4",
     "file-loader": "^6.2.0",
+    "kafkajs": "^1.15.0",
     "nodemon": "^2.0.7",
     "path": "^0.12.7",
     "pg": "^8.6.0",
