@@ -48,22 +48,22 @@ const Login = () => {
     return (
         <div className='login-wrapper'>
             <div className='logo'>(Logo image will go here)</div>
-            <div className='logo-caption'>A visualization tool for Kafka consumer metrics</div>
+            {/* <div className='logo-caption'>A visualization tool for Kafka consumer metrics</div> */}
 
             <div className='login-container'>
                 <h3>Log in to deKaf</h3>
                 <hr />
-                <div id='login'>
+                <div className='login-signup-form'>
                     <input id='user' name='user' placeholder='Username' type='text' />
                     <br />
                     <input id='password' name='password' placeholder='Password' type='password' />
                     <br />
-                    <button id='submit' onClick={onUserLogin}>Log in</button>
+                    <button id='login-submit' onClick={onUserLogin}>Log in</button>
                 </div>
                 <div className='info'>{info}</div>
             </div>
 
-            <div className='new-user'>New to deKaf? <Link to='/about'>Learn more</Link> or <Link to='/signup'>create an account.</Link></div>
+            <div className='new-user'>New to deKaf? <Link to='/about'>Learn more</Link> or <Link to='/signup'>create an account</Link>.</div>
         </div>
     )
 }

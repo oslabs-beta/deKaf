@@ -28,9 +28,10 @@ const serveMainFile = (req, res) => {
 
 //** Routes requiring main file **//
 app.get('/', serveMainFile);
-app.get('/login', serveMainFile)
-app.get('/signup', serveMainFile)
-app.get('/about', serveMainFile)
+app.get('/login', serveMainFile);
+app.get('/signup', serveMainFile);
+app.get('/about', serveMainFile);
+app.get('/user', serveMainFile);
 
 //Router for kafka related requests
 app.use('/kafka', kafkaRouter)
