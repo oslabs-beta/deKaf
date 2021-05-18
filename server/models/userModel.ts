@@ -18,14 +18,21 @@ const pool = new Pool({
 
 // exporting module with some console logs
 module.exports = {
-  query: (text, params, callback) => {
-    return pool.connect((err, client, done) => {
-      if(err) console.log('query problem: ',err);
-      client.query(text, params, (err, res) => {
-        done();
-        return callback(err, res);
-      })
-    })
+  query: async (text, params, callback) => {
+    const client = await pool.connect();
+    let res:any;
+
+    try{
+      await client.query('BEGIN');
+      res = await client.query(text, params, callback);
+      await client.query('COMMIT');
+    } catch (e) {
+      await client.query('ROLLBACK');
+      console.error(e);
+    } finally {
+      client.release();
+    }
+    return res;
   },
 };
 
