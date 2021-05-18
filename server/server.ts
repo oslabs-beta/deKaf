@@ -18,6 +18,7 @@ app.use('/build', express.static(path.join(__dirname, '../build')));
 
 //** Automatically parse urlencoded body content from incoming requests and place it in req.body **//
 app.use(express.json());
+app.use(express.urlencoded({ extended:true }));
 //** We can install body parser later if needed **//
 // app.use(bodyParser.urlencoded({extended: true}));
 
