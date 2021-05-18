@@ -4,8 +4,8 @@ const winston = require('winston')
 const fs = require('fs')
 const path = require('path')
 
-const dataStructures = require('../dataStructures/queue.js')
-const db = require('../models/userModel');
+// const dataStructures = require('../dataStructures/queue.js')
+const db = require('../models/userModel.ts');
 
 
 //initializing a consumer object
@@ -56,12 +56,12 @@ consumer.run = async (userId) => {
       logLevel: logLevel.ERROR,
       logCreator: WinstonLogCreator
     })
-    const buffer = new dataStructures()
+    // const buffer = new dataStructures()
     //initializing a consumer
     const consumer = kafka.consumer({
       groupId: 'my-group',
       // partitionAssigners: [1,2],
-      // sessionTimeout: 30000,
+      sessionTimeout: 30000,
       // rebalanceTimeout: 60000,
       // heartbeatInterval: 3000,
       // metadataMaxAge: 30000,
@@ -159,27 +159,27 @@ consumer.run = async (userId) => {
         topic: topic
       }
       console.log(messageData)
-      const testQueryString = {
-        text: `INSERT INTO data2 (message, partition) VALUES ($1, $2)`,
-        values: ['this is another test', 1],
-        rowMode: 'array'
-      }
-      // const queryString = {
-      //   text: 'INSERT INTO consumers (user_id, message_data) VALUES ($1, $2) RETURNING _id AS dataId',
-      //   values: [userId, messageData],
+      // const testQueryString = {
+      //   text: `INSERT INTO data2 (message, partition) VALUES ($1, $2)`,
+      //   values: ['this is another test', 1],
       //   rowMode: 'array'
       // }
+      const queryString = {
+        text: 'INSERT INTO consumers (user_id, message_data) VALUES ($1, $2) RETURNING _id AS dataId',
+        values: [userId, messageData],
+        rowMode: 'array'
+      }
       console.log('before query')
       // const testQuery = await db.query(testQueryString)
-      const result = await db.query(queryString)
-      .catch(e => console.log(`error in addTodb`, e));
+      // const result = await db.query(queryString)
+      // .catch(e => console.log(`error in addTodb`, e));
       // const dataId = result.rows[0][0];
       // console.log(dataId)
       // return dataId;
     }
 
     async function requestFunc(REQUEST, dataId) {
-      const req = consumer.on(REQUEST, (e) => {
+      const req = consumer.on(REQUEST, async (e) => {
         console.log('in the request fun')
         console.log(e)
         const { payload } = e;
@@ -190,9 +190,8 @@ consumer.run = async (userId) => {
           rowMode: 'array'
         }
         console.log('before query')
-        db.query(queryString)
+        await db.query(queryString)
         .catch(e => console.log(`error in addTodb`, e));
-        return payload
       })
       console.log(req)
       return req;
@@ -225,4 +224,16 @@ consumer.run = async (userId) => {
 // userId = 3;
 // consumer.run(userId);
 module.exports = consumer;
+
+/*
+What is the problem:
+
+too many connections to the database. We are running a kafka application and sending multiple request to the database at the same time from the broker, producer and consumer. In order to render certain metrics we are opening up consumer and producer events and then querying those to the postgres server. However it appears these connections never close and after a few messages the postgres server says there's too many connections
+
+What did you expect to happen?
+I expected the queries to be entered into the database. Individually they all work but together they break.
+
+What have I tried?
+I have made sure a
+*/
 
