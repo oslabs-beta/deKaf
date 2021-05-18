@@ -44,11 +44,7 @@ body {
         box-shadow: 2px 1px 8px 1px darken($linen, 5%);
     }
 
-    h1 {
-        font-family: 'Oxanium', cursive;
-    }
-
-    h2 {
+    h1, h2, h3 {
         font-family: 'Oxanium', cursive;
     }
 
@@ -325,9 +321,18 @@ body {
             top: 49.6px;
             height: 100%;
 
+            a {
+                text-decoration: none;
+                color: darken($avocado, 50%);
+            }
+
             .left-option {
                 padding: 10px;
                 border-bottom: 2px solid white;
+            }
+
+            .left-option:hover {
+                background: lighten($avocado, 10%);
             }
         }
 
@@ -349,10 +354,121 @@ body {
                 background-color: inherit;
                 padding: 10px;
     
+                // Broker cards styling
                 .broker-card {
-                    border: 1px solid blue;
+                    background: $linen;
+                    padding: 10px;
+                    border: 1px solid darken($linen, 5%);
+                    border-radius: 5px;
+
+                    h3 {
+                        font-size: 16px;
+                        margin: 0;
+                    }
+
+                    p {
+                        margin: 5px 0 5px 0;
+                    }
+
+                    button {
+                        // height: 28px;
+                        width: 46%;
+                        border: 1px solid transparent;
+                        margin: 2%;
+                        background: darken($avocado, 50%);
+                        color: white;
+                        font-family: 'Baloo 2', cursive;
+                        font-size: 14px;
+                        box-shadow: 2px 1px 8px 1px darken($linen, 10%);
+
+                    }
+            
+                    button:hover {
+                        cursor: pointer;
+                    }
+
+                    #view-button {
+                        background: darken($avocado, 50%);
+                    }
+
+                    #view-button:hover {
+                        background: darken($avocado, 40%);
+                    }
+
+                    #remove-button {
+                        background: rgb(172, 3, 3);
+                    }
+
+                    #remove-button:hover {
+                        background:red;
+                    }
+                }
+
+                #add-new-broker-container {
+                    margin: 0 auto;
+
+                    button {
+                        margin-top: 45%;
+                        border: 1px solid transparent;
+                        padding: 5px;
+                        border-radius: 100px;
+                        background: darken($avocado, 50%);
+                        color: white;
+                        font-family: 'Baloo 2', cursive;
+                        font-size: 14px;
+                        box-shadow: 2px 1px 8px 1px darken($linen, 5%);
+                    }
+
+                    button:hover {
+                        cursor: pointer;
+                        background: darken($avocado, 40%);
+                    }
                 }
             }
+        }        
+    }
+
+    // Broker details styling
+    #broker-wrapper {
+
+        h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+        
+        #lead-metrics-container {
+            // background: yellow;
+            display: flex;
+
+            .metrics-overview-box {
+                background: $blackCoffee;
+                color: $linen;
+                width: 25%;
+                margin: 10px 10px 10px 20px;
+                padding: 10px;
+
+                h3 {
+                    color: lighten($avocado, 20%);
+                    margin-bottom: 5px;
+                }
+
+                p {
+                    margin: 0;
+                }
+            }
+
+            .metric-panel {
+                background: $linen;
+                width: 75%;
+                margin: 10px 20px 10px 10px;
+                padding: 10px;
+            }
+        }
+
+        .metrics-container {
+            background: $linen;
+            margin: 10px 20px 20px 20px;
+            padding: 10px;
         }
     }
 }
