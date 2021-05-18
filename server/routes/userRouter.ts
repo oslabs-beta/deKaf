@@ -13,8 +13,12 @@ routerUser.post('/signup', userControllerUser.createUser, (req, res) => {
   res.status(200).sendMessage('success');
 });
 
-routerUser.post('/login');
+routerUser.post('/login', (req, res) => {
+  res.status(200)
+});
 
-routerUser.get('/sessions');
+routerUser.get('/sessions', (req, res) => {
+  res.status(200)
+});
 
 module.exports = routerUser;

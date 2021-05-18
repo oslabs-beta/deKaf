@@ -1,13 +1,14 @@
-const { Kafka } = require('kafkajs');
+const kafka = require('kafkajs');
 
-const db = require('../models/userModel')
+import db from '../models/userModel';
 // const queue = require('../dataStorage/queue.js');
 
 const topic = {};
 // run();
+console.log('in the topic')
 topic.run = async () => {
   try{
-    const kafka = new Kafka({
+    const kafka = new kafkajs.Kafka({
       clientId: 'my-app',
       // ssl: true,
       brokers: ['mike-Desktop:9092']
@@ -42,18 +43,18 @@ topic.run = async () => {
     const describeCluster = await admin.describeCluster();
     console.log(describeCluster)
 
-    const data = {value: 'hello', partition: 2};
-    const queryString = {
-      text: 'INSERT INTO data (message, partition) VALUES ($1, $2)',
-      values: ['hello', 2],
-      rowMode: 'array'
-    }
+    // const data = {value: 'hello', partition: 2};
+    // const queryString = {
+    //   text: 'INSERT INTO data (message, partition) VALUES ($1, $2)',
+    //   values: ['hello', 2],
+    //   rowMode: 'array'
+    // }
     // console.log('dbing')
     // await db.query(queryString);
 
-    console.log('logger')
-    const logger = await admin.logger().info();
-    console.log(logger)
+    // console.log('logger')
+    // const logger = await admin.logger().info();
+    // console.log(logger)
 
     console.log('disconnecting from admin');
     await admin.disconnect();
@@ -67,9 +68,9 @@ topic.run = async () => {
     process.exit(0);
   }
 }
-topic.run();
+// topic.run();
 
-// module.exports = topic;
+export default topic;
 
 /** Look into later for getting brokers from user **/
 
