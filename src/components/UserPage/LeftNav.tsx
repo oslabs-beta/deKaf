@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const LeftNav = () => {
   return (
     <nav className='left-nav'>
-      <div className='left-option'>Option 1</div>
-      <div className='left-option'>Option 2</div>
-      <div className='left-option'>Option 3</div>
+      <Link><div className='left-option'>Account information</div></Link>
+      <Link to='/user'><div className='left-option'>Broker overview</div></Link>
+      <Link><div className='left-option'>Option 3</div></Link>
     </nav>
   )
 }
