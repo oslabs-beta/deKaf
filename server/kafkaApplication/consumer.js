@@ -164,14 +164,14 @@ consumer.run = async (userId) => {
         values: ['this is another test', 1],
         rowMode: 'array'
       }
-      const queryString = {
-        text: 'INSERT INTO consumers (user_id, message_data) VALUES ($1, $2) RETURNING _id AS dataId',
-        values: [userId, messageData],
-        rowMode: 'array'
-      }
+      // const queryString = {
+      //   text: 'INSERT INTO consumers (user_id, message_data) VALUES ($1, $2) RETURNING _id AS dataId',
+      //   values: [userId, messageData],
+      //   rowMode: 'array'
+      // }
       console.log('before query')
-      const testQuery = await db.query(testQueryString)
-      // const result = await db.query(queryString)
+      // const testQuery = await db.query(testQueryString)
+      const result = await db.query(queryString)
       .catch(e => console.log(`error in addTodb`, e));
       // const dataId = result.rows[0][0];
       // console.log(dataId)
@@ -222,7 +222,7 @@ consumer.run = async (userId) => {
     // consumer.close()
   }
 }
-userId = 3;
-consumer.run(userId);
+// userId = 3;
+// consumer.run(userId);
 module.exports = consumer;
 
