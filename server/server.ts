@@ -32,6 +32,7 @@ app.get('/login', serveMainFile);
 app.get('/signup', serveMainFile);
 app.get('/about', serveMainFile);
 app.get('/user', serveMainFile);
+app.get('/details', serveMainFile);
 
 
 //** No route / 404 Handler **//
