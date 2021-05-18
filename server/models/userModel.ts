@@ -19,7 +19,7 @@ const pool = new Pool({
 module.exports = {
   query: async (text, params, callback) => {
     const client = await pool.connect();
-    let res;
+    let res:any;
 
     try{
       await client.query('BEGIN');
