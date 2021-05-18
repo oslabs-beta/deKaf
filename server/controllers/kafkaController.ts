@@ -26,6 +26,7 @@ const kafkaController = {
 
   async getMessageData(req, res, next) {
     let messageCounter = 0;
+    console.log('in the get message data')
     const messageQueryString = {
       text: `SELECT message_data AS messageData FROM consumers WHERE _id > ${messageCounter}`,      
       rowMode: 'array'
@@ -81,7 +82,22 @@ const kafkaController = {
     return next();
   },
 
-  
+  async getTopicData(req, res, next) {
+    let topicCounter = 0;
+    const topicQueryString = {
+      text: `SELECT broker_data AS brokerData FROM brokers WHERE _id > ${topicCounter}`,
+      rowMode: 'array'
+    }
+    const topicData = await dbKafka.query(topicQueryString);
+    const topicDataArray = [];
+    topicCounter = topicData.rowCount;
+    topicData.rows.forEach((el) => {
+      topicDataArray.push(el[0])
+    });
+    res.locals.topicData = topicDataArray;
+    res.locals.topicCounter = topicCounter;
+    return next();
+  }
 
 };
 

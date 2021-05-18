@@ -46,6 +46,13 @@ topic.run = async () => {
     const describeCluster = await admin.describeCluster();
     console.log(describeCluster)
 
+    const topicQueryString = {
+      text: `INSERT INTO brokers (broker_data) VALUES ($1)`,
+      values: [{listTopics: listTopics, fetchTopicMetadata: fetchTopicMetadata, describeCluster: describeCluster}],
+      rowMode: 'array'
+    };
+    await db.query(topicQueryString)
+    // .catch(e => 'error adding topic into db ', e)
     // const data = {value: 'hello', partition: 2};
     // const queryString = {
     //   text: 'INSERT INTO data (message, partition) VALUES ($1, $2)',
@@ -71,7 +78,7 @@ topic.run = async () => {
     process.exit(0);
   }
 }
-topic.run();
+// topic.run();
 
 module.exports = topic;
 // export default topic;

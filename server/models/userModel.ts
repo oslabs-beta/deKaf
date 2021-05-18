@@ -17,19 +17,19 @@ const pool = new Pool({
 // This will be required in the controllers to be the access point to the database
 
 // exporting module with some console logs
-module.exports = {
-  query: (text, params, callback) => {
-    return pool.connect((err, client, done) => {
-      if(err) console.log('query problem: ',err);
-      client.query(text, params, (err, res) => {
-        done();
-        return callback(err, res);
-      })
-    })
-  },
-};
+// module.exports = {
+//   query: (text, params, callback) => {
+//     return pool.connect((err, client, done) => {
+//       if(err) console.log('query problem: ',err);
+//       client.query(text, params, (err, res) => {
+//         done();
+//         return callback(err, res);
+//       })
+//     })
+//   },
+// };
 
-/*
+
 module.exports = {
   query: (text, params, callback) => {
     // console.log("executed query", text);
@@ -39,4 +39,3 @@ module.exports = {
     return pool.query(text, params, callback);
   },
 };
-*/

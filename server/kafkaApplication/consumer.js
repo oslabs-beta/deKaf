@@ -143,10 +143,10 @@ consumer.run = async (userId) => {
         console.log(consumer.events)
         // deconstructing the events our of consumer
         const { REQUEST, FETCH, GROUP_JOIN } = consumer.events;
-        const request = requestFunc(REQUEST, dataId);
-        const fetch = fetchFunc(FETCH, dataId);
+        // const request = requestFunc(REQUEST, dataId);
+        // const fetch = fetchFunc(FETCH, dataId);
         // console.log(GROUP_JOIN)
-        const groupJoin = groupJoinFunc(GROUP_JOIN, dataId)
+        // const groupJoin = groupJoinFunc(GROUP_JOIN, dataId)
       }
     })
 
@@ -171,8 +171,9 @@ consumer.run = async (userId) => {
       }
       console.log('before query')
       // const testQuery = await db.query(testQueryString)
-      // const result = await db.query(queryString)
+      const result = await db.query(queryString)
       // .catch(e => console.log(`error in addTodb`, e));
+      console.log(result)
       // const dataId = result.rows[0][0];
       // console.log(dataId)
       // return dataId;
