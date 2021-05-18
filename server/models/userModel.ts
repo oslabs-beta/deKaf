@@ -7,7 +7,9 @@ const PG_URI = process.env.pgURI;
 
 //create a new pool here using the connection string above
 const pool = new Pool({
-  connectionString: PG_URI,
+  connectionString: 'postgres://dcfhozpo:KK6z32AwCvw7KJxeWk_tuPnfdC7QlvnO@queenie.db.elephantsql.com:5432/dcfhozpo'
+  // connectionString: process.env['PGHOST'],
+  // password: process.env['PGPASSWORD']
 });
 
 // We export an object that contains a property called query,
@@ -18,9 +20,21 @@ const pool = new Pool({
 module.exports = {
   query: (text, params, callback) => {
     // console.log("executed query", text);
+    //params = pool.connectionString;
+    // console.log("executed params", params);
+    // console.log("executed callback", callback);
+    return pool.query(text, params, callback);
+  },
+};
+
+/*
+module.exports = {
+  query: (text, params, callback) => {
+    // console.log("executed query", text);
     params = pool.connectionString;
     // console.log("executed params", params);
     // console.log("executed callback", callback);
     return pool.query(text, params, callback);
   },
 };
+*/

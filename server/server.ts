@@ -7,7 +7,7 @@ const PORT = 3000;
 //** Additional imports **//
 const path = require('path');
 
-//routers
+//require routers
 const dbRouter = require("./routes/dbRouter.ts");
 const kafkaRouter = require("./routes/kafkaRouter.ts");
 const userRouter = require("./routes/userRouter.ts");
@@ -18,7 +18,20 @@ app.use('/build', express.static(path.join(__dirname, '../build')));
 
 //** Automatically parse urlencoded body content from incoming requests and place it in req.body **//
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended:true }));
+//** We can install body parser later if needed **//
+// app.use(bodyParser.urlencoded({extended: true}));
+
+
+//** Route handler to serve the basic file in case of no webpack build **//
+app.get('/', (req, res) => {
+    return res.status(200).sendFile(path.join(__dirname, '../src/index.html')); 
+}); 
+
+//functionality routes
+app.use('/user', userRouter);
+app.use('/kafka', kafkaRouter);
+app.use('/db', dbRouter);
 
 
 //** Middleware to serve the main html file **//
@@ -28,9 +41,14 @@ const serveMainFile = (req, res) => {
 
 //** Routes requiring main file **//
 app.get('/', serveMainFile);
-app.get('/login', serveMainFile)
-app.get('/signup', serveMainFile)
-app.get('/about', serveMainFile)
+app.get('/login', serveMainFile);
+app.get('/signup', serveMainFile);
+app.get('/about', serveMainFile);
+app.get('/user', serveMainFile);
+app.get('/details', serveMainFile);
+
+//Router for kafka related requests
+app.use('/kafka', kafkaRouter)
 
 
 //** No route / 404 Handler **//
