@@ -6,18 +6,10 @@ const db = require('../models/userModel')
 const producer = {};
 console.log('in producer file')
 producer.generateMessages = () => {
-  // console.log('in generateMessage')
-  // console.log(quantity)
-  // if (quantity === undefined) quantity = 15;
-  // let counter = 0;
-  // console.log(quantity)
-  // async function whileLoppFunc() {
-    // while (counter < quantity) {
+
       setInterval(() => {
         queueRandomMessage()
       }, 3000)
-      // counter += 1;
-      // console.log(counter)
     }
   // }
   // whileLoppFunc();
@@ -44,9 +36,9 @@ async function run(dataMessage) {
     await producer.connect();
     console.log('connected to producer');
 
-    console.log('logger')
-    const logger = await producer.logger().info();
-    console.log(logger)
+    // console.log('logger')
+    // const logger = await producer.logger().info();
+    // console.log(logger)
 
     console.log('producer events');
     console.log(producer.events);
@@ -71,29 +63,29 @@ async function run(dataMessage) {
     // await producer.sendBatch({topicMessages})
 
     console.log('sending producer message')
-    const topicMessages = [
-      {
-      topic: 'RandomGeneratedData',
-      messages: [
-        {
-          key: 'key',
-          value: JSON.stringify(dataMessage),
-          // partition: partition
-        }
-      ]
-    }
-    ]
-    await producer.sendBatch({ topicMessages })
-
-    // await producer.send({
+    // const topicMessages = [
+    //   {
     //   topic: 'RandomGeneratedData',
     //   messages: [
     //     {
+    //       key: 'key',
     //       value: JSON.stringify(dataMessage),
     //       // partition: partition
     //     }
     //   ]
-    // })
+    // }
+    // ]
+    // await producer.sendBatch({ topicMessages })
+
+    await producer.send({
+      topic: 'RandomGeneratedData',
+      messages: [
+        {
+          value: JSON.stringify(dataMessage),
+          // partition: partition
+        }
+      ]
+    })
   }
   catch (e) {
     console.log(`Something bad happened in the producer ${e}`)
@@ -122,8 +114,8 @@ function getRandomGreeting() {
 }
 // run('test')
 producer.generateMessages()
-
-// module.exports = producer;
+console.log('end of producer')
+module.exports = producer;
 
 
 

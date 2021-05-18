@@ -32,6 +32,9 @@ app.get('/login', serveMainFile)
 app.get('/signup', serveMainFile)
 app.get('/about', serveMainFile)
 
+//Router for kafka related requests
+app.use('/kafka', kafkaRouter)
+
 
 //** No route / 404 Handler **//
 app.use('*', (req, res) => res.status(404).send('Error 404: This page doesn\'t exist!'));

@@ -7,7 +7,8 @@ const PG_URI = process.env.pgURI;
 
 //create a new pool here using the connection string above
 const pool = new Pool({
-  connectionString: PG_URI,
+  connectionString: 'postgres://dcfhozpo:KK6z32AwCvw7KJxeWk_tuPnfdC7QlvnO@queenie.db.elephantsql.com:5432/dcfhozpo',
+  // connectionString: PG_URI,
 });
 
 // We export an object that contains a property called query,
