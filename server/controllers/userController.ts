@@ -16,7 +16,7 @@ const userController = {
     VALUES ($1,$2)`,
     queryArgs:string[] = [req.body.username, hash];
     dbUser.query(queryString, queryArgs, (err,user) => {
-      if(err) return next({log: err});
+      if(err) return next(err);
       console.log('finished query:',user);
       res.locals.newUser = user;
       return next();

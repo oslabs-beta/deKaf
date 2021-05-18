@@ -10,7 +10,7 @@ const kafkaControllerUser = require("../controllers/kafkaController.ts");
 const cookieControllerUser = require("../controllers/cookieController.ts");
 
 routerUser.post('/signup', userControllerUser.createUser, (req, res) => {
-  res.status(200).sendMessage('success');
+  res.status(200).sendMessage('created');
 });
 
 routerUser.post('/login', (req, res) => {
