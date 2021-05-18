@@ -9,7 +9,7 @@ const BrokerDetails = () => {
 
       <div id='lead-metrics-container'>
         <div className='metrics-overview-box'>
-          <h3>Metrics at a glance</h3>
+          <h3>Key metrics at a glance</h3>
           <p>Metric 1: egg</p>
           <p>Metric 2: guy</p>
           <p>Metric 3: Doug</p>

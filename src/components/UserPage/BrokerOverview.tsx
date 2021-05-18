@@ -5,7 +5,7 @@ import BrokerCard from './BrokerCard.tsx';
 const BrokerOverview = () => {
   return (
     <div>
-      <h2 className='gallery-header' id='home-header'>My brokers</h2>
+      <h2 className='gallery-header' id='home-header'>Broker overview</h2>
       <div className='cards-container'>
         <BrokerCard />
         <BrokerCard />

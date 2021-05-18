@@ -41,6 +41,7 @@ const App = () => {
             <Switch>
                 <Route path='/user' render={() => <TopNav />} />
                 <Route path='/details' render={() => <TopNav />} />
+                <Route path='/history' render={() => <TopNav />} />
                 <Route path='/' render={() => <NavBar />} />
             </Switch>
             <div className="content-container">
@@ -51,6 +52,7 @@ const App = () => {
                     <Route exact path="/about" render={() => <About />} />
                     <Route path="/user" render={() => <UserPage />} />
                     <Route path='/details' render={() => <UserPage />} />
+                    <Route path='/history' render={() => <UserPage />} />
                 </Switch>
             </div>
         </div>
