@@ -9,7 +9,7 @@ producer.generateMessages = () => {
 
       setInterval(() => {
         queueRandomMessage()
-      }, 3000)
+      }, 6500)
     }
   // }
   // whileLoppFunc();

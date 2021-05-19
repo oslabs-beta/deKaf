@@ -17,24 +17,34 @@ const pool = new Pool({
 // This will be required in the controllers to be the access point to the database
 
 // exporting module with some console logs
+
 module.exports = {
-  query: (text, params, callback) => {
-    // console.log("executed query", text);
-    //params = pool.connectionString;
-    // console.log("executed params", params);
-    // console.log("executed callback", callback);
-    return pool.query(text, params, callback);
+  query: async (text, params, callback) => {
+    const client = await pool.connect();
+    let res;
+
+    try{
+      await client.query('BEGIN');
+      res = await client.query(text, params, callback);
+      await client.query('COMMIT');
+    } catch (e) {
+      await client.query('ROLLBACK');
+      console.error(e);
+    } finally {
+      console.log('in the userModel finally')
+      client.release();
+    }
+    return res;
   },
 };
 
-/*
-module.exports = {
-  query: (text, params, callback) => {
-    // console.log("executed query", text);
-    params = pool.connectionString;
-    // console.log("executed params", params);
-    // console.log("executed callback", callback);
-    return pool.query(text, params, callback);
-  },
-};
-*/
+
+// module.exports = {
+//   query: (text, params, callback) => {
+//     // console.log("executed query", text);
+//     params = pool.connectionString;
+//     // console.log("executed params", params);
+//     // console.log("executed callback", callback);
+//     return pool.query(text, params, callback);
+//   },
+// };
