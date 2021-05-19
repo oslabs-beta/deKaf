@@ -144,9 +144,9 @@ consumer.run = async (userId) => {
         // deconstructing the events our of consumer
         const { REQUEST, FETCH, GROUP_JOIN } = consumer.events;
         const request = requestFunc(REQUEST, dataId);
-        const fetch = fetchFunc(FETCH, dataId);
+        // const fetch = fetchFunc(FETCH, dataId);
         // console.log(GROUP_JOIN)
-        const groupJoin = groupJoinFunc(GROUP_JOIN, dataId)
+        // const groupJoin = groupJoinFunc(GROUP_JOIN, dataId)
       }
     })
 
@@ -158,6 +158,7 @@ consumer.run = async (userId) => {
         partition: partition,
         topic: topic
       }
+      console.log('messageData')
       console.log(messageData)
       // const testQueryString = {
       //   text: `INSERT INTO data2 (message, partition) VALUES ($1, $2)`,
@@ -165,14 +166,15 @@ consumer.run = async (userId) => {
       //   rowMode: 'array'
       // }
       const queryString = {
-        text: 'INSERT INTO consumers (user_id, message_data) VALUES ($1, $2) RETURNING _id AS dataId',
-        values: [userId, messageData],
+        text: 'INSERT INTO consumers (user_id, message_data, partition) VALUES ($1, $2, $3) RETURNING _id AS dataId',
+        values: [userId, messageData, partition],
         rowMode: 'array'
       }
       console.log('before query')
       // const testQuery = await db.query(testQueryString)
-      // const result = await db.query(queryString)
+      const result = await db.query(queryString)
       // .catch(e => console.log(`error in addTodb`, e));
+      console.log(result)
       // const dataId = result.rows[0][0];
       // console.log(dataId)
       // return dataId;
@@ -192,6 +194,8 @@ consumer.run = async (userId) => {
         console.log('before query')
         await db.query(queryString)
         .catch(e => console.log(`error in addTodb`, e));
+        // consumer.pause();
+        return;
       })
       console.log(req)
       return req;
@@ -229,7 +233,7 @@ module.exports = consumer;
 What is the problem:
 
 too many connections to the database. We are running a kafka application and sending multiple request to the database at the same time from the broker, producer and consumer. In order to render certain metrics we are opening up consumer and producer events and then querying those to the postgres server. However it appears these connections never close and after a few messages the postgres server says there's too many connections
-
+ror when calling eachMessage","extra":{"timestamp":"2021-05-19T01:41:45.087Z","logger":"kafkajs","topic":"RandomGeneratedData","partition":0,"offset":"62","stack":"error: too many connections for role \"dcfhozpo\"\n 
 What did you expect to happen?
 I expected the queries to be entered into the database. Individually they all work but together they break.
 

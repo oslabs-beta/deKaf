@@ -1,3 +1,4 @@
+import topic from "../kafkaApplication/topic";
 
 /* Path to databse*/
 const dbKafka = require('../models/userModel');
@@ -26,6 +27,7 @@ const kafkaController = {
 
   async getMessageData(req, res, next) {
     let messageCounter = 0;
+    console.log('in the get message data')
     const messageQueryString = {
       text: `SELECT message_data AS messageData FROM consumers WHERE _id > ${messageCounter}`,      
       rowMode: 'array'
@@ -70,8 +72,74 @@ const kafkaController = {
       rowMode: 'array'
     }
     const producerData = await dbKafka.query(producerQueryString);
-    console.log(producerData);
+    // console.log(producerData);
+    producerCounter = producerData.rowCount;
+    const producerDataArray = [];
+    producerData.rows.forEach((el) => {
+      producerDataArray.push(el[0])
+    })
+    res.locals.producerData = producerDataArray;
+    res.locals.producerCounter = producerCounter;
     return next();
+  },
+
+  async getTopicData(req, res, next) {
+    let topicCounter = 0;
+    const topicQueryString = {
+      text: `SELECT broker_data AS brokerData FROM brokers WHERE _id > ${topicCounter}`,
+      rowMode: 'array'
+    }
+    const topicData = await dbKafka.query(topicQueryString);
+    const topicDataArray = [];
+    const numOfPartitions = [];
+    let temp;
+    topicCounter = topicData.rowCount;
+    topicData.rows.forEach((el) => {
+      temp = el[0].fetchTopicMetadata.topics;
+      topicDataArray.push(el[0])
+    });
+    temp.forEach((el) => {
+      numOfPartitions.push({name: el.name, partitionQuantity: el.partitions.length})
+    })
+    res.locals.partitionQuantity = numOfPartitions;
+    res.locals.topicData = topicDataArray;
+    res.locals.topicCounter = topicCounter;
+    return next();
+  },
+
+  async totalDataInPartition(req, res, next) {
+    const partitionQueryString = {
+      text: `SELECT partition FROM consumers`,
+      rowMode: 'array'
+    }
+    const totalPartitions = await dbKafka.query(partitionQueryString)
+    // console.log(totalPartitions)
+    const partitionSet = new Set();
+    totalPartitions.rows.forEach((el) => {
+      partitionSet.add(el[0])
+    })
+    const partitionArray = [...partitionSet];
+    const partitionObject = {}
+    async function getData(partitionArray) {
+      for (let i = 0; i < partitionArray.length; i++) {
+        if (partitionArray[i] !== null) {
+          let totalDataInPartitionQueryString = {
+            text: `SELECT * FROM consumers WHERE partition = ($1)`,
+            values: [partitionArray[i]],
+            rowMode: 'array'
+          }
+          let result = await dbKafka.query(totalDataInPartitionQueryString);
+          // console.log(result.rows)
+          partitionObject[partitionArray[i]] = result.rows.length;
+        }      
+      }
+      console.log(partitionObject)
+      res.locals.quantityOfDataInEachPartition = partitionObject;
+      return next()
+    
+    }
+    getData(partitionArray)
+    .catch(e => console.log('in the error of getData in totalDataInPartition', e));
   }
 
 };
