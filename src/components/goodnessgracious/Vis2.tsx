@@ -1,0 +1,289 @@
+import React, {useEffect, useRef, useState} from 'react';
+import {select, selectAll, Selection} from 'd3-selection';
+import {scaleLinear, scaleBand} from 'd3-scale';
+import {max} from 'd3-array';
+//mport {axisLeft, axisBottom} from 'd3-axis';
+
+
+///////////////////////////////////////////////////////
+
+//local
+
+// const data = [
+//     {width: 100, height: 250, col: "wine"},
+//     {width: 100, height: 100, col: "black"},
+//     {width: 100, height: 55, col: "yellow"},
+//     {width: 100, height: 55, col: "burgundy"},
+//     {width: 100, height: 300, col: "cream"}
+// ];
+
+const dataa = [
+    {timestamp: "Monday", metric: 'latency', unit:'milliseconds', count: 1000, col:'red'},
+    {timestamp: "Tuesday", metric: 'latency', unit:'milliseconds', count: 200, col: 'orange'},
+    {timestamp: "Wednesday", metric: 'latency', unit:'milliseconds', count: 342, col: 'yellow'},
+    {timestamp: "Thursday", metric: 'latency', unit:'milliseconds', count: 132, col: 'green'},
+    {timestamp: "Friday", metric: 'latency', unit:'milliseconds', count: 10, col: 'blue'},
+    {timestamp: "Saturday", metric: 'latency', unit:'milliseconds', count: 123, col: 'purple'},
+    {timestamp: "Sunday", metric: 'latency', unit:'milliseconds', count: 550, col: 'black'}
+]
+
+let dimensions = {
+    width: 1000, 
+    height: 1000,
+
+    chartW: 700,
+    chartH: 700,
+
+    margin: 70
+}
+
+///////////////////////////////////////////////////////
+//: React.FC
+const Vis = () => {
+    const svgRef = useRef<SVGSVGElement | null>(null)
+
+    ///////////////////////////////////////////////////////
+
+    const [selection, setSelection] = useState<null | Selection<any, unknown, null, undefined>>(null);
+    const [data, setData] = useState(dataa)
+
+    ///////////////////////////////////////////////////////
+
+    let maxValue = max(data, d => d.count) // imported function from d3-array can be used in y and x
+
+    let y = scaleLinear()
+        .domain([0, max(data, d => d.count)!]) //count metric, in this case, latency
+        .range([dimensions.height, 0]) // svg height range
+
+    let x = scaleBand() //divide the range into uniform bands
+        .domain(data.map(d=>d.timestamp)) //domain accepts unique identifiers for divison
+        .range([0, dimensions.width]) //svg width range
+        //.padding(0.1) //closer to 1 = more space between bars
+        .paddingInner(0.1)
+        //.paddingOuter
+
+    // let yAx = axisLeft(y)//.ticks
+    //     //.tickFormat((d) => (`${d}`) )
+    // let xAx = axisBottom(x)
+    ///////////////////////////////////////////////////////
+
+    useEffect(() => {
+        console.log(select(svgRef.current)) 
+
+        if(!selection) {
+            setSelection(select(svgRef.current))
+        } else {
+
+        // selection  
+        //     .append('rect')
+        //     .attr('width', dimensions.width)
+        //     .attr('height', dimensions.height)
+        //     .attr('fill', "white")
+
+        ///////////////////////////////////////////////////////
+
+        // const xAxGroup = selection
+
+        //     .append('g')
+        //     .attr(
+        //         'transform',
+        //         `translate(${dimensions.margin}, ${dimensions.chartH})`
+        //     )
+        //     .call(xAx)
+
+        // const yAxGroup = selection
+        
+        //     .append('g')
+        //     .attr(
+        //         'transform',
+        //         `translate(${dimensions.margin}, 0)`
+        //     )
+        //     .call(yAx)
+
+    
+        ///////////////////////////////////////////////////////  
+
+        selection
+            // .append('g')
+            // .attr('transform', `translate( ${dimensions.margin}, 0)`) // second arg is ^ or v
+            .selectAll('rect')
+            .data(data)
+            .enter()
+            .append('rect')
+            .attr('width', x.bandwidth)
+            .attr('height', (d) => ( dimensions.height - y(d.count) ))
+            //.attr('x', d =>x(d.timestamp)!) // typescript ignores possiblity of null d.timestamp
+            //.attr('x', d=>(d.timestamp)!)
+            .attr('x', d=> {
+                const xX = x(d.timestamp)
+                if(xX) {
+                    return xX;
+                }
+                return null;
+            })
+            .attr('y', d => y(d.count))
+            .attr('fill', d => d.col)
+            //y scales the input
+           
+            
+        ///////////////////////////////////////////////////////
+
+            // const graph = selection
+            //     .selectAll('rect')
+            //     .data(data)
+            //     .attr('width', 100)
+            //     .attr('height', d => d.height)
+            //     .attr('fill', d => d.col)
+            //     .attr('x', (e,i) => i * 100); // horizontally adds 100 to the x axis based on i
+
+            //entering this virtual selection, currently contains 2 bargraphs that do not
+            //have a <rect/> available
+            //.enter modifies that by entering the const graph
+            // graph
+            //     .enter()
+            //     .append('rect')
+            //     .attr('width', 100)
+            //     .attr('height', d => d.height)
+            //     .attr('fill', d => d.col)
+            //     .attr('x', (e,i) => i * 100);
+
+        ///////////////////////////////////////////////////////
+
+                // .data(data)
+                // .append('rect')
+                // .attr('width', d => d.width)
+                // .attr('height', d => d.height)
+                // .attr('fill', d => d.col);
+
+        ///////////////////////////////////////////////////////
+
+                //hardcode
+                // .append('rect')
+                // .attr('height', 100)
+                // .attr('width', 200)
+                // .attr('fill', 'purple');
+        }
+
+        //select is a wrapper that provides properties and methods 
+            //append
+        //.current is a reference to the element
+
+        // select(svgRef.current)
+        //     .append('rect')
+        //     .attr('width', 100)
+        //     .attr('height', 100)
+        //     .attr('fill', 'purple')
+        
+        // selectAll('rect') //(".className") <rect className=""/> 
+        //     .append('rect')
+        //     .attr('width', 100)
+        //     .attr('height', 100)
+        //     .attr('fill', 'purple') 
+    }, [selection])
+
+    ///////////////////////////////////////////////////////
+    useEffect(() => {
+        //find a way to update y axis
+        if(selection){
+            x = scaleBand() //divide the range into uniform bands
+            .domain(data.map(d=>d.timestamp)) //domain accepts unique identifiers for divison
+            .range([0, dimensions.width]) //svg width range
+            .padding(0.1) //closer to 1 = more space between bars
+
+            y = scaleLinear()
+            .domain([0, max(data, d => d.count)!]) //count metric, in this case, latency
+            .range([dimensions.height, 0]) // svg height range
+
+        //     yAx = axisLeft(y)//.ticks
+        //     .tickFormat((d) => (`${d}`) )
+        //     xAx = axisBottom(x)
+            
+            // xAxGroup = selection
+
+            // .append('g')
+            // .attr(
+            //     'transform',
+            //     `translate(${dimensions.margin}, ${dimensions.chartH})`
+            // )
+            // .call(xAx)
+
+            // yAxGroup = selection
+        
+            // .append('g')
+            // .attr(
+            //     'transform',
+            //     `translate(${dimensions.margin}, 0)`
+            // )
+            // .call(yAx)
+
+
+            const grapheles = selection.selectAll('rect').data(data)
+
+            grapheles.exit().remove()
+            
+            grapheles
+                .attr('width', x.bandwidth)
+                .attr('height', d=> dimensions.height - y(d.count))
+                .attr('x', d=> x(d.timestamp)!)
+                .attr('y', d => y(d.count))
+                .attr('fill', 'orange')
+
+            grapheles
+                .enter()
+                .append('rect')
+                .attr('width', x.bandwidth)
+                .attr('height', d=> dimensions.height - y(d.count))
+                .attr('x', d=> x(d.timestamp)!)
+                .attr('y', d => y(d.count))
+                .attr('fill', 'orange')
+
+        }
+    }, [data])
+
+    const addData = () => {
+        const dataToAdd = {
+            timestamp: 'Random',
+            metric: 'random',
+            unit: 'random',
+            count: Math.floor(Math.random() * 300),
+            col: 'orange'
+        } 
+        setData([...data, dataToAdd]);
+    }
+
+    const removeData = () => {
+        if (data.length === 0) {
+            return
+        }
+        const slicedData = data.slice(0, data.length - 1);
+        setData(slicedData);
+    }
+
+
+    return (
+        <div>
+            <div>////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////</div>
+            <svg ref ={svgRef} width={dimensions.width} height={dimensions.height}>
+                
+            </svg> 
+            <button onClick={addData}>Add</button>
+            <button onClick={removeData}>Rem</button>
+
+        </div>
+    )
+}
+
+{/* <svg ref ={ref} width={700} height={1000}>
+                <rect/>
+                <rect/>
+                <rect/>
+            </svg> */}
+
+///////////////////////////////////////////////////////
+
+//svg inclusions
+//<line/>
+//<rect width={100} height = {100} fill={}/>
+//<circle/>
+
+//export default Vis;
