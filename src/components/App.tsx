@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import {select} from 'd3-selection';
+// @ts-ignore
+import Vis from './Vis.tsx';
 import { BrowserRouter as Router, Route, Switch, useLocation } from 'react-router-dom';
 
 // @ts-ignore
