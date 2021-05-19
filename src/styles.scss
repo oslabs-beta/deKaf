@@ -1,0 +1,474 @@
+@import url('https://fonts.googleapis.com/css2?family=Coda&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@200;300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500&display=swap');
+
+$blackCoffee: #2e1f27;
+$russet: #704021;
+$sienna: #dd7230;
+$linen: #f9eae1;
+$avocado: #7cf286;
+
+// General styling
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    background: lighten($linen, 5%);
+    color: $blackCoffee;
+    font-family: 'Baloo 2', cursive;
+
+    // Navbar styling
+    .top-nav {
+        background: lighten($russet, 60%);
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 18px;
+
+        a {
+            text-decoration: none;
+            color: darken($avocado, 50%);
+            // font-weight: 500;
+        }
+
+        a:hover {
+            color: darken($avocado, 30%);
+        }
+
+        .nav-right a {
+            padding-left: 20px;
+        }
+    }
+
+    #top-nav-flex {
+        padding: 12px 18px;
+        box-shadow: 2px 1px 8px 1px darken($linen, 5%);
+    }
+
+    h1, h2, h3 {
+        font-family: 'Oxanium', cursive;
+    }
+
+    .banner {
+        height: 380px;
+        color: $blackCoffee;
+        box-shadow: 2px 1px 8px 1px darken($linen, 5%);
+
+        .logo {
+            border: 1px solid blue;
+            height: 50%;
+            width: 20vw;
+            margin: 0 auto;
+            padding-top: 30px;
+        }
+
+        .logo-caption {
+            margin-top: 12px;
+        }
+
+        button {
+            margin: 12px;
+            height: 48px;
+            width: 150px;
+            border-radius: 24px;
+            // border: 1px solid $linen;
+            border: 1px solid transparent;
+            background: darken($avocado, 50%);
+            color: white;
+            font-family: 'Baloo 2', cursive;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        button:hover {
+            background: darken($avocado, 30%);
+            // border: 1px solid $blackCoffee;
+            color: $blackCoffee;
+            cursor: pointer;
+        }
+    }
+
+    // Home page styling
+    #home-wrapper {
+
+        .banner {
+            background: linear-gradient(lighten($russet, 60%), lighten($russet, 48%));
+            text-align: center;
+
+            button {
+                box-shadow: 2px 5px 8px 1px lighten($russet, 40%);
+            }
+        }
+    
+        #home-info {
+    
+            width: 85%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            
+            .home-info-box {
+                flex: 1;
+                margin: 10px;
+                text-align: center;
+    
+                .home-info-icon {
+                    border: 1px solid blue;
+                    height: 60%;
+                    width: 50%;
+                    margin: 0 auto;
+                    padding-top: 20px;
+                    margin-top: 20px;
+                }
+    
+                h3 {
+                    font-family: 'Oxanium', cursive;
+                    margin: 18px 0 18px 0;
+                }
+        
+                p {
+                    margin: 0px;
+                }
+            }        
+        }
+    }
+
+    // Login page styling
+    .login-wrapper {
+        margin: 60px auto 0 auto;
+        min-width: 500px;
+        max-width: 35%;
+
+        .logo {
+            text-align: center;
+            border: 1px solid blue;
+            height: 15%;
+            width: 40%;
+            margin: 0 auto;
+        }
+
+        // .logo-caption {
+        //     text-align: center;
+        //     font-size: 18px;
+        //     // font-family: 'Coda', cursive;
+        // }
+
+        .login-container {
+            min-height: 30%;
+            margin: 10px auto 10px auto;
+            padding: 20px;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            background: lighten($russet, 62%);
+            text-align: center;
+            color: $linen;
+            box-shadow: 2px 2px 8px 1px darken($linen, 5%);
+
+            h3 {
+                color: darken($russet, 10%);
+                font-family: 'Oxanium', cursive;
+                font-size: 24px;
+            }
+
+            hr {
+                border-top: 1px solid darken($russet, 10%);
+                border-radius: 50%;
+                border-bottom: transparent;
+                margin-bottom: 20px;
+            }
+
+            .login-signup-form {
+                
+                input {
+                    font-family: 'Baloo 2', cursive;
+                    margin: 10px;
+                    height: 48px;
+                    padding-left: 15px;
+                    padding-right: 15px;
+                    min-width: 300px;
+                    max-width: 60%;
+                    // border: 1px solid lighten($blackCoffee, 20%);
+                    border: 1px solid transparent;
+                    border-radius: 24px;
+                    box-shadow: 2px 5px 8px 1px lighten($russet, 55%);
+                }
+
+                input:focus {
+                    outline: none;
+                }
+
+                button {
+                    margin-top: 30px;
+                    margin-bottom: 20px;
+                    height: 48px;
+                    width: 150px;
+                    border-radius: 24px;
+                    // border: 1px solid $linen;
+                    border: 1px solid transparent;
+                    background: darken($avocado, 50%);
+                    color: white;
+                    font-family: 'Baloo 2', cursive;
+                    font-size: 14px;
+                    font-weight: 500;
+                    box-shadow: 2px 5px 8px 1px lighten($russet, 55%);
+                }
+
+                button:hover {
+                    background: darken($avocado, 30%);
+                    // border: 1px solid $blackCoffee;
+                    color: $blackCoffee;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .new-user {
+            text-align: center;
+
+            a {
+                color: darken($avocado, 50%);
+            }
+
+            a:hover {
+                color: darken($avocado, 30%);
+            }
+        }
+    }
+
+    // About page styling
+    #about-wrapper {
+
+        #about-banner {
+            background: linear-gradient(lighten($russet, 60%), lighten($russet, 48%));
+
+            #about-banner-content {
+                width: 80%;
+                margin: 0 auto;
+                display: flex;
+
+                #about-banner-left {
+                    flex: 1;
+                    border: 1px solid red;
+                    margin-right: 10px;
+                    height: 100%;
+
+                    h1 {
+                        margin-top: 0;
+                        padding-top: 100px;
+                    }
+
+                    span {
+                        color: darken($avocado, 50%);
+                        font-weight: 500;
+                    }
+                }
+
+                #about-banner-right {
+                    flex: 1;
+                    border: 1px solid blue;
+                    margin-left: 10px;
+                    padding-top: 100px;
+                }
+    
+                button {
+                    box-shadow: 2px 5px 8px 1px lighten($russet, 45%);
+                }
+            }
+        }
+
+        .panel {
+            width: 80%;
+            margin: 30px auto;
+
+            .panel-content {
+                display: flex;
+                min-height: 200px;
+
+                p {
+                    margin-top: 0;
+                }
+
+                .panel-left {
+                    flex: 1;
+                    border: 1px solid red;
+                    margin-right: 10px;
+                }
+
+                .panel-right {
+                    flex: 1;
+                    border: 1px solid blue;
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+
+    // User home page styling
+    #top-nav-fixed {
+        position: sticky;
+        top: 0;
+        // padding: 10px;
+    }
+
+    #user-wrapper {
+        display: flex;
+        justify-content: space-between;
+
+        .left-nav {
+            background: lighten($linen, 2%);
+            width: 200px;
+            display: block;
+            position: fixed;
+            top: 49.6px;
+            height: 100%;
+
+            a {
+                text-decoration: none;
+                color: darken($avocado, 50%);
+            }
+
+            .left-option {
+                padding: 10px;
+                border-bottom: 2px solid white;
+            }
+
+            .left-option:hover {
+                background: lighten($avocado, 10%);
+            }
+        }
+
+        .gallery {
+            width: 100%;
+            margin-left: 200px;
+
+            .gallery-header {
+                padding: 10px;
+                margin: 10px 10px 0 10px;
+            }
+
+            .cards-container {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: repeat(auto-fill, auto);
+                grid-row-gap: 0.5em;
+                grid-column-gap: 0.5em;
+                background-color: inherit;
+                padding: 10px;
+    
+                // Broker cards styling
+                .broker-card {
+                    background: $linen;
+                    padding: 10px;
+                    border: 1px solid darken($linen, 5%);
+                    border-radius: 5px;
+
+                    h3 {
+                        font-size: 16px;
+                        margin: 0;
+                    }
+
+                    p {
+                        margin: 5px 0 5px 0;
+                    }
+
+                    button {
+                        // height: 28px;
+                        width: 46%;
+                        border: 1px solid transparent;
+                        margin: 2%;
+                        background: darken($avocado, 50%);
+                        color: white;
+                        font-family: 'Baloo 2', cursive;
+                        font-size: 14px;
+                        box-shadow: 2px 1px 8px 1px darken($linen, 10%);
+
+                    }
+            
+                    button:hover {
+                        cursor: pointer;
+                    }
+
+                    #view-button {
+                        background: darken($avocado, 50%);
+                    }
+
+                    #view-button:hover {
+                        background: darken($avocado, 40%);
+                    }
+
+                    #remove-button {
+                        background: rgb(172, 3, 3);
+                    }
+
+                    #remove-button:hover {
+                        background:red;
+                    }
+                }
+
+                #add-new-broker-container {
+                    margin: 0 auto;
+
+                    button {
+                        margin-top: 45%;
+                        border: 1px solid transparent;
+                        padding: 5px;
+                        border-radius: 100px;
+                        background: darken($avocado, 50%);
+                        color: white;
+                        font-family: 'Baloo 2', cursive;
+                        font-size: 14px;
+                        box-shadow: 2px 1px 8px 1px darken($linen, 5%);
+                    }
+
+                    button:hover {
+                        cursor: pointer;
+                        background: darken($avocado, 40%);
+                    }
+                }
+            }
+        }        
+    }
+
+    // Broker details styling
+    #broker-wrapper {
+
+        h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+        
+        #lead-metrics-container {
+            // background: yellow;
+            display: flex;
+
+            .metrics-overview-box {
+                background: $blackCoffee;
+                color: $linen;
+                width: 25%;
+                margin: 10px 10px 10px 20px;
+                padding: 10px;
+
+                h3 {
+                    color: lighten($avocado, 20%);
+                    margin-bottom: 5px;
+                }
+
+                p {
+                    margin: 0;
+                }
+            }
+
+            .metric-panel {
+                background: $linen;
+                width: 75%;
+                margin: 10px 20px 10px 10px;
+                padding: 10px;
+            }
+        }
+
+        .metrics-container {
+            background: $linen;
+            margin: 10px 20px 20px 20px;
+            padding: 10px;
+        }
+    }
+}
