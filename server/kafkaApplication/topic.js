@@ -73,7 +73,7 @@ topic.run = async () => {
   catch (e) {
     console.log(`Something bad happened in topic${e}`)
   }
-  finally {
+  finally { 
     console.log('in finally');
     process.exit(0);
   }

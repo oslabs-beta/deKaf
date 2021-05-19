@@ -1,3 +1,4 @@
+import topic from "../kafkaApplication/topic";
 
 /* Path to databse*/
 const dbKafka = require('../models/userModel');
@@ -90,13 +91,55 @@ const kafkaController = {
     }
     const topicData = await dbKafka.query(topicQueryString);
     const topicDataArray = [];
+    const numOfPartitions = [];
+    let temp;
     topicCounter = topicData.rowCount;
     topicData.rows.forEach((el) => {
+      temp = el[0].fetchTopicMetadata.topics;
       topicDataArray.push(el[0])
     });
+    temp.forEach((el) => {
+      numOfPartitions.push({name: el.name, partitionQuantity: el.partitions.length})
+    })
+    res.locals.partitionQuantity = numOfPartitions;
     res.locals.topicData = topicDataArray;
     res.locals.topicCounter = topicCounter;
     return next();
+  },
+
+  async totalDataInPartition(req, res, next) {
+    const partitionQueryString = {
+      text: `SELECT partition FROM consumers`,
+      rowMode: 'array'
+    }
+    const totalPartitions = await dbKafka.query(partitionQueryString)
+    // console.log(totalPartitions)
+    const partitionSet = new Set();
+    totalPartitions.rows.forEach((el) => {
+      partitionSet.add(el[0])
+    })
+    const partitionArray = [...partitionSet];
+    const partitionObject = {}
+    async function getData(partitionArray) {
+      for (let i = 0; i < partitionArray.length; i++) {
+        if (partitionArray[i] !== null) {
+          let totalDataInPartitionQueryString = {
+            text: `SELECT * FROM consumers WHERE partition = ($1)`,
+            values: [partitionArray[i]],
+            rowMode: 'array'
+          }
+          let result = await dbKafka.query(totalDataInPartitionQueryString);
+          // console.log(result.rows)
+          partitionObject[partitionArray[i]] = result.rows.length;
+        }      
+      }
+      console.log(partitionObject)
+      res.locals.quantityOfDataInEachPartition = partitionObject;
+      return next()
+    
+    }
+    getData(partitionArray)
+    .catch(e => console.log('in the error of getData in totalDataInPartition', e));
   }
 
 };

@@ -21,7 +21,7 @@ const pool = new Pool({
 module.exports = {
   query: async (text, params, callback) => {
     const client = await pool.connect();
-    let res:any;
+    let res;
 
     try{
       await client.query('BEGIN');
@@ -31,6 +31,7 @@ module.exports = {
       await client.query('ROLLBACK');
       console.error(e);
     } finally {
+      console.log('in the userModel finally')
       client.release();
     }
     return res;

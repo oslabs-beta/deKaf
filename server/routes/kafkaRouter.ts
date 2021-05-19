@@ -38,10 +38,10 @@ routerKafka.get('/producerData', kafkaControllerKafka.getProducerData, (req, res
   res.status(200).json({producerData: producerData, producerCounter: producerCounter})
 })
 
-routerKafka.get('/topicData', kafkaControllerKafka.getTopicData, (req, res) => {
+routerKafka.get('/topicData', kafkaControllerKafka.getTopicData, kafkaControllerKafka.totalDataInPartition, (req, res) => {
   console.log('in the end of topic data');
-  const { topicData, topicCounter } = res.locals;
-  res.status(200).json({topicData: topicData, topicCounter: topicCounter})
+  const { topicData, topicCounter, partitionQuantity, quantityOfDataInEachPartition } = res.locals;
+  res.status(200).json({topicData: topicData, topicCounter: topicCounter, partitionQuantity: partitionQuantity, quantityOfDataInEachPartition: quantityOfDataInEachPartition})
 })
 
 module.exports = routerKafka;
