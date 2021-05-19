@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const BrokerCard = () => {
   return (
     <div className='broker-card'>
-      <h3>Name of broker</h3>
+      <h3>Broker</h3>
       <hr />
       <p>Topics: 1</p>
       <p>Partitions: 3</p>

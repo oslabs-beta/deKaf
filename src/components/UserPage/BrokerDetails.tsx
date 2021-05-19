@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 // @ts-ignore
 import BrokerCard from './BrokerCard.tsx';
 
 const BrokerDetails = () => {
+
   return (
     <div id='broker-wrapper'>
       <h2 className='gallery-header' id='details-header'>Broker: [NAME]</h2>

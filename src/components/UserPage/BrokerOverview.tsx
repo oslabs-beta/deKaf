@@ -3,6 +3,7 @@ import React from 'react';
 import BrokerCard from './BrokerCard.tsx';
 
 const BrokerOverview = () => {
+
   return (
     <div>
       <h2 className='gallery-header' id='home-header'>Broker overview</h2>
