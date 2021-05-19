@@ -46,6 +46,7 @@ app.get('/signup', serveMainFile);
 app.get('/about', serveMainFile);
 app.get('/user', serveMainFile);
 app.get('/details', serveMainFile);
+app.get('/history', serveMainFile);
 
 //Router for kafka related requests
 app.use('/kafka', kafkaRouter)

@@ -6,7 +6,7 @@ const LeftNav = () => {
     <nav className='left-nav'>
       <Link><div className='left-option'>Account information</div></Link>
       <Link to='/user'><div className='left-option'>Broker overview</div></Link>
-      <Link><div className='left-option'>Session history</div></Link>
+      <Link to='/history'><div className='left-option'>Session history</div></Link>
     </nav>
   )
 }

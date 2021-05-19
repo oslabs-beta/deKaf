@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 // @ts-ignore
 import BrokerCard from './BrokerCard.tsx';
 
 const BrokerDetails = () => {
+
   return (
     <div id='broker-wrapper'>
       <h2 className='gallery-header' id='details-header'>Broker: [NAME]</h2>
 
       <div id='lead-metrics-container'>
         <div className='metrics-overview-box'>
-          <h3>Metrics at a glance</h3>
+          <h3>Key metrics at a glance</h3>
           <p>Metric 1: egg</p>
           <p>Metric 2: guy</p>
           <p>Metric 3: Doug</p>

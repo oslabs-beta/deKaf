@@ -12,8 +12,8 @@ const Login = () => {
         const nameInput = document.getElementById('user') as HTMLInputElement;
         const pswdInput = document.getElementById('password') as HTMLInputElement;
 
-        if (nameInput.value === '') return setInfo('Type in a username!');
-        if (pswdInput.value === '') return setInfo('Type in a password!');
+        if (nameInput.value === '') return setInfo('Please enter a valid username.');
+        if (pswdInput.value === '') return setInfo('Please enter a valid password.');
 
         console.log('Loggin in ', nameInput.value)
 

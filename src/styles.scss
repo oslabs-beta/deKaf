@@ -219,6 +219,10 @@ body {
                     cursor: pointer;
                 }
             }
+
+            .info {
+                color: $sienna;
+            }
         }
 
         .new-user {
@@ -364,6 +368,13 @@ body {
                     h3 {
                         font-size: 16px;
                         margin: 0;
+                    }
+
+                    hr {
+                        border-top: 1px solid darken($russet, 10%);
+                        border-radius: 50%;
+                        border-bottom: transparent;
+                        margin-bottom: 10px;
                     }
 
                     p {
