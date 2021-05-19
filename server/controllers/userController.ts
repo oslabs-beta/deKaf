@@ -6,39 +6,49 @@ import * as bcrypt from 'bcryptjs';
 const userController = {
   createUser(req, res, next) {
     console.log('in createUser');
-    const salt = bcrypt.genSaltSync(10);
-    console.log(req.body.password);
-    const hash = bcrypt.hashSync(req.body.password, salt);
-    console.log(hash);
+    console.log('checking if user exists');
     const
-    queryString:string = `
-    INSERT INTO users (username, password)
-    VALUES ($1,$2)`,
-    queryArgs:string[] = [req.body.username, hash];
-    dbUser.query(queryString, queryArgs, (err,user) => {
-      if(err) return next({log: err});
-      console.log('finished query:',user);
-      res.locals.newUser = user;
-      return next();
-    });
+      queryString1: string = `
+      SELECT username FROM users
+      WHERE username=$1`,
+      queryArgs1: string[] = [req.body.username];
+    dbUser.query(queryString1, queryArgs1, (err, user) => {
+      console.log(user.rows)
+      if (user.rows.length!==0) return res.status(400).json('userExists');
+      console.log('no duplicate, now creating user');
+      const salt = bcrypt.genSaltSync(10);
+      console.log(req.body.password);
+      const hash = bcrypt.hashSync(req.body.password, salt);
+      console.log(hash);
+      const
+        queryString2: string = `
+        INSERT INTO users (username, password)
+        VALUES ($1,$2) RETURNING *`,
+        queryArgs2: string[] = [req.body.username, hash];
+      dbUser.query(queryString2, queryArgs2, (err, user) => {
+        if (err) return next({ log: err });
+        console.log('finished query:', user);
+        return res.status(200).json('success');
+      });
+    })
   },
 
   verifyUser(req, res, next) {
     const
-    queryString:string = `
+      queryString: string = `
     SELECT username, password FROM users
     WHERE username=$1`,
-    queryArgs:string[] = [req.body.username];
+      queryArgs: string[] = [req.body.username];
 
-    dbUser.query(queryString, queryArgs, (err,user) => {
-      console.log(user);
-        if(user.password === req.body.password){
-          res.locals.user = user;
-          next();
-        }
-        else next({
-          log: 'Authentication failed'
-        })
+    dbUser.query(queryString, queryArgs, (err, user) => {
+      console.log(user.rows[0]);
+      if (user.rows.length===0) return res.status(400).json('unkUser');
+      bcrypt.compare(req.body.password, user.rows[0].password, (err, isMatch) => {
+        if (err) console.log('Error in bcrypt hashing, verifyUser: ', err)
+        if (!isMatch) return res.status(200).json({message: 'notMatching'});
+        console.log('password correct!');
+        return next();
+      })
     })
   }
 };

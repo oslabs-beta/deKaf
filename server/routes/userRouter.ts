@@ -10,15 +10,15 @@ const kafkaControllerUser = require("../controllers/kafkaController.ts");
 const cookieControllerUser = require("../controllers/cookieController.ts");
 
 routerUser.post('/signup', userControllerUser.createUser, (req, res) => {
-  res.status(200).sendMessage('success');
+  res.status(200).json('success');
 });
 
-routerUser.post('/login', (req, res) => {
-  res.status(200)
+routerUser.post('/login', userControllerUser.verifyUser, cookieControllerUser.createSessionCookie, (req, res) => {
+  res.status(200).json('success');
 });
 
-routerUser.get('/sessions', (req, res) => {
-  res.status(200)
+routerUser.get('/verifySession', cookieControllerUser.sessionValidation, (req, res) => {
+  res.status(200).json('success');
 });
 
 module.exports = routerUser;
