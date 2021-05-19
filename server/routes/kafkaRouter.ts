@@ -28,13 +28,20 @@ routerKafka.get('/messageData', kafkaControllerKafka.getMessageData, (req, res) 
 
 routerKafka.get('/requestData', kafkaControllerKafka.getRequestData, (req, res) => {
   console.log('in the request Data end of route');
-  const { requestData } = res.locals;
-  res.status(200).json({requestData: requestData})
+  const { requestData, requestCounter } = res.locals;
+  res.status(200).json({requestData: requestData, requestCounter: requestCounter})
 })
 
 routerKafka.get('/producerData', kafkaControllerKafka.getProducerData, (req, res) => {
   console.log('in the end of the producer data router');
-  res.sendStatus(200)
+  const { producerData, producerCounter } = res.locals;
+  res.status(200).json({producerData: producerData, producerCounter: producerCounter})
+})
+
+routerKafka.get('/topicData', kafkaControllerKafka.getTopicData, kafkaControllerKafka.totalDataInPartition, (req, res) => {
+  console.log('in the end of topic data');
+  const { topicData, topicCounter, partitionQuantity, quantityOfDataInEachPartition } = res.locals;
+  res.status(200).json({topicData: topicData, topicCounter: topicCounter, partitionQuantity: partitionQuantity, quantityOfDataInEachPartition: quantityOfDataInEachPartition})
 })
 
 module.exports = routerKafka;
