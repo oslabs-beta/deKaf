@@ -8,7 +8,7 @@ const NavBar = () => {
             <div className='nav-right'>
                 <Link to='/about'>About</Link>
                 <Link to='/login'>Log in</Link>
-                <a href='https://github.com/oslabs-beta/deKaf'>GitHub</a>
+                <a href='https://github.com/oslabs-beta/deKaf' target='_blank'>GitHub</a>
             </div>
         </nav>
     )
