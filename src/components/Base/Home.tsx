@@ -5,11 +5,11 @@ const Home = () => {
     return (
         <div id='home-wrapper'>
             <div className='banner'>
-                <div className='logo'>(Logo image will go here)</div>
-                <div className='logo-caption'>A visualization tool for Kafka consumer metrics</div>
+                <div className='logo'><img height='100%' src='https://i.imgur.com/nWW4UjX.png'/></div>
+                <div className='logo-caption'>A web-based visualization tool for Kafka consumer metrics</div>
                 <div id='home-options'>
                     <Link to='/about'>
-                        <button>
+                        <button id='learn-button'>
                             Learn more
                         </button>
                     </Link>
@@ -19,7 +19,7 @@ const Home = () => {
                         </button>
                     </Link>
                     <Link to='/signup'>
-                        <button>
+                        <button id='signup-button'>
                             Sign up
                         </button>
                     </Link>
@@ -28,19 +28,19 @@ const Home = () => {
             
             <div id='home-info'>
                 <div className='home-info-box'>
-                    <div className='home-info-icon'>(Flat icon 1)</div>
-                    <h3>Overview item 1</h3>
-                    <p> Lorem ipsum etc.</p>
+                    <div className='home-info-icon'><img min-width='80px' width='50%' src='https://i.imgur.com/7H2M39A.png'/></div>
+                    <h3>Intuitive</h3>
+                    <p>Easily view key metrics on your Kafka instance with our intuitive web GUI.</p>
                 </div>
                 <div className='home-info-box'>
-                    <div className='home-info-icon'>(Flat icon 2)</div>
-                    <h3>Overview item 2</h3>
-                    <p>Can I offer you a nice egg in this trying time?</p>
+                    <div className='home-info-icon'><img min-width='80px' width='50%' src='https://i.imgur.com/zAAVWb0.png'/></div>
+                    <h3>Lightweight</h3>
+                    <p>No installation required; just enter your information and start using deKaf!</p>
                 </div>
                 <div className='home-info-box'>
-                    <div className='home-info-icon'>(Flat icon 3)</div>
-                    <h3>Overview item 3</h3>
-                    <p>Arma virumque cano...</p>
+                    <div className='home-info-icon'><img min-width='80px' width='50%' src='https://i.imgur.com/YOFpmB9.png'/></div>
+                    <h3>Real-time</h3>
+                    <p>Metrics update automatically as long as you're signed in, so you won't miss a beat.</p>
                 </div>
             </div>
         </div>
