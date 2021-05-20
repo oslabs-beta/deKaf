@@ -60,31 +60,21 @@ const PropsContainer = (orops) => {
 }
 
 
+
 ///////////////////////////////////////////////////////
 //: React.FC
-
-let dataconverted = [];
 const Vis = (props) => {
-    //let dataconverted = [];
 
-    //let dataconverted = [];
+    let dataconverted = [];
     const svgRef = useRef<SVGSVGElement | null>(null)
     const [data, setData] = useState(dataconverted)
     //y is .count
     //x is .timestamp
 
     for (const [k, v] of Object.entries(props.dataa)) {
-        
         dataconverted.push({timestamp: k, count: v, col: "green"})
- 
-        // dataconverted.forEach(e => {
-        //     if (e.timestamp === k) e.count += v;
-        //     else dataconverted.push({timestamp: k, count: v, col: "green"})
-        // })
         //setData(dataconverted);
     }
-
-
     
     dataconverted.forEach(e => {console.log(e)}, "!!!!!!!!!!!!!!!!");
     console.log(dataconverted, "!!!");
@@ -368,4 +358,4 @@ const Vis = (props) => {
 //<rect width={100} height = {100} fill={}/>
 //<circle/>
 
-export default Vis;
+//export default Line;
