@@ -55,10 +55,6 @@ let dimensions = {
     margin: 70
 }
 
-const PropsContainer = (orops) => {
-
-}
-
 
 ///////////////////////////////////////////////////////
 //: React.FC
