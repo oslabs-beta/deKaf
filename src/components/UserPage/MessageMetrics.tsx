@@ -17,7 +17,7 @@ const MessageMetrics = () => {
                 console.log(responseData.messageData[responseData.messageData.length - 1]);
                 setTimeout(() => {
                     getMessagesData();
-                }, 2000);
+                }, 5000);
                 // if (topicsData.equals(topicData)) return;
                 setMessagesData(responseData);
             })

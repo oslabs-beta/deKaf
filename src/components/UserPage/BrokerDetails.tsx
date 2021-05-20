@@ -13,10 +13,10 @@ import ConsumerMetrics from './consumerMetrics.tsx';
 //topicData.topicData.quantityOfDataInEachPartition
 
 const BrokerDetails = () => {
-  const [leadMet, setLeadMet] = useState(false);
-  const [messageMet, setMessageMet] = useState(false);
-  const [producerMet, setProducerMet] = useState(false);
-  const [consumerMet, setConsumerMet] = useState(false);
+  // const [leadMet, setLeadMet] = useState(false);
+  // const [messageMet, setMessageMet] = useState(false);
+  // const [producerMet, setProducerMet] = useState(false);
+  // const [consumerMet, setConsumerMet] = useState(false);
 
 
 

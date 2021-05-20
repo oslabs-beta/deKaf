@@ -62,7 +62,7 @@ let dimensions = {
 
 let data = [];
 
-const Vis = (props) => {
+const Vis2 = (props) => {
     
 
     //let dataconverted = [];
@@ -74,15 +74,15 @@ const Vis = (props) => {
     for (const [k, v] of Object.entries(props.dataa)) {
         data.push({timestamp: k, count: v, col: "brown"})
         console.log("IS THIS EVEN?????????????????")
-        // if (!data.length) {
-        //     data.push({timestamp: k, count: v, col: "brown"})
-        // } else {
-        //     data.forEach(e => {
-        //         if (e.timestamp === k) e.count += v;
-    
-        //         else data.push({timestamp: k, count: v, col: "brown"})
-        //     })
-        // }
+        if (!data.length) {
+            data.push({timestamp: k, count: v, col: "brown"})
+        } else {
+            data.forEach(e => {
+                if (e.timestamp === k) e.count += v;
+                else data.push({timestamp: k, count: v, col: "brown"})
+            })
+        }
+        console.log(data, "!!!!!!!!!!~~~~~~~~~~~~~~~~~~~~~~")
         //setData(dataconverted);
     }
 
@@ -371,4 +371,4 @@ const Vis = (props) => {
 //<rect width={100} height = {100} fill={}/>
 //<circle/>
 
-export default Vis;
+export default Vis2;

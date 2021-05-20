@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 // @ts-ignore
 import Vis from '../Vis.tsx';
+// @ts-ignore
+import Line from '../Line.tsx';
+// @ts-ignore
+import Dual from '../Dual.tsx'
 
 const ProducerMetrics = () => {
 
@@ -19,7 +23,7 @@ const ProducerMetrics = () => {
                 // console.log(producersData);
                 setTimeout(() => {
                   getProducerData();
-                }, 2000);
+                }, 5000);
                 // if (producerData.equals(producersData)) return;
                 setproducerData(producersData);
                 // setsizeGraphData()
@@ -60,13 +64,13 @@ const ProducerMetrics = () => {
 
             <div className='metric-panel'>
               <h3>Message quantity over time</h3>
-              {/* <Line dataa = {quantity} /> */}
+              <Vis dataa = {quantity} />
               <div className='visualization-panel'></div>
             </div>
             
             <div className='metric-panel'>
               <h3>Message size</h3>
-              {/* <Line dataa = {size} /> */}
+              <Line dataa = {size} />
               <div className='visualization-panel'></div>
             </div>
           </div>
