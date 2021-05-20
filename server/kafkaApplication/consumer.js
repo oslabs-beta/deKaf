@@ -3,6 +3,7 @@ const { logLevel } = require('kafkajs')
 const winston = require('winston')
 const fs = require('fs')
 const path = require('path')
+const EventEmitter = require('events')
 
 // const dataStructures = require('../dataStructures/queue.js')
 const db = require('../models/userModel.ts');
@@ -10,7 +11,7 @@ const db = require('../models/userModel.ts');
 
 //initializing a consumer object
 const consumer = {}
-
+class MyEmitter extends EventEmitter {}
 //everything in this function will be the consumer logic
 consumer.run = async (userId) => {
   try 
@@ -48,7 +49,7 @@ consumer.run = async (userId) => {
           })
       }
   }
-
+  const myEmitter = new MyEmitter()
   //initializing a new kafka object
     const kafka = new Kafka({
       clientId: 'my-app',
@@ -60,14 +61,14 @@ consumer.run = async (userId) => {
     //initializing a consumer
     const consumer = kafka.consumer({
       groupId: 'my-group',
-      // partitionAssigners: [1,2],
+      // partitionAssigners: [0,1,2,3,4],
       sessionTimeout: 30000,
       // rebalanceTimeout: 60000,
       // heartbeatInterval: 3000,
       // metadataMaxAge: 30000,
       // allowAutoTopicCreation: true
     })
-
+    
     console.log('connection to consumer...')
     //connecting consumer
     await consumer.connect();
@@ -129,7 +130,8 @@ consumer.run = async (userId) => {
     //     // }
     //   },
     // })
-
+    console.log('before run')
+    console.log(consumer.events)
     //running the consumer again. This one is for the producer sending data as individual messages
     await consumer.run({
       //initializing an async function for the value of eachMessage
@@ -140,10 +142,10 @@ consumer.run = async (userId) => {
         const dataId = await mainMessageQueryFunc(topic, partition, message, userId);
         // console.log(dataId);
 
-        console.log(consumer.events)
+        // console.log(consumer.events)
         // deconstructing the events our of consumer
         const { REQUEST, FETCH, GROUP_JOIN } = consumer.events;
-        const request = requestFunc(REQUEST, dataId);
+        // const request = requestFunc(REQUEST, dataId);
         // const fetch = fetchFunc(FETCH, dataId);
         // console.log(GROUP_JOIN)
         // const groupJoin = groupJoinFunc(GROUP_JOIN, dataId)
@@ -174,7 +176,7 @@ consumer.run = async (userId) => {
       // const testQuery = await db.query(testQueryString)
       const result = await db.query(queryString)
       // .catch(e => console.log(`error in addTodb`, e));
-      console.log(result)
+      // console.log(result)
       // const dataId = result.rows[0][0];
       // console.log(dataId)
       // return dataId;
@@ -183,7 +185,7 @@ consumer.run = async (userId) => {
     async function requestFunc(REQUEST, dataId) {
       const req = consumer.on(REQUEST, async (e) => {
         console.log('in the request fun')
-        console.log(e)
+        // console.log(e)
         const { payload } = e;
         // console.log(payload)
         const queryString = {
@@ -194,6 +196,7 @@ consumer.run = async (userId) => {
         console.log('before query')
         await db.query(queryString)
         .catch(e => console.log(`error in addTodb`, e));
+        // consumer.removeListener();
         // consumer.pause();
         return;
       })
@@ -225,8 +228,8 @@ consumer.run = async (userId) => {
     // consumer.close()
   }
 }
-// userId = 3;
-// consumer.run(userId);
+userId = 3;
+consumer.run(userId);
 module.exports = consumer;
 
 /*

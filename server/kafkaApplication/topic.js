@@ -26,8 +26,8 @@ topic.run = async () => {
     await admin.createTopics({
       topics: [{
         topic: 'RandomGeneratedData',
-        numPartitions: 2,
-        replicationFactor: 2
+        numPartitions: 5,
+        replicationFactor: 1
         // replicaAssignment: []
       }]
     })
@@ -78,7 +78,7 @@ topic.run = async () => {
     process.exit(0);
   }
 }
-// topic.run();
+topic.run();
 
 module.exports = topic;
 // export default topic;
