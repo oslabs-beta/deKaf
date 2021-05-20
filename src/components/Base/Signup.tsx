@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const Signup = () => {
 
+    const history = useHistory();
     const [info, setInfo] = useState(null);
 
     function onUserLogin(e) {
@@ -12,9 +13,9 @@ const Signup = () => {
         const pswdInput = document.getElementById('password') as HTMLInputElement;
         const pswdConfInput = document.getElementById('passwordConf') as HTMLInputElement;
 
-        if (nameInput.value === '') return setInfo('Please type in a username!');
-        if (pswdInput.value === '') return setInfo('Please type in a password!');
-        if (pswdConfInput.value === '') return setInfo('Please confirm your password!');
+        if (nameInput.value === '') return setInfo('Please enter a valid username.');
+        if (pswdInput.value === '') return setInfo('Please enter a valid password.');
+        if (pswdConfInput.value === '') return setInfo('Please confirm your password.');
 
         if (pswdInput.value !== pswdConfInput.value) {
             pswdInput.value = '';
@@ -42,7 +43,11 @@ const Signup = () => {
                         nameInput.value = '';
                         pswdInput.value = '';
                         pswdConfInput.value = '';
-                        <Redirect to='/login' />
+                        setInfo('Account created!')
+                        setTimeout(() => {
+                            setInfo('');
+                            history.push('/login');
+                        }, 1000)
                         break;
                     default:
                         throw new Error('Invalid Signup: Server ERROR');

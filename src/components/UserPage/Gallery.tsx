@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Switch, useLocation } from 'react-route
 import BrokerOverview from './BrokerOverview.tsx';
 // @ts-ignore
 import BrokerDetails from './BrokerDetails.tsx';
+// @ts-ignore
+import SessionHistory from './SessionHistory.tsx';
 
 const Gallery = () => {
   return (
@@ -11,6 +13,7 @@ const Gallery = () => {
       <Switch>
         <Route path='/details' render={() => <BrokerDetails />} />
         <Route path='/user' render={() => <BrokerOverview />} />
+        <Route path='/history' render={() => <SessionHistory />} />
       </Switch>
     </div>
   )
