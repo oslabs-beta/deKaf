@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const Login = () => {
-
+    
+    const history = useHistory();
     const [info, setInfo] = useState(null);
 
     function onUserLogin(e) {
@@ -34,7 +35,11 @@ const Login = () => {
                         pswdInput.value = '';
                         break;
                     case 'success':
-                        <Redirect to='/user' />
+                        setInfo('Logging in...');
+                        setTimeout(() => {
+                            setInfo('');
+                            history.push('/user');
+                        }, 1000);
                         break;
                     default:
                         throw new Error('Invalid Login: Server ERROR');
