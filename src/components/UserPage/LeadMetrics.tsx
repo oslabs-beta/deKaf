@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import BrokerCard from './BrokerCard.tsx';
 // @ts-ignore
 import Vis from '../Vis.tsx';
+// @ts-ignore
+import Vis2 from '../Vis2.tsx';
 
 const LeadMetrics = () => {
 
@@ -18,7 +20,7 @@ const LeadMetrics = () => {
                 console.log(topicsData);
                 setTimeout(() => {
                     getTopicData();
-                }, 2000);
+                }, 5000);
                 // if (topicsData.equals(topicData)) return;
                 setTopicData(topicsData);
             })
@@ -51,7 +53,7 @@ const LeadMetrics = () => {
 
                 <div className='metric-panel'>
                     <h3>Quantity of messages per partition</h3>
-                    <div className='visualization-panel'><Vis dataa={topicData.quantityOfDataInEachPartition}/></div>
+                    <div className='visualization-panel'><Vis2 dataa={topicData.quantityOfDataInEachPartition}/></div>
                 </div>
             </div>
         )
