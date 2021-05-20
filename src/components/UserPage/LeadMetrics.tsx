@@ -36,9 +36,9 @@ const LeadMetrics = () => {
         const topicsArray = [];
         for (let index in topicData.topicData[0].listTopics) {
             topicsArray.push(
-                <div>
-                    <p>Topic: {topicData.partitionQuantity[index].name}</p>
-                    <p>Partitions: {topicData.partitionQuantity[index].partitionQuantity}</p>
+                <div className='single-topic'>
+                    <p><strong>Topic:</strong> {topicData.partitionQuantity[index].name}</p>
+                    <p><strong>Partitions:</strong> {topicData.partitionQuantity[index].partitionQuantity}</p>
                 </div>
             );
         }
@@ -46,6 +46,7 @@ const LeadMetrics = () => {
             <div id='lead-metrics-container'>
                 <div className='metrics-overview-box'>
                     <h3>Topics and partitions</h3>
+                    <hr />
                     <div>{topicsArray}</div>
                 </div>
 
