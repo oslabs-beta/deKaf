@@ -49,7 +49,7 @@ const LeadMetrics = () => {
 
                 <div className='metric-panel'>
                     <h3>Quantity of messages per partition</h3>
-                    <div className='visualization-panel'>a cool visualization</div>
+                    <div className='visualization-panel'>{topicData.quantityOfDataInEachPartition}</div>
                 </div>
             </div>
         )

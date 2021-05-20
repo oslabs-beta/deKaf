@@ -4,6 +4,8 @@ import BrokerCard from './BrokerCard.tsx';
 // @ts-ignore
 import LeadMetrics from './LeadMetrics.tsx';
 
+//topicData.topicData.quantityOfDataInEachPartition
+
 const BrokerDetails = () => {
   return (
     <div id='broker-wrapper'>
