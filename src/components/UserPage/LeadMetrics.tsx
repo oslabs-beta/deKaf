@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 // @ts-ignore
 import BrokerCard from './BrokerCard.tsx';
+// @ts-ignore
+import Vis from '../Vis.tsx';
 
 const LeadMetrics = () => {
 
@@ -49,7 +51,7 @@ const LeadMetrics = () => {
 
                 <div className='metric-panel'>
                     <h3>Quantity of messages per partition</h3>
-                    <div className='visualization-panel'>{topicData.quantityOfDataInEachPartition}</div>
+                    <div className='visualization-panel'><Vis dataa={topicData.quantityOfDataInEachPartition}/></div>
                 </div>
             </div>
         )

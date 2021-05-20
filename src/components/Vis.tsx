@@ -57,12 +57,21 @@ let dimensions = {
 
 ///////////////////////////////////////////////////////
 //: React.FC
-const Vis = () => {
+const Vis = (props) => {
     const svgRef = useRef<SVGSVGElement | null>(null)
 
     ///////////////////////////////////////////////////////
 
     const [selection, setSelection] = useState<null | Selection<any, unknown, null, undefined>>(null);
+    
+    // let data = {}
+
+    // for (const [k, v] of Object.entries(props.dataa)) {
+        
+    //     {0: 123 , 1, 2, 3, 4, 5,6, 7 ,8, 9:}
+    // }
+    
+    
     const [data, setData] = useState(dataa)
 
     ///////////////////////////////////////////////////////
