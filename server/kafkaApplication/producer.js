@@ -19,7 +19,7 @@ async function run(dataMessage) {
   try {
     const kafka = new Kafka({
       clientId: 'my-app',
-      brokers: ['mike-Desktop:9092']
+      brokers: ['ohaxn:9092']
     })
 
     // const data = {value: 'hello', partition: 2};

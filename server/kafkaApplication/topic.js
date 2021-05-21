@@ -12,7 +12,7 @@ topic.run = async () => {
     const kafka = new Kafka({
       clientId: 'my-app',
       // ssl: true,
-      brokers: ['mike-Desktop:9092']
+      brokers: ['ohaxn:9092']
     })
     console.log('creating kafka admin');
 

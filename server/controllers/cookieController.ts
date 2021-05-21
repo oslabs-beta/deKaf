@@ -6,10 +6,12 @@ const cookieController = {
         console.log('Inside cookie controller \n')
         // console.log(req.body)
         const { username } = req.body;
+        const { userID } = res.locals;
+        const now = new Date();
 
         const query = {
-            text: 'INSERT INTO sessions(uuid) VALUES ($1) RETURNING *',
-            values: [username]
+            text: 'INSERT INTO sessions(uuid,user_id,createdtime) VALUES ($1,$2,$3) RETURNING *',
+            values: [username,userID,now]
         }
 
         dbCookie.query(query)

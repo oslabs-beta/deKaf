@@ -9,7 +9,7 @@ const dbControllerUser = require("../controllers/dbController.ts");
 const kafkaControllerUser = require("../controllers/kafkaController.ts");
 const cookieControllerUser = require("../controllers/cookieController.ts");
 
-routerUser.post('/signup', userControllerUser.createUser, (req, res) => {
+routerUser.post('/signup', userControllerUser.createUser, cookieControllerUser.createSessionCookie, (req, res) => {
   res.status(200).json('success');
 });
 

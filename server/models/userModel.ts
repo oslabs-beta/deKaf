@@ -7,9 +7,12 @@ const PG_URI = process.env.pgURI;
 
 //create a new pool here using the connection string above
 const pool = new Pool({
-  connectionString: 'postgres://dcfhozpo:KK6z32AwCvw7KJxeWk_tuPnfdC7QlvnO@queenie.db.elephantsql.com:5432/dcfhozpo'
-  // connectionString: process.env['PGHOST'],
-  // password: process.env['PGPASSWORD']
+  //connectionString: process.env['PGCONNECT'],
+  user: process.env['PGUSER'],
+  password: process.env['PGPASSWORD'],
+  host: process.env['PGHOST'],
+  database: process.env['PGDATABASE'],
+  port: process.env['PGPORT'],
 });
 
 // We export an object that contains a property called query,

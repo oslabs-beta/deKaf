@@ -52,7 +52,7 @@ consumer.run = async (userId) => {
   //initializing a new kafka object
     const kafka = new Kafka({
       clientId: 'my-app',
-      brokers: ['mike-Desktop:9092'],
+      brokers: ['ohaxn:9092'],
       logLevel: logLevel.ERROR,
       logCreator: WinstonLogCreator
     })
