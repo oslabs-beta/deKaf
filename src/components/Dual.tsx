@@ -60,37 +60,30 @@ let dimensions = {
 //: React.FC
 
 
-let data = [];
-
-const Vis = (props) => {
-    
+const Dual = (props) => {
+    let dataconverted = [];
 
     //let dataconverted = [];
     const svgRef = useRef<SVGSVGElement | null>(null)
-    // const [data, setData] = useState(dataconverted)
+    const [data, setData] = useState(dataconverted)
     //y is .count
     //x is .timestamp
 
     for (const [k, v] of Object.entries(props.dataa)) {
-        data.push({timestamp: k, count: v, col: "brown"})
-        console.log("IS THIS EVEN?????????????????")
-        // if (!data.length) {
-        //     data.push({timestamp: k, count: v, col: "brown"})
-        // } else {
-        //     data.forEach(e => {
-        //         if (e.timestamp === k) e.count += v;
-    
-        //         else data.push({timestamp: k, count: v, col: "brown"})
-        //     })
-        // }
+        
+        dataconverted.push({timestamp: k, count: v, col: "green"})
+ 
+        // dataconverted.forEach(e => {
+        //     if (e.timestamp === k) e.count += v;
+        //     else dataconverted.push({timestamp: k, count: v, col: "green"})
+        // })
         //setData(dataconverted);
     }
 
 
-
     
-    data.forEach(e => {console.log(e)}, "!!!!!!!!!!!!!!!!");
-    console.log(data, "!!!");
+    dataconverted.forEach(e => {console.log(e)}, "!!!!!!!!!!!!!!!!");
+    console.log(dataconverted, "!!!");
     ///////////////////////////////////////////////////////
 
     const [selection, setSelection] = useState<null | Selection<any, unknown, null, undefined>>(null);
@@ -117,9 +110,9 @@ const Vis = (props) => {
     let pathOfLine = 100;
     let LineEmUp = d3.line(pathOfLine);
     //let path = {fill: 'none', stroke: 'orange'};
-    // let line = d3.line()
-    //     .x(d => x(d.timestamp))
-    //     .y(d => y(d.count));
+    let line = d3.line()
+        .x(d => x(d.timestamp))
+        .y(d => y(d.count));
     ///////////////////////////////////////////////////////
 
     useEffect(() => {
@@ -129,11 +122,11 @@ const Vis = (props) => {
             setSelection(select(svgRef.current))
         } else {
 
-        // selection  
-        //     .append('rect')
-        //     .attr('width', dimensions.width)
-        //     .attr('height', dimensions.height)
-        //     .attr('fill', "white")
+        selection  
+            .append('rect')
+            .attr('width', dimensions.width)
+            .attr('height', dimensions.height)
+            .attr('fill', "white")
         
 
         
@@ -183,14 +176,14 @@ const Vis = (props) => {
             .attr('fill', d => d.col)
             //y scales the input
 
-            // selection
-            // .append('path')
-            // .attr('transform', `translate( ${dimensions.margin + 50}, 0)`)
-            // .attr('fill', 'none')
-            // .attr('stroke', 'orange')
-            // .attr('stroke-width', 10)
-            // .datum(data)
-            // .attr("d", line);
+            selection
+            .append('path')
+            .attr('transform', `translate( ${dimensions.margin + 10}, 0)`)
+            .attr('fill', 'none')
+            .attr('stroke', 'yellow')
+            .attr('stroke-width', 1.1)
+            .datum(data)
+            .attr("d", line);
            
             
         ///////////////////////////////////////////////////////
@@ -325,24 +318,24 @@ const Vis = (props) => {
         }
     }, [data])
 
-    // const addData = () => {
-    //     let dataToAdd = {
-    //         timestamp: 'Random',
-    //         metric: 'random',
-    //         unit: 'random',
-    //         count: Math.floor(Math.random() * 300),
-    //         col: 'orange'
-    //     } 
-    //     setData([...data, dataToAdd]);
-    // }
+    const addData = () => {
+        let dataToAdd = {
+            timestamp: 'Random',
+            metric: 'random',
+            unit: 'random',
+            count: Math.floor(Math.random() * 300),
+            col: 'orange'
+        } 
+        setData([...data, dataToAdd]);
+    }
 
-    // const removeData = () => {
-    //     if (data.length === 0) {
-    //         return
-    //     }
-    //     let slicedData = data.slice(0, data.length - 1);
-    //     setData(slicedData);
-    // }
+    const removeData = () => {
+        if (data.length === 0) {
+            return
+        }
+        let slicedData = data.slice(0, data.length - 1);
+        setData(slicedData);
+    }
 
 
     return (
@@ -371,4 +364,4 @@ const Vis = (props) => {
 //<rect width={100} height = {100} fill={}/>
 //<circle/>
 
-export default Vis;
+export default Dual;

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 // @ts-ignore
 import Vis from '../Vis.tsx';
+// @ts-ignore
+import Line from '../Line.tsx'
 
 const ConsumerMetrics = () => {
 
@@ -17,7 +19,7 @@ const ConsumerMetrics = () => {
                 console.log(responseData);
                 setTimeout(() => {
                   getConsumerData();
-                }, 2000);
+                }, 5000);
                 // if (topicsData.equals(topicData)) return;
                 setConsumerData(responseData);
             })
@@ -53,13 +55,13 @@ const ConsumerMetrics = () => {
 
         <div className='metric-panel'>
           <h3>Message quantity over time</h3>
-          {/* <Line dataa = {quantity} /> */}
+          <Line dataa = {quantity} />
           <div className='visualization-panel'></div>
         </div>
 
           <div className='metric-panel'>
             <h3>Message size</h3>
-            {/* <Line dataa = {size} /> */}
+            <Line dataa = {size} />
             <div className='visualization-panel'></div>
           </div>
         </div>

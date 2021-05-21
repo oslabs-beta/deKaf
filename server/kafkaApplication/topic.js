@@ -26,8 +26,8 @@ topic.run = async () => {
     await admin.createTopics({
       topics: [{
         topic: 'RandomGeneratedData',
-        numPartitions: 2,
-        replicationFactor: 2
+        numPartitions: 5,
+        replicationFactor: 1
         // replicaAssignment: []
       }]
     })

@@ -55,26 +55,34 @@ let dimensions = {
     margin: 70
 }
 
-const PropsContainer = (orops) => {
-
-}
-
-
 
 ///////////////////////////////////////////////////////
 //: React.FC
-const Vis = (props) => {
 
+
+
+const Line = (props) => {
     let dataconverted = [];
+    //let dataconverted = [];
+
+    //let dataconverted = [];
     const svgRef = useRef<SVGSVGElement | null>(null)
     const [data, setData] = useState(dataconverted)
     //y is .count
     //x is .timestamp
 
     for (const [k, v] of Object.entries(props.dataa)) {
+        
         dataconverted.push({timestamp: k, count: v, col: "green"})
+ 
+        // dataconverted.forEach(e => {
+        //     if (e.timestamp === k) e.count += v;
+        //     else dataconverted.push({timestamp: k, count: v, col: "green"})
+        // })
         //setData(dataconverted);
     }
+
+
     
     dataconverted.forEach(e => {console.log(e)}, "!!!!!!!!!!!!!!!!");
     console.log(dataconverted, "!!!");
@@ -116,11 +124,11 @@ const Vis = (props) => {
             setSelection(select(svgRef.current))
         } else {
 
-        selection  
-            .append('rect')
-            .attr('width', dimensions.width)
-            .attr('height', dimensions.height)
-            .attr('fill', "white")
+        // selection  
+        //     .append('rect')
+        //     .attr('width', dimensions.width)
+        //     .attr('height', dimensions.height)
+        //     .attr('fill', "white")
         
 
         
@@ -149,33 +157,33 @@ const Vis = (props) => {
         ///////////////////////////////////////////////////////  
 
         selection
-            .append('g')
-            .attr('transform', `translate( ${dimensions.margin}, 0)`) // second arg is ^ or v
-            .selectAll('rect')
-            .data(data)
-            .enter()
-            .append('rect')
-            .attr('width', x.bandwidth)
-            .attr('height', d=> dimensions.chartH - y(d.count))
-            //.attr('x', d =>x(d.timestamp)!) // typescript ignores possiblity of null d.timestamp
-            //.attr('x', d=>(d.timestamp)!)
-            .attr('x', d=> {
-                const xX = x(d.timestamp)
-                if(xX) {
-                    return xX;
-                }
-                return null;
-            })
-            .attr('y', d => y(d.count))
-            .attr('fill', d => d.col)
+            // .append('g')
+            // .attr('transform', `translate( ${dimensions.margin}, 0)`) // second arg is ^ or v
+            // .selectAll('rect')
+            // .data(data)
+            // .enter()
+            // .append('rect')
+            // .attr('width', x.bandwidth)
+            // .attr('height', d=> dimensions.chartH - y(d.count))
+            // //.attr('x', d =>x(d.timestamp)!) // typescript ignores possiblity of null d.timestamp
+            // //.attr('x', d=>(d.timestamp)!)
+            // .attr('x', d=> {
+            //     const xX = x(d.timestamp)
+            //     if(xX) {
+            //         return xX;
+            //     }
+            //     return null;
+            // })
+            // .attr('y', d => y(d.count))
+            // .attr('fill', d => d.col)
             //y scales the input
 
             selection
             .append('path')
-            .attr('transform', `translate( ${dimensions.margin + 50}, 0)`)
+            .attr('transform', `translate( ${dimensions.margin}, 0)`)
             .attr('fill', 'none')
-            .attr('stroke', 'orange')
-            .attr('stroke-width', 10)
+            .attr('stroke', 'green')
+            .attr('stroke-width', 1.1)
             .datum(data)
             .attr("d", line);
            
@@ -358,4 +366,4 @@ const Vis = (props) => {
 //<rect width={100} height = {100} fill={}/>
 //<circle/>
 
-//export default Line;
+export default Line;
