@@ -22,15 +22,6 @@ async function run(dataMessage) {
       brokers: ['mike-Desktop:9092']
     })
 
-    // const data = {value: 'hello', partition: 2};
-    // const queryString = {
-    //   text: 'INSERT INTO data (message, partition) VALUES ($1, $2)',
-    //   values: ['hello', 2],
-    //   rowMode: 'array'
-    // }
-    // console.log('dbing')
-    // await db.query(queryString);
-
     const producer = kafka.producer();
     console.log('connecting to producer');
     await producer.connect();
@@ -55,7 +46,15 @@ async function run(dataMessage) {
 
     
     //partition logic:
-    // const partition = 
+    // ['Mike', 'Jake', 'Billy', 'Noah', 'Achille']
+    // let partition;
+    // const { teammates } = dataMessage;
+    // console.log(teammates)
+    // if (teammates === 'Mike') partition = 0;
+    // else if (teammates === 'Jake') partition = 1;
+    // else if (teammates === 'Billy') partition = 2;
+    // else if (teammates === 'Noah') partition = 3;
+    // else if (teammates === 'Achille') partition = 4;
     
 
     //sending a batch of messages to multiple topics:
