@@ -130,8 +130,8 @@ consumer.run = async (userId) => {
     //     // }
     //   },
     // })
-    console.log('before run')
-    console.log(consumer.events)
+    // console.log('before run')
+    // console.log(consumer.events)
     //running the consumer again. This one is for the producer sending data as individual messages
     await consumer.run({
       //initializing an async function for the value of eachMessage
@@ -228,8 +228,8 @@ consumer.run = async (userId) => {
     // consumer.close()
   }
 }
-userId = 3;
-consumer.run(userId);
+// userId = 3;
+// consumer.run(userId);
 module.exports = consumer;
 
 /*
