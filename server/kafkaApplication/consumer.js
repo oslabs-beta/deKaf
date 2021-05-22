@@ -144,8 +144,10 @@ consumer.run = async (userId) => {
 
         // console.log(consumer.events)
         // deconstructing the events our of consumer
-        const { REQUEST, FETCH, GROUP_JOIN } = consumer.events;
+        const { REQUEST, FETCH, GROUP_JOIN, START_BATCH_PROCESS } = consumer.events;
         // const request = requestFunc(REQUEST, dataId);
+        console.log('before start batch')
+        const batchReqest = await startBatchProcessFun(START_BATCH_PROCESS, dataId)
         // const fetch = fetchFunc(FETCH, dataId);
         // console.log(GROUP_JOIN)
         // const groupJoin = groupJoinFunc(GROUP_JOIN, dataId)
@@ -161,7 +163,7 @@ consumer.run = async (userId) => {
         topic: topic
       }
       console.log('messageData')
-      console.log(messageData)
+      // console.log(messageData)
       // const testQueryString = {
       //   text: `INSERT INTO data2 (message, partition) VALUES ($1, $2)`,
       //   values: ['this is another test', 1],
@@ -200,8 +202,17 @@ consumer.run = async (userId) => {
         // consumer.pause();
         return;
       })
+      req();
       console.log(req)
       return req;
+    }
+
+    async function startBatchProcessFun(START_BATCH_PROCESS, dataId) {
+      const startBatch = consumer.on(START_BATCH_PROCESS, async (e) => {
+        console.log('in the start batch')
+        console.log(e)
+      })
+      // startBatch()
     }
     
     function fetchFunc(FETCH) {
@@ -228,8 +239,8 @@ consumer.run = async (userId) => {
     // consumer.close()
   }
 }
-// userId = 3;
-// consumer.run(userId);
+userId = 3;
+consumer.run(userId);
 module.exports = consumer;
 
 /*
