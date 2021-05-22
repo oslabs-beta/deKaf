@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import BrokerCard from './BrokerCard.tsx';
 // @ts-ignore
 import Vis from '../Vis.tsx';
+// @ts-ignore
+import Vis2 from '../Vis2.tsx';
 
 const LeadMetrics = () => {
 
@@ -18,7 +20,7 @@ const LeadMetrics = () => {
                 console.log(topicsData);
                 setTimeout(() => {
                     getTopicData();
-                }, 2000);
+                }, 5000);
                 // if (topicsData.equals(topicData)) return;
                 setTopicData(topicsData);
             })
@@ -36,9 +38,9 @@ const LeadMetrics = () => {
         const topicsArray = [];
         for (let index in topicData.topicData[0].listTopics) {
             topicsArray.push(
-                <div>
-                    <p>Topic: {topicData.partitionQuantity[index].name}</p>
-                    <p>Partitions: {topicData.partitionQuantity[index].partitionQuantity}</p>
+                <div className='single-topic'>
+                    <p><strong>Topic:</strong> {topicData.partitionQuantity[index].name}</p>
+                    <p><strong>Partitions:</strong> {topicData.partitionQuantity[index].partitionQuantity}</p>
                 </div>
             );
         }
@@ -46,12 +48,13 @@ const LeadMetrics = () => {
             <div id='lead-metrics-container'>
                 <div className='metrics-overview-box'>
                     <h3>Topics and partitions</h3>
+                    <hr />
                     <div>{topicsArray}</div>
                 </div>
 
                 <div className='metric-panel'>
                     <h3>Quantity of messages per partition</h3>
-                    <div className='visualization-panel'><Vis dataa={topicData.quantityOfDataInEachPartition}/></div>
+                    <div className='visualization-panel'><Vis2 dataa={topicData.quantityOfDataInEachPartition}/></div>
                 </div>
             </div>
         )

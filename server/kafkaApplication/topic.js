@@ -12,7 +12,7 @@ topic.run = async () => {
     const kafka = new Kafka({
       clientId: 'my-app',
       // ssl: true,
-      brokers: ['mike-Desktop:9092']
+      brokers: [':9092']
     })
     console.log('creating kafka admin');
 
@@ -78,7 +78,9 @@ topic.run = async () => {
     process.exit(0);
   }
 }
-topic.run();
+
+//topic.run();
+
 
 module.exports = topic;
 // export default topic;

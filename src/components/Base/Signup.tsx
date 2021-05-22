@@ -60,7 +60,7 @@ const Signup = () => {
 
     return (
         <div className='login-wrapper'>
-            <div className='logo'>(Logo image will go here)</div>
+            <div className='logo'><img src='https://i.imgur.com/nWW4UjX.png'/></div>
             {/* <div className='logo-caption'>A visualization tool for Kafka consumer metrics</div> */}
 
             <div className='login-container'>

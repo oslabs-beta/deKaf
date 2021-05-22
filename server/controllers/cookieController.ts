@@ -6,10 +6,12 @@ const cookieController = {
         console.log('Inside cookie controller \n')
         // console.log(req.body)
         const { username } = req.body;
+        const { userID } = res.locals;
+        const now = new Date();
 
         const query = {
-            text: 'INSERT INTO sessions(uuid) VALUES ($1) RETURNING *',
-            values: [username]
+            text: 'INSERT INTO sessions(uuid,user_id,createdtime) VALUES ($1,$2,$3) RETURNING *',
+            values: [username,userID,now]
         }
 
         dbCookie.query(query)
@@ -22,13 +24,16 @@ const cookieController = {
 
     sessionValidation(req, res, next) {
         console.log('entered verifySession')
-        if (!req.cookies.ssid) return res.status(200).json({ message: 'noSession' })
+        if (!req.cookies.ssid) return res.status(200).json({ message: 'noSession' });
+        
+        const { ssid } = req.cookies;
 
         //check in session db is cookie is valid
         //if query doesn't exist
 
         const query = {
-            text: `SELECT ssid FROM sessions WHERE ssid = ${req.cookies.ssid}`,
+            text: `SELECT ssid FROM sessions WHERE ssid = $1`,
+            values: [ssid]
         }
 
         console.log('checking for session in db');
@@ -44,8 +49,11 @@ const cookieController = {
 
     getUserFromSSID(req, res, next) {
 
+        const { ssid } = req.params;
+
         const query = {
-            text: `SELECT username FROM sessions WHERE ssid = ${req.params.ssid}`
+            text: `SELECT username FROM sessions WHERE ssid = $1`,
+            values: [ssid]
         }
         dbCookie.query(query)
             .then(data => {

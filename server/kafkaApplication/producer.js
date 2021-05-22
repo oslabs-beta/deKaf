@@ -19,7 +19,7 @@ async function run(dataMessage) {
   try {
     const kafka = new Kafka({
       clientId: 'my-app',
-      brokers: ['mike-Desktop:9092']
+      brokers: [':9092']
     })
 
     const producer = kafka.producer();
@@ -41,7 +41,7 @@ async function run(dataMessage) {
         values: [e],
         rowMode: 'array'
       }
-      // await db.query(queryString);
+      await db.query(queryString);
     })
 
     
@@ -118,7 +118,9 @@ function getRandomGreeting() {
   return greetings[Math.floor(Math.random() * greetings.length)];
 }
 // run('test')
-producer.generateMessages()
+
+//producer.generateMessages()
+
 console.log('end of producer')
 module.exports = producer;
 

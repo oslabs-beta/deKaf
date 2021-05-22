@@ -28,7 +28,9 @@ const userController = {
       dbUser.query(queryString2, queryArgs2, (err, user) => {
         if (err) return next({ log: err });
         console.log('finished query:', user);
-        return res.status(200).json('success');
+        res.locals.userID = user.rows[0]['_id'];
+        console.log(res.locals.userID);
+        return next();
       });
     })
   },
@@ -36,7 +38,7 @@ const userController = {
   verifyUser(req, res, next) {
     const
       queryString: string = `
-    SELECT username, password FROM users
+    SELECT * FROM users
     WHERE username=$1`,
       queryArgs: string[] = [req.body.username];
 
@@ -47,6 +49,8 @@ const userController = {
         if (err) console.log('Error in bcrypt hashing, verifyUser: ', err)
         if (!isMatch) return res.status(200).json({message: 'notMatching'});
         console.log('password correct!');
+        res.locals.userID = user.rows[0]['_id'];
+        console.log(res.locals.userID);
         return next();
       })
     })
