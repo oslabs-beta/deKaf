@@ -53,7 +53,7 @@ consumer.run = async (userId) => {
   //initializing a new kafka object
     const kafka = new Kafka({
       clientId: 'my-app',
-      brokers: ['ohaxn:9092'],
+      brokers: [':9092'],
       logLevel: logLevel.ERROR,
       logCreator: WinstonLogCreator
     })
@@ -145,7 +145,7 @@ consumer.run = async (userId) => {
         // console.log(consumer.events)
         // deconstructing the events our of consumer
         const { REQUEST, FETCH, GROUP_JOIN } = consumer.events;
-        // const request = requestFunc(REQUEST, dataId);
+        const request = requestFunc(REQUEST, dataId);
         // const fetch = fetchFunc(FETCH, dataId);
         // console.log(GROUP_JOIN)
         // const groupJoin = groupJoinFunc(GROUP_JOIN, dataId)
@@ -177,9 +177,9 @@ consumer.run = async (userId) => {
       const result = await db.query(queryString)
       // .catch(e => console.log(`error in addTodb`, e));
       // console.log(result)
-      // const dataId = result.rows[0][0];
+      const dataId = result.rows[0][0];
       // console.log(dataId)
-      // return dataId;
+      return dataId;
     }
 
     async function requestFunc(REQUEST, dataId) {
@@ -201,6 +201,7 @@ consumer.run = async (userId) => {
         return;
       })
       console.log(req)
+      req();
       return req;
     }
     
@@ -228,8 +229,8 @@ consumer.run = async (userId) => {
     // consumer.close()
   }
 }
-// userId = 3;
-// consumer.run(userId);
+//userId = 3;
+//consumer.run(userId);
 module.exports = consumer;
 
 /*

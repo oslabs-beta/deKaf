@@ -7,12 +7,12 @@ const PG_URI = process.env.pgURI;
 
 //create a new pool here using the connection string above
 const pool = new Pool({
-  //connectionString: process.env['PGCONNECT'],
-  user: process.env['PGUSER'],
-  password: process.env['PGPASSWORD'],
-  host: process.env['PGHOST'],
-  database: process.env['PGDATABASE'],
-  port: process.env['PGPORT'],
+  connectionString: process.env['PGCONNECT'],
+  // user: process.env['PGUSER'],
+  // password: process.env['PGPASSWORD'],
+  // host: process.env['PGHOST'],
+  // database: process.env['PGDATABASE'],
+  // port: process.env['PGPORT'],
 });
 
 // We export an object that contains a property called query,
