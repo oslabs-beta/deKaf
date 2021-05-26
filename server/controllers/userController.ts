@@ -36,6 +36,7 @@ const userController = {
   },
 
   verifyUser(req, res, next) {
+    //
     const
       queryString: string = `
     SELECT * FROM users
