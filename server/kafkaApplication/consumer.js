@@ -142,13 +142,13 @@ consumer.run = async (userId) => {
         const dataId = await mainMessageQueryFunc(topic, partition, message, userId);
         // console.log(dataId);
 
-        // console.log(consumer.events)
+        console.log(consumer.events)
         // deconstructing the events our of consumer
 
         const { REQUEST, FETCH, GROUP_JOIN, START_BATCH_PROCESS } = consumer.events;
-        // const request = requestFunc(REQUEST, dataId);
+        const request = requestFunc(REQUEST, dataId);
         console.log('before start batch')
-        const batchReqest = await startBatchProcessFun(START_BATCH_PROCESS, dataId)
+        // const batchReqest = await startBatchProcessFun(START_BATCH_PROCESS, dataId)
 
         // const fetch = fetchFunc(FETCH, dataId);
         // console.log(GROUP_JOIN)
@@ -243,8 +243,8 @@ consumer.run = async (userId) => {
   }
 }
 
-//userId = 3;
-//consumer.run(userId);
+userId = 3;
+consumer.run(userId);
 module.exports = consumer;
 
 /*

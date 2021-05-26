@@ -119,7 +119,7 @@ function getRandomGreeting() {
 }
 // run('test')
 
-//producer.generateMessages()
+producer.generateMessages()
 
 console.log('end of producer')
 module.exports = producer;
