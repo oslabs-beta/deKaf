@@ -1,4 +1,4 @@
-import topic from "../kafkaApplication/topic";
+// import topic from "../kafkaApplication/topic";
 
 /* Path to databse*/
 const dbKafka = require('../models/userModel');

@@ -1,4 +1,4 @@
-const kafkaControllerKafka = require("../controllers/kafkaController.ts");
+const kafkaControllerKafka = require("./kafkaController.ts");
 
 function test() {
   kafkaControllerKafka.starttopic();

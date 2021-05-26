@@ -118,7 +118,9 @@ function getRandomGreeting() {
   return greetings[Math.floor(Math.random() * greetings.length)];
 }
 // run('test')
-//producer.generateMessages()
+
+// producer.generateMessages()
+
 console.log('end of producer')
 module.exports = producer;
 
