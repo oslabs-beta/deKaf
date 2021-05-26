@@ -243,8 +243,10 @@ consumer.run = async (userId) => {
   }
 }
 
-userId = 3;
-consumer.run(userId);
+
+// userId = 3;
+// consumer.run(userId);
+
 module.exports = consumer;
 
 /*
