@@ -29,7 +29,8 @@ topic.run = async () => {
         numPartitions: 5,
         replicationFactor: 1
         // replicaAssignment: []
-      }]
+      },
+    ]
     })
     console.log('topic created successfully');
 

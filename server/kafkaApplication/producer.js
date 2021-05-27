@@ -1,6 +1,7 @@
 const { Kafka } = require('kafkajs');
 
-const db = require('../models/userModel.ts')
+const db = require('../models/userModel.ts');
+// const topic = require('./topic');
 // const queue = require('../dataStorage/queue.js');
 
 const producer = {};
@@ -113,6 +114,8 @@ function getRandomTeammate() {
   return teammates[Math.floor(Math.random() * teammates.length)];
 }
 
+// data1 = {'mike', 'hello'} => topic(1) => partion 1 => topic(2) => partion 3
+// data2 = {'jake', 'good morning'} => topic(1) => partion 2
 function getRandomGreeting() {
   const greetings = ['hello!', 'good morning', 'good evening', 'nice to meet you', 'pleasure', 'hi', 'how are you', 'whats new', 'screw you', 'howdy'];
   return greetings[Math.floor(Math.random() * greetings.length)];
@@ -120,7 +123,7 @@ function getRandomGreeting() {
 // run('test')
 
 
-// producer.generateMessages()
+// producer.genesrateMessages()
 
 
 console.log('end of producer')

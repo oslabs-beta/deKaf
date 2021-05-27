@@ -7,9 +7,9 @@ const PG_URI = process.env.pgURI;
 
 //create a new pool here using the connection string above
 const pool = new Pool({
-  connectionString: PG_URI
+  // connectionString: PG_URI
 
-  // conectionString: 'postgres://dcfhozpo:KK6z32AwCvw7KJxeWk_tuPnfdC7QlvnO@queenie.db.elephantsql.com:5432/dcfhozpo'
+  conectionString: 'postgres://dcfhozpo:KK6z32AwCvw7KJxeWk_tuPnfdC7QlvnO@queenie.db.elephantsql.com:5432/dcfhozpo'
   // connectionString: process.env['PGCONNECT'],
   // user: process.env['PGUSER'],
   // password: process.env['PGPASSWORD'],
@@ -54,3 +54,5 @@ module.exports = {
 //     return pool.query(text, params, callback);
 //   },
 // };
+
+//send grid
