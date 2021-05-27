@@ -3,11 +3,11 @@ require('dotenv').config();
 
 
 //URI to elephantSQL database that will store the users favorite plants and any notes that add to those faves
-const PG_URI = process.env.pgURI;
+const PG_URI = process.env['PGURI'];
 
 //create a new pool here using the connection string above
 const pool = new Pool({
-  conectionString: 'postgres://dcfhozpo:KK6z32AwCvw7KJxeWk_tuPnfdC7QlvnO@queenie.db.elephantsql.com:5432/dcfhozpo'
+  connectionString: PG_URI,
   // connectionString: process.env['PGCONNECT'],
   // user: process.env['PGUSER'],
   // password: process.env['PGPASSWORD'],
