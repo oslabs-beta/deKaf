@@ -133,6 +133,11 @@ consumer.run = async (userId) => {
     // console.log('before run')
     // console.log(consumer.events)
     //running the consumer again. This one is for the producer sending data as individual messages
+    // consumer1 -> partition 1 data1 data5
+    // consumer2 -> partition 2 data2
+    // consumer3 -> partition 3 data3
+    // consumer4 -> partition 4 data4
+
     await consumer.run({
       //initializing an async function for the value of eachMessage
       'eachMessage': async ({ topic, partition, message }) => {
@@ -243,8 +248,10 @@ consumer.run = async (userId) => {
   }
 }
 
+
 // userId = 3;
 // consumer.run(userId);
+
 module.exports = consumer;
 
 /*

@@ -7,7 +7,9 @@ const PG_URI = process.env['PGURI'];
 
 //create a new pool here using the connection string above
 const pool = new Pool({
+
   connectionString: PG_URI,
+
   // connectionString: process.env['PGCONNECT'],
   // user: process.env['PGUSER'],
   // password: process.env['PGPASSWORD'],
@@ -52,3 +54,5 @@ module.exports = {
 //     return pool.query(text, params, callback);
 //   },
 // };
+
+//send grid

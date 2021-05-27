@@ -29,7 +29,8 @@ topic.run = async () => {
         numPartitions: 5,
         replicationFactor: 1
         // replicaAssignment: []
-      }]
+      },
+    ]
     })
     console.log('topic created successfully');
 
@@ -78,7 +79,9 @@ topic.run = async () => {
     process.exit(0);
   }
 }
-topic.run();
+
+// topic.run();
+
 
 module.exports = topic;
 // export default topic;
