@@ -7,6 +7,7 @@ const EventEmitter = require('events')
 
 // const dataStructures = require('../dataStructures/queue.js')
 const db = require('../models/userModel.ts');
+const { createPartiallyEmittedExpression } = require('typescript');
 
 
 //initializing a consumer object
@@ -79,6 +80,12 @@ consumer.run = async (userId) => {
       topic: 'RandomGeneratedData',
       fromBeginning: true
     })
+    await consumer.subscribe({
+      //add multiple topics later
+      topic: 'thisIsATest',
+      fromBeginning: true
+    })
+    
 
     console.log('logger')
     const logger = await consumer.logger().info();
@@ -86,50 +93,72 @@ consumer.run = async (userId) => {
 
     //running the consumer to collect the data being sent from the producer
     //this will be used if the producer wants to send messages in batches
-    // await consumer.run({
-    //   eachBatchAutoResolve: true,
-    //   eachBatch: async ({
-    //     batch,
-    //     resolveOffset,
-    //     heartbeat,
-    //     commitOffsetsIfNecessary,
-    //     uncommittedOffsets,
-    //     isRunning,
-    //     isStale,
-    //   }) => {
-    //     console.log(batch.messages[0].value.toString());
-    //     console.log(batch.partition);
-    //     // const messageQ = batch.messages[0].value.toString();
-    //       // const partition = batch.partition;
-         
-    //       messageQ = 'this is a test from the batch';
-    //       partition = 27;
-    //       const queryString = {
-    //         text: 'INSERT INTO data (message, partition) VALUES ($1, $2)',
-    //         values: [messageQ, partition],
-    //         rowMode: 'array'
-    //       }
-    //       console.log('before query')
-    //       await db.query(queryString)
-    //       .catch(e => console.log(`error in addTodb`, e));
+    await consumer.run({
+      eachBatchAutoResolve: true,
+      eachBatch: async ({
+        batch,
+        resolveOffset,
+        heartbeat,
+        commitOffsetsIfNecessary,
+        uncommittedOffsets,
+        isRunning,
+        isStale,
+      }) => {
+        console.log('in the batch messages')
+        // console.log(batch.messages)
+        console.log(consumer.events)
+        // console.log(consumer.events.COMMIT_OFFSETS)
+        console.log('ID')
+        console.log(batch)
+        console.log('message value')
+        console.log(batch.messages[0].value[0].toString(), "!!!")
+        const test = batch.messages[0].value.toString();
+        const arr = test.split(',');
+        console.log(parseInt(arr[arr.length-1]))
+        const messageId = parseInt(arr.pop());
+        console.log(messageId)
+        let newString = arr.join(',')
+        
+        console.log(newString.slice(1, newString.length))
+        console.log(typeof newString)
 
-    //     // console.log(JSON.stringify(batch.message[0].value))
-    //     console.log(batch.highWatermark)
-    //       // console.log({
-    //       //   topic: batch.topic,
-    //       //   partition: batch.partition,
-    //       //   highWatermark: batch.highWatermark,
-    //       //   batch.message: {
-    //       //     offset: message.offset,
-    //       //     key: message.key.toString(),
-    //       //     value: message.value.toString()
-    //       //   }
-    //       // })
-    //       // resolveOffset(message.offset)
-    //       await heartbeat()
-    //     // }
-    //   },
-    // })
+        // //console.log(batch.messages[0].value.toString())
+        // console.log(batch.partition);
+        // const messageQ = batch.messages[0].value.toString();
+          // const partition = batch.partition;
+         
+          // messageQ = 'this is a test from the batch';
+          // partition = 27;
+          // const queryString = {
+          //   text: 'INSERT INTO data (message, partition) VALUES ($1, $2)',
+          //   values: [messageQ, partition],
+          //   rowMode: 'array'
+          // }
+          // console.log('before query')
+          // await db.query(queryString)
+          // .catch(e => console.log(`error in addTodb`, e));
+
+        // console.log(JSON.stringify(batch.message[0].value))
+        console.log(batch.highWatermark)
+          // console.log({
+          //   topic: batch.topic,
+          //   partition: batch.partition,
+          //   highWatermark: batch.highWatermark,
+          //   batch.message: {
+          //     offset: message.offset,
+          //     key: message.key.toString(),
+          //     value: message.value.toString()
+          //   }
+          // })
+          // resolveOffset(message.offset)
+          await heartbeat()
+        // }
+      },
+      // eachMessage: async ({ topic, partition, message }) => {
+      //   console.log('within each message')
+      //   console.log(message.value.toString())
+      // }
+    })
     // console.log('before run')
     // console.log(consumer.events)
     //running the consumer again. This one is for the producer sending data as individual messages
@@ -138,28 +167,28 @@ consumer.run = async (userId) => {
     // consumer3 -> partition 3 data3
     // consumer4 -> partition 4 data4
 
-    await consumer.run({
-      //initializing an async function for the value of eachMessage
-      'eachMessage': async ({ topic, partition, message }) => {
-        console.log('in the consumer running');
+    // await consumer.run({
+    //   //initializing an async function for the value of eachMessage
+    //   'eachMessage': async ({ topic, partition, message }) => {
+    //     console.log('in the consumer running');
 
-        //querying the main message into the db
-        const dataId = await mainMessageQueryFunc(topic, partition, message, userId);
-        // console.log(dataId);
+    //     //querying the main message into the db
+    //     const dataId = await mainMessageQueryFunc(topic, partition, message, userId);
+    //     // console.log(dataId);
 
-        console.log(consumer.events)
-        // deconstructing the events our of consumer
+    //     console.log(consumer.events)
+    //     // deconstructing the events our of consumer
 
-        const { REQUEST, FETCH, GROUP_JOIN, START_BATCH_PROCESS } = consumer.events;
-        const request = requestFunc(REQUEST, dataId);
-        console.log('before start batch')
-        // const batchReqest = await startBatchProcessFun(START_BATCH_PROCESS, dataId)
+    //     const { REQUEST, FETCH, GROUP_JOIN, START_BATCH_PROCESS } = consumer.events;
+    //     const request = requestFunc(REQUEST, dataId);
+    //     console.log('before start batch')
+    //     // const batchReqest = await startBatchProcessFun(START_BATCH_PROCESS, dataId)
 
-        // const fetch = fetchFunc(FETCH, dataId);
-        // console.log(GROUP_JOIN)
-        // const groupJoin = groupJoinFunc(GROUP_JOIN, dataId)
-      }
-    })
+    //     // const fetch = fetchFunc(FETCH, dataId);
+    //     // console.log(GROUP_JOIN)
+    //     // const groupJoin = groupJoinFunc(GROUP_JOIN, dataId)
+    //   }
+    // })
 
     //all the query functions will be below:
     //function to query the main message data
@@ -170,7 +199,7 @@ consumer.run = async (userId) => {
         topic: topic
       }
       console.log('messageData')
-      // console.log(messageData)
+      console.log(messageData)
       // const testQueryString = {
       //   text: `INSERT INTO data2 (message, partition) VALUES ($1, $2)`,
       //   values: ['this is another test', 1],
