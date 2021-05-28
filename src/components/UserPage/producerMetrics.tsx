@@ -13,23 +13,23 @@ const ProducerMetrics = () => {
     const [timeGraphData, settimeGraphData] = useState(null);
 
     // const iterate = () => setIterator(iterator + 1);
-    if (!producersData) getProducerData();
+    // if (!producersData) getProducerData();
 
-    function getProducerData() {
-        fetch('/kafka/producerData')
-            .then(data => data.json())
-            .then(producersData=> {
-                // console.log('Producer data:');
-                // console.log(producersData);
-                setTimeout(() => {
-                  getProducerData();
-                }, 5000);
-                // if (producerData.equals(producersData)) return;
-                setproducerData(producersData);
-                // setsizeGraphData()
-            })
-            .catch(err => 'Failed to fetch producer data!');
-    }
+    // function getProducerData() {
+    //     fetch('/kafka/producerData')
+    //         .then(data => data.json())
+    //         .then(producersData=> {
+    //             // console.log('Producer data:');
+    //             // console.log(producersData);
+    //             setTimeout(() => {
+    //               getProducerData();
+    //             }, 5000);
+    //             // if (producerData.equals(producersData)) return;
+    //             setproducerData(producersData);
+    //             // setsizeGraphData()
+    //         })
+    //         .catch(err => 'Failed to fetch producer data!');
+    // }
 
     if (!producersData) {
         return (

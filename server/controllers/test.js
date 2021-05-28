@@ -1,6 +1,8 @@
 const kafkaControllerKafka = require("./kafkaController.ts");
 
-function test() {
-  kafkaControllerKafka.starttopic();
+function test(topicData) {
+  
+  kafkaControllerKafka.starttopic(topicData);
 }
-// test()
+const topicData = [{topicName: 'thisIsATest', partition: 5, replicationFactor: 1}, {topicName: 'thisIsATest1', partition: 1, replicationFactor: 1}]
+test(topicData)

@@ -7,7 +7,9 @@ const db = require('../models/userModel.ts')
 const topic = {};
 // run();
 console.log('in the topic')
-topic.run = async () => {
+topic.run = async (topicData) => {
+  // console.log(topicName)
+  // const { topicName } = topicName;
   try{
     const kafka = new Kafka({
       clientId: 'my-app',
@@ -20,17 +22,35 @@ topic.run = async () => {
     console.log('connecting to admin')
 
     await admin.connect();
-
-
+    let tempTopicData = [{
+      topic: 'RandomGeneratedData',
+      partition: 5,
+      replicationFactor: 1
+    }]
+    topicDataArray = [];
+    topicDataObj = {};
+    // {topicName, partition, replicationFactor}
+    topicData.forEach((el) => {
+      console.log(el);
+      const { topicName, partition, replicationFactor } = el; 
+      topicDataObj['topic'] = topicName;
+      topicDataObj['partition'] = partition;
+      topicDataObj['replicationFactor'] = replicationFactor;
+      topicDataArray.push(topicDataObj);
+      topicDataObj = {};
+    })
+    console.log(topicDataArray)
     console.log('creating new topics')
     await admin.createTopics({
-      topics: [{
-        topic: 'RandomGeneratedData2',
-        numPartitions: 5,
-        replicationFactor: 1
-        // replicaAssignment: []
-      },
-    ]
+      topics: topicDataArray
+    //   topics: [
+      //    {
+    //     topic: `${topicName}`,
+    //     numPartitions: `${partition}`,
+    //     replicationFactor: `${replicationFactor}`
+    //     // replicaAssignment: []
+    //   },
+    // ]
     })
     console.log('topic created successfully');
 
@@ -38,10 +58,14 @@ topic.run = async () => {
     const listTopics = await admin.listTopics();
     console.log('list topics');
     console.log(listTopics)
-
+    
     console.log('fetch topic metaData')
     const fetchTopicMetadata = await admin.fetchTopicMetadata()
     console.log(fetchTopicMetadata)
+    console.log(fetchTopicMetadata.topics[2])
+    const partionData = fetchTopicMetadata.topics[1];
+    console.log(partionData.partitions[3])
+    // console.log(partionData[0])
 
     console.log('describing cluster');
     const describeCluster = await admin.describeCluster();
