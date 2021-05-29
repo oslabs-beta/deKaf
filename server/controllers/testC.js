@@ -1,7 +1,20 @@
 const kafkaControllerKafka = require("../controllers/kafkaController.ts");
 
 
-function test() {
-  kafkaControllerKafka.startconsumer();
+function test(consumerData) {
+  kafkaControllerKafka.startconsumer(consumerData);
 }
-// test()
+// const consumerData = {port: '9092', topics: ['RandomGeneratedData'], userId: 3}
+// test(consumerData)
+
+/*
+For testing consumer in backend
+{
+    "consumerData": {
+        "port": "9092",
+        "topics": ["RandomGeneratedData"],
+        "userId": "3"
+    }
+}
+
+*/

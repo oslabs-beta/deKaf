@@ -1,20 +1,18 @@
 const { Kafka } = require('kafkajs');
 const { logLevel } = require('kafkajs')
 const winston = require('winston')
-const fs = require('fs')
-const path = require('path')
-const EventEmitter = require('events')
-
-// const dataStructures = require('../dataStructures/queue.js')
 const db = require('../models/userModel.ts');
-const { createPartiallyEmittedExpression } = require('typescript');
+// const topic = require('./topic');
+const EventEmitter = require('events')
 
 
 //initializing a consumer object
 const consumer = {}
-class MyEmitter extends EventEmitter {}
+class MyEmitter extends EventEmitter {};
 //everything in this function will be the consumer logic
-consumer.run = async (userId) => {
+consumer.run = async (consumerData) => {
+  const { port, topics, userId} = consumerData;
+  if (userId === undefined) userId = 3;
   try 
   {
     //this winston function will be to track errors and store them in a log
@@ -50,16 +48,16 @@ consumer.run = async (userId) => {
           })
       }
   }
-  const myEmitter = new MyEmitter()
+  
   //initializing a new kafka object
     const kafka = new Kafka({
       clientId: 'my-app',
-      brokers: [':9092'],
+      brokers: [`:${port}`],
       logLevel: logLevel.ERROR,
       logCreator: WinstonLogCreator
     })
-    // const buffer = new dataStructures()
-    //initializing a consumer
+    
+    //connecting the kafka object to the consumer
     const consumer = kafka.consumer({
       groupId: 'my-group',
       // partitionAssigners: [0,1,2,3,4],
@@ -74,17 +72,35 @@ consumer.run = async (userId) => {
     //connecting consumer
     await consumer.connect();
     console.log('connected to consumer')
+
     //subscribing this consumer to the topic
+    // const subscribingToTopics = (topics) => {
+    //   const topicObject = {}
+    //   topics.forEach( async (el) => {
+    //     topicObject['topic'] = el;
+    //     topicObject['fromBeginning'] = true;
+    //     console.log('subscribing to topic')
+    //     await consumer.subscribe(topicObject)
+    //     console.log('subscribed')
+    //     topicObject = {};
+    //   }
+      // .catch(err => console.log('there was an error when subscribing to topic ', err))
+      // )
+      
+    // }
+    // await subscribingToTopics(topics)
+
+
     await consumer.subscribe({
       //add multiple topics later
       topic: 'RandomGeneratedData',
       fromBeginning: true
     })
-    await consumer.subscribe({
-      //add multiple topics later
-      topic: 'thisIsATest',
-      fromBeginning: true
-    })
+    // await consumer.subscribe({
+    //   //add multiple topics later
+    //   topic: 'thisIsATest',
+    //   fromBeginning: true
+    // })
     
 
     console.log('logger')
@@ -94,8 +110,9 @@ consumer.run = async (userId) => {
     //running the consumer to collect the data being sent from the producer
     //this will be used if the producer wants to send messages in batches
     await consumer.run({
+      // eachMessage: console.log('in each message'),
       eachBatchAutoResolve: true,
-      eachBatch: async ({
+      'eachBatch': async ({
         batch,
         resolveOffset,
         heartbeat,
@@ -105,144 +122,118 @@ consumer.run = async (userId) => {
         isStale,
       }) => {
         console.log('in the batch messages')
-        // console.log(batch.messages)
-        console.log(consumer.events)
-        // console.log(consumer.events.COMMIT_OFFSETS)
-        console.log('ID')
-        console.log(batch)
-        console.log('message value')
-        console.log(batch.messages[0].value[0].toString(), "!!!")
-        const test = batch.messages[0].value.toString();
-        const arr = test.split(',');
-        console.log(parseInt(arr[arr.length-1]))
-        const messageId = parseInt(arr.pop());
-        console.log(messageId)
-        let newString = arr.join(',')
+        //grabbing the random message Id from the message sent from the producer
+        // console.log(batch)
+        const { messageId, message } = getMessageId(batch)
         
-        console.log(newString.slice(1, newString.length))
-        console.log(typeof newString)
+        const { partition, topic, fetchedOffset} = batch;
+        // console.log(`partition: ${partition}`);
+        // console.log(`topic: ${topic}`);
+        // console.log(`fetchedOffset: ${fetchedOffset}`)
 
-        // //console.log(batch.messages[0].value.toString())
-        // console.log(batch.partition);
-        // const messageQ = batch.messages[0].value.toString();
-          // const partition = batch.partition;
-         
-          // messageQ = 'this is a test from the batch';
-          // partition = 27;
-          // const queryString = {
-          //   text: 'INSERT INTO data (message, partition) VALUES ($1, $2)',
-          //   values: [messageQ, partition],
-          //   rowMode: 'array'
-          // }
-          // console.log('before query')
-          // await db.query(queryString)
-          // .catch(e => console.log(`error in addTodb`, e));
+        // storing the message, topic, partition in the db
+        const dataId = await mainMessageQueryFunc(topic, partition, message, userId);
+    // //     // console.log(dataId);
+        
+    //     //deconstructing some of the instances events associated with the consumer to gather future data
+        const { REQUEST, FETCH, GROUP_JOIN, START_BATCH_PROCESS } = consumer.events;
+        
+    //     //gathering data from the request event
+        requestFunc(REQUEST, dataId, messageId);
+        // request()
+    //     //gathering data from the fetch event
+    //     const fetch = fetchFunc(FETCH, dataId);
+        
+    //     //gathering data on groupJoin event
+    //     const groupJoin = groupJoinFunc(GROUP_JOIN, dataId)
 
-        // console.log(JSON.stringify(batch.message[0].value))
-        console.log(batch.highWatermark)
-          // console.log({
-          //   topic: batch.topic,
-          //   partition: batch.partition,
-          //   highWatermark: batch.highWatermark,
-          //   batch.message: {
-          //     offset: message.offset,
-          //     key: message.key.toString(),
-          //     value: message.value.toString()
-          //   }
-          // })
-          // resolveOffset(message.offset)
+    //     //gathering data on the batch request event
+    //     const batchReqest = await startBatchProcessFun(START_BATCH_PROCESS, dataId)
           await heartbeat()
-        // }
-      },
-      // eachMessage: async ({ topic, partition, message }) => {
-      //   console.log('within each message')
-      //   console.log(message.value.toString())
-      // }
+      }
+
     })
-    // console.log('before run')
-    // console.log(consumer.events)
-    //running the consumer again. This one is for the producer sending data as individual messages
-    // consumer1 -> partition 1 data1 data5
-    // consumer2 -> partition 2 data2
-    // consumer3 -> partition 3 data3
-    // consumer4 -> partition 4 data4
 
-    // await consumer.run({
-    //   //initializing an async function for the value of eachMessage
-    //   'eachMessage': async ({ topic, partition, message }) => {
-    //     console.log('in the consumer running');
+    //helper function to grab the messageId sent from the producer
 
-    //     //querying the main message into the db
-    //     const dataId = await mainMessageQueryFunc(topic, partition, message, userId);
-    //     // console.log(dataId);
+    function getMessageId(batch) {
+      const testMessage = batch.messages[0].value.toString();
+      const arr = testMessage.split(',');
+      const messageId = parseInt(arr.pop());
+      console.log(messageId)
+      let newString = arr.join(',')
+      let message = newString.slice(1, newString.length)
+      return {messageId: messageId, message: message}
+    }
 
-    //     console.log(consumer.events)
-    //     // deconstructing the events our of consumer
 
-    //     const { REQUEST, FETCH, GROUP_JOIN, START_BATCH_PROCESS } = consumer.events;
-    //     const request = requestFunc(REQUEST, dataId);
-    //     console.log('before start batch')
-    //     // const batchReqest = await startBatchProcessFun(START_BATCH_PROCESS, dataId)
+    /****  Methods to grab data pertaining to the messages and uploading to the database for the client to use *****/
 
-    //     // const fetch = fetchFunc(FETCH, dataId);
-    //     // console.log(GROUP_JOIN)
-    //     // const groupJoin = groupJoinFunc(GROUP_JOIN, dataId)
-    //   }
-    // })
-
-    //all the query functions will be below:
-    //function to query the main message data
+    //sending topic, partition, message and userId data to the consumer table
     async function mainMessageQueryFunc(topic, partition, message, userId) {
+      console.log('in the message func!!!!!!!!!!!!!!!!!!')
       const messageData = {
-        value: message.value.toString(),
+        value: message,
         partition: partition,
         topic: topic
       }
-      console.log('messageData')
-      console.log(messageData)
-      // const testQueryString = {
-      //   text: `INSERT INTO data2 (message, partition) VALUES ($1, $2)`,
-      //   values: ['this is another test', 1],
-      //   rowMode: 'array'
-      // }
+      // console.log(`messageData ${messageData}`)
       const queryString = {
         text: 'INSERT INTO consumers (user_id, message_data, partition) VALUES ($1, $2, $3) RETURNING _id AS dataId',
         values: [userId, messageData, partition],
         rowMode: 'array'
       }
       console.log('before query')
-      // const testQuery = await db.query(testQueryString)
       const result = await db.query(queryString)
-      // .catch(e => console.log(`error in addTodb`, e));
-      // console.log(result)
+      .catch(e => console.log(`error in addTodb`, e));
       const dataId = result.rows[0][0];
-      // console.log(dataId)
+      console.log(`dataId: ${dataId}`)
       return dataId;
     }
+    
+    //sending information about the request data and the unique messageId to the consumer_requests SQL table
+    async function requestFunc(REQUEST, dataId, messageId) {
+      console.log('in the request func!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+      let eventOn = false;
+      // function callEvent () {
+        const req = await consumer.on(REQUEST, async (e) => {
+          console.log('in the request fun')
+          // console.log(e)
+          const { timestamp, payload } = e;
+          // console.log('payload')
+          // console.log(payload)
+          const queryString = {
+            text: 'INSERT INTO consumer_requests (request_data, data_id, messageid, timestamp) VALUES ($1, $2, $3, $4)',
+            values: [payload, dataId, messageId, timestamp],
+            rowMode: 'array'
+          }
+          console.log('before query')
+          await db.query(queryString)
+          .then(() => {
+            console.log('toggling event on &&&&&&&&&&&&&&&&&&&&&&&');
+            eventOn = true;
+            console.log(eventOn)
+          })
+          .catch(e => console.log(`error in addTodb`, e));
+          
+          // consumer.removeListener();
+          // consumer.pause();
+          // return;
+          req();
+        })
+        // req();
+      // }
+      // await callEvent();
+      console.log('before conditional#######')
+      if (eventOn === true) {
+        console.log('turning event off *********************************')
+        req();
+      }
+        
 
-    async function requestFunc(REQUEST, dataId) {
-      const req = consumer.on(REQUEST, async (e) => {
-        console.log('in the request fun')
-        // console.log(e)
-        const { payload } = e;
-        // console.log(payload)
-        const queryString = {
-          text: 'INSERT INTO consumer_requests (request_data, data_id) VALUES ($1, $2)',
-          values: [payload, dataId],
-          rowMode: 'array'
-        }
-        console.log('before query')
-        await db.query(queryString)
-        .catch(e => console.log(`error in addTodb`, e));
-        // consumer.removeListener();
-        // consumer.pause();
-        return;
-      })
-      req();
-      console.log(req)
-      req();
-      return req;
-    }
+      // }
+      // 
+    }    
 
     async function startBatchProcessFun(START_BATCH_PROCESS, dataId) {
       const startBatch = consumer.on(START_BATCH_PROCESS, async (e) => {
@@ -277,21 +268,11 @@ consumer.run = async (userId) => {
   }
 }
 
-
+// const consumerData = {port: '9092', topics: ['RandomGeneratedData'], userId: 3}
 // userId = 3;
-// consumer.run(userId);
+// consumer.run(consumerData);
 
 module.exports = consumer;
 
-/*
-What is the problem:
 
-too many connections to the database. We are running a kafka application and sending multiple request to the database at the same time from the broker, producer and consumer. In order to render certain metrics we are opening up consumer and producer events and then querying those to the postgres server. However it appears these connections never close and after a few messages the postgres server says there's too many connections
-ror when calling eachMessage","extra":{"timestamp":"2021-05-19T01:41:45.087Z","logger":"kafkajs","topic":"RandomGeneratedData","partition":0,"offset":"62","stack":"error: too many connections for role \"dcfhozpo\"\n 
-What did you expect to happen?
-I expected the queries to be entered into the database. Individually they all work but together they break.
-
-What have I tried?
-I have made sure a
-*/
 
