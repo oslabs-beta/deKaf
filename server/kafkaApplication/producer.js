@@ -1,6 +1,7 @@
 const { Kafka } = require('kafkajs');
 
-const db = require('../models/userModel.ts')
+const db = require('../models/userModel.ts');
+// const topic = require('./topic');
 // const queue = require('../dataStorage/queue.js');
 
 const producer = {};
@@ -30,15 +31,17 @@ async function run(dataMessage) {
     // console.log('logger')
     // const logger = await producer.logger().info();
     // console.log(logger)
-
+    // function randomId () {
+     const messageId = Math.ceil(Math.random() * 10000) 
+    // }
     console.log('producer events');
     console.log(producer.events);
     const { REQUEST } = producer.events;
     producer.on(REQUEST, async (e) => {
       console.log(e);
       const queryString = {
-        text: `INSERT INTO producer (request_data) VALUES ($1)`,
-        values: [e],
+        text: `INSERT INTO producer (request_data, messageId) VALUES ($1, $2)`,
+        values: [e, messageId],
         rowMode: 'array'
       }
       await db.query(queryString);
@@ -67,30 +70,56 @@ async function run(dataMessage) {
     // ]
     // await producer.sendBatch({topicMessages})
 
+// message : "MESSAGE"
+// message: ["MESSAGE", dataId]
+// //input that timestamp into that dataId's column
+// // at the point of output, just subtract that from message[2]
+// message[0], message[1] < --- message[1]
+  //random Id and timestamp
+
+  // producer -> dataId & all of the producerData
+  // consumer -> dataId & all of the consumerData
+
+  //grab timeStamp WHERE dataId = 
+
+  //in consumer, cross examine random Id from
+  //[ randomId |timestamp in | timestamp out  ]
+  //on the consumer, SELECT randomId WHERE = randomId of the latest received consumer data
+  //upon reception, input the second timestamp and then subtract from the first
+  //include that as latency in output middleware
     console.log('sending producer message')
-    // const topicMessages = [
-    //   {
+    const newMessage = [dataMessage, messageId]
+    const topicMessages = [
+      {
+      topic: 'RandomGeneratedData',
+      messages: [
+        {
+          key: 'key',
+          value: JSON.stringify(newMessage),
+          // partition: partition
+        }
+      ]
+    }
+    // {
+    //   topic: 'thisIsATest',
+    //   messages: [
+    //     {
+    //       value: JSON.stringify('hello')
+    //     }
+    //   ]
+    // }
+    ]
+    await producer.sendBatch({ topicMessages })
+
+    // await producer.send({
     //   topic: 'RandomGeneratedData',
     //   messages: [
     //     {
-    //       key: 'key',
     //       value: JSON.stringify(dataMessage),
     //       // partition: partition
     //     }
     //   ]
-    // }
-    // ]
-    // await producer.sendBatch({ topicMessages })
-
-    await producer.send({
-      topic: 'RandomGeneratedData',
-      messages: [
-        {
-          value: JSON.stringify(dataMessage),
-          // partition: partition
-        }
-      ]
-    })
+    // })
   }
   catch (e) {
     console.log(`Something bad happened in the producer ${e}`)
@@ -113,13 +142,17 @@ function getRandomTeammate() {
   return teammates[Math.floor(Math.random() * teammates.length)];
 }
 
+// data1 = {'mike', 'hello'} => topic(1) => partion 1 => topic(2) => partion 3
+// data2 = {'jake', 'good morning'} => topic(1) => partion 2
 function getRandomGreeting() {
   const greetings = ['hello!', 'good morning', 'good evening', 'nice to meet you', 'pleasure', 'hi', 'how are you', 'whats new', 'screw you', 'howdy'];
   return greetings[Math.floor(Math.random() * greetings.length)];
 }
 // run('test')
 
+
 // producer.generateMessages()
+
 
 console.log('end of producer')
 module.exports = producer;

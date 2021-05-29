@@ -1,7 +1,7 @@
 // import topic from "../kafkaApplication/topic";
 
 /* Path to databse*/
-const dbKafka = require('../models/userModel');
+const dbKafka = require('../models/userModel.ts');
 
 console.log('here')
 //kafka application files
@@ -10,10 +10,11 @@ const producerKafka = require('../kafkaApplication/producer');
 const consumerKafka = require('../kafkaApplication/consumer');
 
 const kafkaController = {
-  starttopic() {
+  starttopic(topicData) {
+    // const topicData = [{topicName: 'thisIsATest', partition: 5, replicationFactor: 1}, {topicName: 'thisIsATest1', partition: 1, replicationFactor: 1}]
     console.log('jere')
-    topicKafka.run();
-    
+    topicKafka.run(topicData);
+    // return next();
   },
 
   startproducer() {
