@@ -1,8 +1,29 @@
 const kafkaControllerKafka = require("./kafkaController.ts");
 
-function test(topicData) {
+function test(brokerData) {
   
-  kafkaControllerKafka.starttopic(topicData);
+  kafkaControllerKafka.starttopic(brokerData);
 }
-const topicData = [{topicName: 'thisIsATest', partition: 5, replicationFactor: 1}, {topicName: 'thisIsATest1', partition: 1, replicationFactor: 1}]
-test(topicData)
+// const brokerData = {port: '9092', topicData: [{topicName: 'RandomGeneratedData', partition: 5, replicationFactor: 1}, {topicName: 'thisIsATest1', partition: 1, replicationFactor: 1}]}
+// test(brokerData)
+
+/*
+For testing topic
+{
+  "brokerData": {
+    "port": "9092",
+    "topicData": [
+        {
+            "topicName": "thisIsATest",
+            "partition": "5",
+            "replicationFactor": "1"
+        },
+        {
+            "topicName": "thisIsATest1",
+            "partition": "3",
+            "replicationFactor": "1"
+        }
+    ]
+}
+}
+*/

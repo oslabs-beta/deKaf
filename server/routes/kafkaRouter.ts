@@ -9,20 +9,20 @@ const dbControllerKafka = require("../controllers/dbController.ts");
 const kafkaControllerKafka = require("../controllers/kafkaController.ts");
 const cookieControllerKafka = require("../controllers/cookieController.ts");
 // 
-routerKafka.get('/startTopic', kafkaControllerKafka.starttopic, (req, res) => {
+routerKafka.post('/connectTopic', kafkaControllerKafka.starttopic, (req, res) => {
   console.log('done');
   res.sendStatus(200)
 })
 
-// routerKafka.get('/startproducer', kafkaControllerKafka.startproducer, (req, res) => {
-//   console.log('done');
-//   res.status(200)
-// })
+routerKafka.post('/connectProducer', kafkaControllerKafka.startproducer, (req, res) => {
+  console.log('done');
+  res.sendStatus(200)
+})
 
-// routerKafka.get('/startconsumer', kafkaControllerKafka.startconsumer, (req, res) => {
-//   console.log('done');
-//   res.status(200)
-// })
+routerKafka.post('/startconsumer', kafkaControllerKafka.startconsumer, (req, res) => {
+  console.log('done');
+  res.sendStatus(200)
+})
 
 routerKafka.get('/messageData', kafkaControllerKafka.getMessageData, (req, res) => {
   // console.log('done');
@@ -47,6 +47,12 @@ routerKafka.get('/topicData', kafkaControllerKafka.getTopicData, kafkaController
   console.log('in the end of topic data');
   const { topicData, topicCounter, partitionQuantity, quantityOfDataInEachPartition } = res.locals;
   res.status(200).json({topicData: topicData, topicCounter: topicCounter, partitionQuantity: partitionQuantity, quantityOfDataInEachPartition: quantityOfDataInEachPartition})
+})
+
+routerKafka.get('/getLag', kafkaControllerKafka.getMessageLag, (req, res) => {
+  console.log('done in lag');
+  const { lag } = res.locals;
+  res.status(200).json({lag: lag});
 })
 
 module.exports = routerKafka;
