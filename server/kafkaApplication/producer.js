@@ -42,9 +42,10 @@ async function run(dataMessage, producerData) {
       // console.log(e);
       
       const { timestamp, payload } = e;
+      let time = timestamp.toString();
       const queryString = {
         text: `INSERT INTO producer (request_data, messageId, timestamp) VALUES ($1, $2, $3)`,
-        values: [payload, messageId, timestamp],
+        values: [payload, messageId, time],
         rowMode: 'array'
       }
       await db.query(queryString);
@@ -163,7 +164,8 @@ function getRandomTeammate() {
 // data1 = {'mike', 'hello'} => topic(1) => partion 1 => topic(2) => partion 3
 // data2 = {'jake', 'good morning'} => topic(1) => partion 2
 function getRandomGreeting() {
-  const greetings = ['hello!', 'good morning', 'good evening', 'nice to meet you', 'pleasure', 'hi', 'how are you', 'whats new', 'screw you', 'howdy'];
+  // const greetings = ['hello!', 'good morning', 'good evening', 'nice to meet you', 'pleasure', 'hi', 'how are you', 'whats new', 'screw you', 'howdy'];
+  const greetings = ['thisfdsgboooooooooooooooooooooooooooooooooo;sfdrughbbbbbbbbbbbatejfdzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzbog;swhh;ogswhswogh;', 'the', 'ihgrsonrsekjuolswg']
   return greetings[Math.floor(Math.random() * greetings.length)];
 }
 // run('test')

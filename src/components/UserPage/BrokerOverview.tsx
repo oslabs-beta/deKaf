@@ -31,3 +31,52 @@ const BrokerOverview = () => {
 }
 
 export default BrokerOverview;
+
+/*
+
+For topic:
+
+post request to: /kafka/connectTopic
+
+req.body = {
+  "brokerData": {
+    "port": "9092",
+    "topicData": [
+        {
+            "topicName": "thisIsATest",
+            "partition": "5",
+            "replicationFactor": "1"
+        },
+        {
+            "topicName": "thisIsATest1",
+            "partition": "3",
+            "replicationFactor": "1"
+        }
+    ]
+  }
+}
+
+For consumer:
+
+post request to: /kafka/consumerTopic
+
+req.body = {
+    "consumerData": {
+        "port": "9092",
+        "topics": ["RandomGeneratedData"],
+        "userId": "3"
+    }
+  }
+
+For producer:
+
+post request to: /kafka/producerTopic
+
+req.body = {
+    "producerData": {
+        "port": "9092",
+        "topics": ["RandomGeneratedData"]
+    }
+  }
+
+*/

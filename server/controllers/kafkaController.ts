@@ -85,7 +85,7 @@ const kafkaController = {
       rowMode: 'array'
     }
     const producerData = await dbKafka.query(producerQueryString);
-    // console.log(producerData);
+    console.log(producerData);
     producerCounter = producerData.rowCount;
     const producerDataArray = [];
     producerData.rows.forEach((el) => {
