@@ -427,6 +427,7 @@ body {
 
                     #view-button {
                         background: darken($avocado, 50%);
+                        margin-top: 0;
                     }
 
                     #view-button:hover {
@@ -435,6 +436,7 @@ body {
 
                     #remove-button {
                         background: rgb(172, 3, 3);
+                        margin-top: 0;
                     }
 
                     #remove-button:hover {
@@ -442,8 +444,9 @@ body {
                     }
                 }
 
-                #add-new-broker-container {
+                #add-new-topic-container {
                     margin: 0 auto;
+                    width: 100%;
 
                     button {
                         margin-top: 45%;
