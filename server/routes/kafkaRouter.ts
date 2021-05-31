@@ -19,7 +19,7 @@ routerKafka.post('/connectProducer', kafkaControllerKafka.startproducer, (req, r
   res.sendStatus(200)
 })
 
-routerKafka.post('/startconsumer', kafkaControllerKafka.startconsumer, (req, res) => {
+routerKafka.post('/connectConsumer', kafkaControllerKafka.startconsumer, (req, res) => {
   console.log('done');
   res.sendStatus(200)
 })

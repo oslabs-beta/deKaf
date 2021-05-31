@@ -125,7 +125,7 @@ consumer.run = async (consumerData) => {
         //grabbing the random message Id from the message sent from the producer
         // console.log(batch)
         const { messageId, message } = getMessageId(batch)
-        
+        console.log(message)
         const { partition, topic, fetchedOffset} = batch;
         // console.log(`partition: ${partition}`);
         // console.log(`topic: ${topic}`);
@@ -200,11 +200,12 @@ consumer.run = async (consumerData) => {
           console.log('in the request fun')
           // console.log(e)
           const { timestamp, payload } = e;
+          let time = timestamp.toString();
           // console.log('payload')
           // console.log(payload)
           const queryString = {
             text: 'INSERT INTO consumer_requests (request_data, data_id, messageid, timestamp) VALUES ($1, $2, $3, $4)',
-            values: [payload, dataId, messageId, timestamp],
+            values: [payload, dataId, messageId, time],
             rowMode: 'array'
           }
           console.log('before query')
