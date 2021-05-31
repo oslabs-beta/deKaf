@@ -372,7 +372,8 @@ body {
 
             .gallery-header {
                 padding: 10px;
-                margin: 10px 10px 0 10px;
+                padding-top: 20px;
+                margin: 0 10px 0 10px;
             }
 
             .cards-container {
@@ -468,6 +469,36 @@ body {
     // Broker details styling
     #broker-wrapper {
 
+        background: linear-gradient(lighten($avocado, 25%), lighten($avocado, 18%));
+
+        .tab-container {
+            
+            button {
+                background: lighten($sienna, 25%);
+                padding: 12px;
+                border: 1px solid lighten($linen, 5%);
+                border-radius: 5px 5px 0 0;
+                font-family: 'Baloo 2', cursive;
+                font-size: 16px;
+            }
+
+            button:hover {
+                cursor: pointer;
+                background: $linen;
+            }
+        }
+
+        #metric-box {
+            background: lighten($linen, 5%);
+            padding-top: 10px;
+
+            .metrics-container {
+                background: $linen;
+                margin: 0 20px 20px 20px;
+                padding: 10px;
+            }
+        }
+
         h3 {
             margin: 0;
             font-size: 16px;
@@ -521,10 +552,6 @@ body {
             }
         }
 
-        .metrics-container {
-            background: $linen;
-            margin: 10px 20px 20px 20px;
-            padding: 10px;
-        }
+
     }
 }
