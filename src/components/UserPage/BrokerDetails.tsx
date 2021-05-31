@@ -60,7 +60,7 @@ const BrokerDetails = () => {
         <button id='producer-button' onClick={() => {handleClick('producer')}}>Producer</button>
         <button id='consumer-button' onClick={() => {handleClick('consumer')}}>Consumer</button>
       </div>
-      <div id='metric-container'>{displayMetric}</div>
+      <div id='metric-box'>{displayMetric}</div>
       {/* <LeadMetrics />
 
       <MessageMetrics />
