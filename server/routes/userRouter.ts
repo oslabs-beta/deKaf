@@ -9,8 +9,6 @@ const dbControllerUser = require("../controllers/dbController.ts");
 const kafkaControllerUser = require("../controllers/kafkaController.ts");
 const cookieControllerUser = require("../controllers/cookieController.ts");
 
-//trucking, inventory, ....
-//
 
 routerUser.post('/signup', userControllerUser.createUser, cookieControllerUser.createSessionCookie, (req, res) => {
   res.status(200).json('success');
