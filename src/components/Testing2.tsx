@@ -4,6 +4,7 @@ import {scaleLinear, scaleBand} from 'd3-scale';
 import {max} from 'd3-array';
 import {axisLeft, axisBottom} from 'd3-axis';
 import * as d3 from 'd3';
+import { easeCircle } from 'd3';
 
 
 ///////////////////////////////////////////////////////
@@ -18,31 +19,50 @@ import * as d3 from 'd3';
 //     {width: 100, height: 300, col: "cream"}
 // ];
 
-// const dataa = [
-//     {timestamp: 100, 
-//         //timestamp: "Monday", 
-//         metric: 'latency', unit:'milliseconds', count: 1000, col:'red'},
-//     {timestamp:200,
-//         //timestamp: "Tuesday", 
-//         metric: 'latency', unit:'milliseconds', count: 200, col: 'orange'},
-//     {timestamp:300,
-//         //timestamp: "Wednesday", 
-//     metric: 'latency', unit:'milliseconds', count: 342, col: 'yellow'},
-//     {timestamp: 400,
-//         //timestamp: "Thursday", 
-//     metric: 'latency', unit:'milliseconds', count: 132, col: 'green'},
-//     {timestamp: 500,
-//         //timestamp: "Friday", 
-//     metric: 'latency', unit:'milliseconds', count: 10, col: 'blue'},
-//     {timestamp: 600,
-//         //timestamp: "Saturday", 
-//     metric: 'latency', unit:'milliseconds', count: 123, col: 'purple'},
-//     {timestamp: 700,
-//         //timestamp: "Sunday", 
-//     metric: 'latency', unit:'milliseconds', count: 550, col: 'black'},
-    
-
-// ]
+const dataa = [
+    {timestamp: 100, 
+        //timestamp: "Monday", 
+        metric: 'latency', unit:'milliseconds', count: 1000, col:'red'},
+    {timestamp:200,
+        //timestamp: "Tuesday", 
+        metric: 'latency', unit:'milliseconds', count: 200, col: 'orange'},
+    {timestamp:300,
+        //timestamp: "Wednesday", 
+    metric: 'latency', unit:'milliseconds', count: 342, col: 'yellow'},
+    {timestamp: 400,
+        //timestamp: "Thursday", 
+    metric: 'latency', unit:'milliseconds', count: 132, col: 'green'},
+    {timestamp: 500,
+        //timestamp: "Friday", 
+    metric: 'latency', unit:'milliseconds', count: 10, col: 'blue'},
+    {timestamp: 600,
+        //timestamp: "Saturday", 
+    metric: 'latency', unit:'milliseconds', count: 123, col: 'purple'},
+    {timestamp: 700,
+        //timestamp: "Sunday", 
+    metric: 'latency', unit:'milliseconds', count: 550, col: 'black'},
+    {timestamp: 1000, 
+        //timestamp: "Monday", 
+        metric: 'latency', unit:'milliseconds', count: 1000, col:'red'},
+    {timestamp:2000,
+        //timestamp: "Tuesday", 
+        metric: 'latency', unit:'milliseconds', count: 200, col: 'orange'},
+    {timestamp:3000,
+        //timestamp: "Wednesday", 
+    metric: 'latency', unit:'milliseconds', count: 342, col: 'yellow'},
+    {timestamp: 4000,
+        //timestamp: "Thursday", 
+    metric: 'latency', unit:'milliseconds', count: 132, col: 'green'},
+    {timestamp: 5000,
+        //timestamp: "Friday", 
+    metric: 'latency', unit:'milliseconds', count: 10, col: 'blue'},
+    {timestamp: 6000,
+        //timestamp: "Saturday", 
+    metric: 'latency', unit:'milliseconds', count: 123, col: 'purple'},
+    {timestamp: 7000,
+        //timestamp: "Sunday", 
+    metric: 'latency', unit:'milliseconds', count: 550, col: 'black'},
+]
 
 
 let dimensions = {
@@ -56,43 +76,97 @@ let dimensions = {
 }
 
 
+
+
+// const updating = () => {
+
+//     let randomX = Math.floor(Math.random() * 10000);
+//     let randomY = Math.floor(Math.random() * 1000);
+// //   {x value: y value }
+//     let objectobject = {}
+//     objectobject[randomX] = randomY;
+//     console.log(`randomX: ${randomX}`);
+//     console.log(`randomX: ${randomY}`);
+
+//     for (const [k, v] of Object.entries(objectobject)) {
+//             dataa.push({timestamp: k, metric: 'latency', unit:'milliseconds', count: v, col: "brown"})
+//     }
+//     return; 
+// }
+
+
+// setTimeout((), 3000);
 ///////////////////////////////////////////////////////
 //: React.FC
 
 
+//let data = [];
+// function updating () {
+   
+   
+//     let randomX = Math.floor(Math.random() * 10000);
+//     let randomY = Math.floor(Math.random() * 1000);
+// //   {x value: y value }
+//     let objectobject = {}
+//     objectobject[randomX] = randomY;
+//     console.log(`randomX: ${randomX}`);
+//     console.log(`randomX: ${randomY}`);
 
-const Line = (props) => {
-    let dataconverted = [];
-    //let dataconverted = [];
+//     for (const [k, v] of Object.entries(objectobject)) {
+//         dataa.push({timestamp: k, metric: 'latency', unit:'milliseconds', count: v, col: "brown"})
+//     }
+//     if (renderGraph) setTimeout(() => updating(), 5000);
+// }
 
+const Testing2 = (props) => {
+    
+    
     //let dataconverted = [];
     const svgRef = useRef<SVGSVGElement | null>(null)
-    const [data, setData] = useState(dataconverted)
+    const [data, setData] = useState(props.dataa)
+    // const [renderGraph, setGraph] = useState(hahaprops.render)
     //y is .count
     //x is .timestamp
+    // useEffect(() => {
+    //     if (renderGraph === false) {
+    //         updating()
+    //      } 
+    // })
+    // setTimeout(() => {
+    //     setGraph(false);
+    // }, 5000);
 
-    for (const [k, v] of Object.entries(props.dataa)) {
-        
-        dataconverted.push({timestamp: k, count: v, col: "green"})
- 
-        // dataconverted.forEach(e => {
-        //     if (e.timestamp === k) e.count += v;
-        //     else dataconverted.push({timestamp: k, count: v, col: "green"})
-        // })
-        //setData(dataconverted);
-    }
+// useEffect(() => {
+//     setTimeout(() => updating(), 5000); 
+// }, [data])
+    
+    // for (const [k, v] of Object.entries(props.dataa)) {
+    //     data.push({timestamp: k, count: v, col: "brown"})
+    //     console.log("IS THIS EVEN?????????????????")
+    //     // if (!data.length) {
+    //     //     data.push({timestamp: k, count: v, col: "brown"})
+    //     // } else {
+    //     //     data.forEach(e => {
+    //     //         if (e.timestamp === k) e.count += v;
+    
+    //     //         else data.push({timestamp: k, count: v, col: "brown"})
+    //     //     })
+    //     // }
+    //     //setData(dataconverted);
+    // }
+
 
 
     
-    // dataconverted.forEach(e => {console.log(e)}, "!!!!!!!!!!!!!!!!");
-    // console.log(dataconverted, "!!!");
+    //data.forEach(e => {console.log(e)}, "!!!!!!!!!!!!!!!!");
+    //console.log(data, "!!!");
     ///////////////////////////////////////////////////////
 
     const [selection, setSelection] = useState<null | Selection<any, unknown, null, undefined>>(null);
 
     ///////////////////////////////////////////////////////
 
-    let maxValue = max(data, d => d.count) // imported function from d3-array can be used in y and x
+    //let maxValue = max(data, d => d.count) // imported function from d3-array can be used in y and x
 
     let y = scaleLinear()
         .domain([0, max(data, d => d.count) + (max(data, d => d.count)*0.3)!]) //count metric, in this case, latency
@@ -112,9 +186,9 @@ const Line = (props) => {
     let pathOfLine = 100;
     let LineEmUp = d3.line(pathOfLine);
     //let path = {fill: 'none', stroke: 'orange'};
-    let line = d3.line()
-        .x(d => x(d.timestamp))
-        .y(d => y(d.count));
+    // let line = d3.line()
+    //     .x(d => x(d.timestamp))
+    //     .y(d => y(d.count));
     ///////////////////////////////////////////////////////
 
     useEffect(() => {
@@ -157,35 +231,44 @@ const Line = (props) => {
         ///////////////////////////////////////////////////////  
 
         selection
-            // .append('g')
-            // .attr('transform', `translate( ${dimensions.margin}, 0)`) // second arg is ^ or v
-            // .selectAll('rect')
-            // .data(data)
-            // .enter()
-            // .append('rect')
-            // .attr('width', x.bandwidth)
-            // .attr('height', d=> dimensions.chartH - y(d.count))
-            // //.attr('x', d =>x(d.timestamp)!) // typescript ignores possiblity of null d.timestamp
-            // //.attr('x', d=>(d.timestamp)!)
-            // .attr('x', d=> {
-            //     const xX = x(d.timestamp)
-            //     if(xX) {
-            //         return xX;
-            //     }
-            //     return null;
-            // })
-            // .attr('y', d => y(d.count))
-            // .attr('fill', d => d.col)
+            .append('g')
+            .attr('transform', `translate( ${dimensions.margin}, 0)`) // second arg is ^ or v
+            .selectAll('rect')
+            .data(data)
+            .enter()
+            .append('rect')
+            .attr('x', d=> {
+                const xX = x(d.timestamp)
+                if(xX) {
+                    return xX;
+                }
+                return null;
+            })
+            .attr('width', x.bandwidth)
+            .attr('y', dimensions.chartH)
+            .attr('height', 0)
+            
+            .transition()
+            .duration(1000)
+            // .delay((e,i) => i * 100)
+            .ease(easeCircle)
+
+            //.attr('x', d =>x(d.timestamp)!) // typescript ignores possiblity of null d.timestamp
+            //.attr('x', d=>(d.timestamp)!)
+
+            .attr('height', d=> dimensions.chartH - y(d.count))
+            .attr('y', d => y(d.count))
+            .attr('fill', d => d.col)
             //y scales the input
 
-            selection
-            .append('path')
-            .attr('transform', `translate( ${dimensions.margin}, 0)`)
-            .attr('fill', 'none')
-            .attr('stroke', 'green')
-            .attr('stroke-width', 1.1)
-            .datum(data)
-            .attr("d", line);
+            // selection
+            // .append('path')
+            // .attr('transform', `translate( ${dimensions.margin + 50}, 0)`)
+            // .attr('fill', 'none')
+            // .attr('stroke', 'orange')
+            // .attr('stroke-width', 10)
+            // .datum(data)
+            // .attr("d", line);
            
             
         ///////////////////////////////////////////////////////
@@ -320,24 +403,24 @@ const Line = (props) => {
         }
     }, [data])
 
-    const addData = () => {
-        let dataToAdd = {
-            timestamp: 'Random',
-            metric: 'random',
-            unit: 'random',
-            count: Math.floor(Math.random() * 300),
-            col: 'orange'
-        } 
-        setData([...data, dataToAdd]);
-    }
+    // const addData = () => {
+    //     let dataToAdd = {
+    //         timestamp: 'Random',
+    //         metric: 'random',
+    //         unit: 'random',
+    //         count: Math.floor(Math.random() * 300),
+    //         col: 'orange'
+    //     } 
+    //     setData([...data, dataToAdd]);
+    // }
 
-    const removeData = () => {
-        if (data.length === 0) {
-            return
-        }
-        let slicedData = data.slice(0, data.length - 1);
-        setData(slicedData);
-    }
+    // const removeData = () => {
+    //     if (data.length === 0) {
+    //         return
+    //     }
+    //     let slicedData = data.slice(0, data.length - 1);
+    //     setData(slicedData);
+    // }
 
 
     return (
@@ -366,4 +449,4 @@ const Line = (props) => {
 //<rect width={100} height = {100} fill={}/>
 //<circle/>
 
-export default Line;
+export default Testing2;

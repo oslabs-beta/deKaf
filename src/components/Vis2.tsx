@@ -45,15 +45,15 @@ import * as d3 from 'd3';
 // ]
 
 
-let dimensions = {
-    width: 800, 
-    height: 730,
+// let dimensions = {
+//     width: 800, 
+//     height: 730,
 
-    chartW: 700,
-    chartH: 700,
+//     chartW: 700,
+//     chartH: 700,
 
-    margin: 70
-}
+//     margin: 70
+// }
 
 
 ///////////////////////////////////////////////////////
@@ -63,6 +63,18 @@ let dimensions = {
 let data = [];
 
 const Vis2 = (props) => {
+    console.log("length");
+    console.log(props.dataa.length);
+    let dimensions = {
+        width: 800, 
+        height: 730,
+    
+        chartW: 700,
+        chartH: 700,
+    
+        margin: 70
+    }
+    
     
 
     //let dataconverted = [];
@@ -73,7 +85,7 @@ const Vis2 = (props) => {
 
     for (const [k, v] of Object.entries(props.dataa)) {
         data.push({timestamp: k, count: v, col: "brown"})
-        console.log("IS THIS EVEN?????????????????")
+        // console.log("IS THIS EVEN?????????????????")
         if (!data.length) {
             data.push({timestamp: k, count: v, col: "brown"})
         } else {
@@ -82,7 +94,7 @@ const Vis2 = (props) => {
                 else data.push({timestamp: k, count: v, col: "brown"})
             })
         }
-        console.log(data, "!!!!!!!!!!~~~~~~~~~~~~~~~~~~~~~~")
+        
         //setData(dataconverted);
     }
 

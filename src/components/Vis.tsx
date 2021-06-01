@@ -60,10 +60,15 @@ let dimensions = {
 //: React.FC
 
 
-let data = [];
-
-const Vis = (props) => {
+//let data = arr.slice(arr.length-11, arr.length-1)
+// interface {
     
+    // }
+    
+    const Vis = (props) => {
+        
+        let arr = [];
+        let data = [];
 
     //let dataconverted = [];
     const svgRef = useRef<SVGSVGElement | null>(null)
@@ -72,8 +77,8 @@ const Vis = (props) => {
     //x is .timestamp
 
     for (const [k, v] of Object.entries(props.dataa)) {
-        data.push({timestamp: k, count: v, col: "brown"})
-        console.log("IS THIS EVEN?????????????????")
+        arr.push({timestamp: k, count: v, col: "brown"})
+        // console.log("IS THIS EVEN?????????????????")
         // if (!data.length) {
         //     data.push({timestamp: k, count: v, col: "brown"})
         // } else {
@@ -85,22 +90,20 @@ const Vis = (props) => {
         // }
         //setData(dataconverted);
     }
+    data = arr.slice(arr.length-11, arr.length-1);
 
 
 
     
-    data.forEach(e => {console.log(e)}, "!!!!!!!!!!!!!!!!");
-    console.log(data, "!!!");
+    // data.forEach(e => {console.log(e)}, "!!!!!!!!!!!!!!!!");
+    // console.log(data, "!!!");
     ///////////////////////////////////////////////////////
 
     const [selection, setSelection] = useState<null | Selection<any, unknown, null, undefined>>(null);
-
-    ///////////////////////////////////////////////////////
-
-    let maxValue = max(data, d => d.count) // imported function from d3-array can be used in y and x
-
+    //let maxValue = max(data, d => d.count) // imported function from d3-array can be used in y and x
+    
     let y = scaleLinear()
-        .domain([0, max(data, d => d.count) + (max(data, d => d.count)*0.3)!]) //count metric, in this case, latency
+        .domain([0, max(data, d => d.count) + (max(data, d => d.count)*0.3)]) //count metric, in this case, latency
         .range([dimensions.chartH, 0]) // svg height range
 
     let x = scaleBand() //divide the range into uniform bands
@@ -113,21 +116,40 @@ const Vis = (props) => {
     let yAx = axisLeft(y)//.ticks
         //.tickFormat((d) => (`${d}`) )
     let xAx = axisBottom(x)
-
-    let pathOfLine = 100;
-    let LineEmUp = d3.line(pathOfLine);
-    //let path = {fill: 'none', stroke: 'orange'};
-    // let line = d3.line()
-    //     .x(d => x(d.timestamp))
-    //     .y(d => y(d.count));
     ///////////////////////////////////////////////////////
 
+    ///////////////////////////////////////////////////////
+    
     useEffect(() => {
-        console.log(select(svgRef.current)) 
-
+      
         if(!selection) {
             setSelection(select(svgRef.current))
         } else {
+            
+        y = scaleLinear()
+            .domain([0, max(data, d => d.count) + (max(data, d => d.count)*0.3)]) //count metric, in this case, latency
+            .range([dimensions.chartH, 0]) // svg height range
+    
+        x = scaleBand() //divide the range into uniform bands
+            .domain(data.map(d=>d.timestamp)) //domain accepts unique identifiers for divison
+            .range([0, dimensions.chartW]) //svg width range
+            //.padding(0.1) //closer to 1 = more space between bars
+            .paddingInner(0.3)
+            .paddingOuter(0.3)
+    
+        yAx = axisLeft(y)//.ticks
+            //.tickFormat((d) => (`${d}`) )
+        xAx = axisBottom(x)
+    
+        // let pathOfLine = 100;
+        // let LineEmUp = d3.line(pathOfLine);
+        // let path = {fill: 'none', stroke: 'orange'};
+        // let line = d3.line()
+        //     .x(d => x(d.timestamp))
+        //     .y(d => y(d.count));
+        // console.log(select(svgRef.current)) 
+    // let pathOfLine = 100;
+    // let LineEmUp = d3.line(pathOfLine);
 
         // selection  
         //     .append('rect')
@@ -163,7 +185,7 @@ const Vis = (props) => {
 
         selection
             .append('g')
-            .attr('transform', `translate( ${dimensions.margin}, 0)`) // second arg is ^ or v
+            //.attr('transform', `translate( ${dimensions.margin}, 0)`) // second arg is ^ or v
             .selectAll('rect')
             .data(data)
             .enter()
@@ -252,19 +274,7 @@ const Vis = (props) => {
     useEffect(() => {
         //find a way to update y axis
         if(selection){
-            y = scaleLinear()
-            .domain([0, max(data, d => d.count)]) //count metric, in this case, latency
-            .range([dimensions.chartH, 0]) // svg height range
-    
-            x = scaleBand() //divide the range into uniform bands
-            .domain(data.map(d=>d.timestamp)) //domain accepts unique identifiers for divison
-            .range([0, dimensions.chartW]) //svg width range
-            //.padding(0.1) //closer to 1 = more space between bars
-            .paddingInner(0.1)
-
-            yAx = axisLeft(y)//.ticks
-            .tickFormat((d) => (`${d} messages`) )
-            xAx = axisBottom(x)
+           
             
             // xAxGroup = selection
 

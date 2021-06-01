@@ -2,9 +2,15 @@ import React, { useState, useEffect } from 'react';
 // @ts-ignore
 import Vis from '../Vis.tsx';
 // @ts-ignore
+import Vis2 from '../Vis2.tsx';
+// @ts-ignore
 import Line from '../Line.tsx';
 // @ts-ignore
 import Dual from '../Dual.tsx'
+// @ts-ignore
+import Testing from '../Testing.tsx'
+// @ts-ignore
+import Testing2 from '../Testing2.tsx'
 
 const ProducerMetrics = () => {
 
@@ -13,23 +19,23 @@ const ProducerMetrics = () => {
     const [timeGraphData, settimeGraphData] = useState(null);
 
     // const iterate = () => setIterator(iterator + 1);
-    // if (!producersData) getProducerData();
+    if (!producersData) getProducerData();
 
-    // function getProducerData() {
-    //     fetch('/kafka/producerData')
-    //         .then(data => data.json())
-    //         .then(producersData=> {
-    //             // console.log('Producer data:');
-    //             // console.log(producersData);
-    //             setTimeout(() => {
-    //               getProducerData();
-    //             }, 5000);
-    //             // if (producerData.equals(producersData)) return;
-    //             setproducerData(producersData);
-    //             // setsizeGraphData()
-    //         })
-    //         .catch(err => 'Failed to fetch producer data!');
-    // }
+    function getProducerData() {
+        fetch('/kafka/producerData')
+            .then(data => data.json())
+            .then(producersData=> {
+                console.log('Producer data:');
+                console.log(producersData.producerData[0]);
+                setTimeout(() => {
+                  getProducerData();
+                }, 5000);
+                // if (producerData.equals(producersData)) return;
+                setproducerData(producersData);
+                // setsizeGraphData()
+            })
+            .catch(err => 'Failed to fetch producer data!');
+    }
 
     if (!producersData) {
         return (
@@ -52,25 +58,32 @@ const ProducerMetrics = () => {
       for (let i = 0; i < producersData.producerData.length; i += 1) {
         const message = producersData.producerData[i];
         quantity[message.timestamp] = i;
-        size[i] = message.payload.size;
+        size[i] = message.size;
       }
 
       return (
           <div className='metrics-container'>
             <div className='metric-panel'>
               <h3>Producer metrics</h3>
-              <p>Total messages sent by producer: {producersData.producerCounter}</p>
+              Renderinggg
+              {/* <Testing2 /> */}
+              {/* <p>Total messages sent by producer: {producersData.producerCounter}</p> */}
             </div>
 
             <div className='metric-panel'>
               <h3>Message quantity over time</h3>
-              <Vis dataa = {quantity} />
+              Rendering
+              <Vis dataa={size} />
+              {/* <Vis dataa = {quantity} /> */}
+
               <div className='visualization-panel'></div>
             </div>
             
             <div className='metric-panel'>
               <h3>Message size</h3>
               <Line dataa = {size} />
+              Rendering
+              <Testing />
               <div className='visualization-panel'></div>
             </div>
           </div>
