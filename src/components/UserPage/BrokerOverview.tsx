@@ -7,6 +7,7 @@ import AddTopicCard from './AddTopicCard.tsx';
 const BrokerOverview = () => {
 
   const [brokerData, setBrokerData] = useState({
+    random: false,
     port: '',
     topicData: []
   });
@@ -64,10 +65,20 @@ const BrokerOverview = () => {
     repFactor.value = '';
   }
 
+  // toggle whether to use random data or not
+  const toggleRandom = () => {
+    console.log('toggling random');
+
+    if (brokerData.random === true) brokerData.random = false;
+    else brokerData.random = true;
+
+    console.log(brokerData.random);
+  }
+
   // send broker info and view metrics; redirect to /details
   const submitBrokerInfo = e => {
     e.preventDefault();
-    console.log('egg');
+    console.log('submitting broker info');
 
     // check first to make sure there is a port and at least one topic in state
     if (!brokerData || brokerData.port === '' || brokerData.topicData === []) {
@@ -75,6 +86,7 @@ const BrokerOverview = () => {
       return setErrorMessage('Please enter a valid port and at least one topic.');
     }
 
+    // post request for topic data
     fetch('/kafka/connectTopic', {
       method: 'POST',
       headers: {
@@ -82,8 +94,43 @@ const BrokerOverview = () => {
       },
       body: JSON.stringify(brokerData)
     })
-      .then(data => data.json())
-      .then(() => console.log('do something with the response'))
+      .then(response => response.json())
+      .then(response => console.log(response))
+      .catch(err => 'Failed to submit topic info!')
+
+    // post request for consumer data
+    const consumerData = {
+      port: brokerData.port,
+      topics: brokerData.topicData.map(topic => topic.topicName)
+    };
+
+    fetch('/kafka/connectConsumer', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(consumerData)
+    })
+      .then(response => response.json())
+      .then(response => console.log(response))
+      .catch(err => 'Failed to submit topic info!')
+
+    // post request for producer data
+    const producerData = {
+      random: brokerData.random,
+      port: brokerData.port,
+      topics: brokerData.topicData.map(topic => topic.topicName)
+    };
+
+    fetch('/kafka/connectProducer', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(producerData)
+    })
+      .then(response => response.json())
+      .then(response => console.log(response))
       .catch(err => 'Failed to submit topic info!')
   }
 
@@ -124,6 +171,8 @@ const BrokerOverview = () => {
 
           <div id='submit-button-wrapper'>
             <button onClick={submitBrokerInfo}>View metrics</button>
+            <input type='checkbox' id='random-data-toggle' name='random-data-toggle' onClick={toggleRandom} />
+            <label htmlFor='random-data-toggle'>Test with random data</label>
           </div>
         </div>
 
@@ -167,7 +216,7 @@ req.body = {
 
 For consumer:
 
-post request to: /kafka/consumerTopic
+post request to: /kafka/connectConsumer
 
 req.body = {
     "consumerData": {
@@ -179,7 +228,7 @@ req.body = {
 
 For producer:
 
-post request to: /kafka/producerTopic
+post request to: /kafka/connectProducer
 
 req.body = {
     "producerData": {
