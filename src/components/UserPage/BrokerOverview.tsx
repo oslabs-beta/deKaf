@@ -64,6 +64,29 @@ const BrokerOverview = () => {
     repFactor.value = '';
   }
 
+  // send broker info and view metrics; redirect to /details
+  const submitBrokerInfo = e => {
+    e.preventDefault();
+    console.log('egg');
+
+    // check first to make sure there is a port and at least one topic in state
+    if (!brokerData || brokerData.port === '' || brokerData.topicData === []) {
+      console.log('Please enter a valid port and at least one topic.');
+      return setErrorMessage('Please enter a valid port and at least one topic.');
+    }
+
+    fetch('/kafka/connectTopic', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(brokerData)
+    })
+      .then(data => data.json())
+      .then(() => console.log('do something with the response'))
+      .catch(err => 'Failed to submit topic info!')
+  }
+
   const topicsArray = [];
 
   for (let i = 0; i < brokerData.topicData.length; i += 1) {
@@ -71,9 +94,9 @@ const BrokerOverview = () => {
 
     topicsArray.push(
       <div className='topic-entry' key={i}>
-        <p>Topic name: {topicName}</p>
-        <p>Number of partitions: {partition}</p>
-        <p>Replication factor: {replicationFactor}</p>
+        <p><strong>Topic name:</strong> {topicName}</p>
+        <p><strong>Number of partitions:</strong> {partition}</p>
+        <p><strong>Replication factor:</strong> {replicationFactor}</p>
       </div>
     )
   }
@@ -81,28 +104,35 @@ const BrokerOverview = () => {
   return (
     <div>
       <h2 className='gallery-header' id='home-header'>Enter broker information</h2>
+      <div id='broker-info-container'>
+        <div id='broker-input-container'>
+          <div id='port-input-container'>
+            <input id='port' name='port' placeholder='Host port' type='text' />
+            <br />
+            <button id='port-submit' onClick={submitPort}>Add port</button>
+          </div>
 
-      <div id='port-input-container'>
-        <input id='port' name='port' placeholder='Host port' type='text' />
-        <br />
-        <button id='port-submit' onClick={submitPort}>Add port</button>
-      </div>
+          <div id='topic-info-form'>
+            <input id='topic-name' name='topic-name' placeholder='Topic name' type='text' />
+            <br />
+            <input id='partitions' name='partitions' placeholder='Number of partitions' type='text' />
+            <br />
+            <input id='replication-factor' name='replication-factor' placeholder='Replication factor' type='text' />
+            <br />
+            <button id='topic-submit' onClick={submitTopicInfo}>Add topic to monitor</button>
+          </div>
 
-      <div id='topic-info-form'>
-        <input id='topic-name' name='topic-name' placeholder='Topic name' type='text' />
-        <br />
-        <input id='partitions' name='partitions' placeholder='Number of partitions' type='text' />
-        <br />
-        <input id='replication-factor' name='replication-factor' placeholder='Replication factor' type='text' />
-        <br />
-        <button id='topic-submit' onClick={submitTopicInfo}>Add topic to monitor</button>
-      </div>
+          <div id='submit-button-wrapper'>
+            <button onClick={submitBrokerInfo}>View metrics</button>
+          </div>
+        </div>
 
-      <div id='current-topics-container'>
-        <h3>Current port: {brokerData.port}</h3>
-        <h3>Current topics:</h3>
-        <div>
-          {topicsArray}
+        <div id='current-info-container'>
+          <h3>Current port: {brokerData.port}</h3>
+          <h3>Current topics:</h3>
+          <div id='current-topics-container'>
+            {topicsArray}
+          </div>
         </div>
       </div>
     </div>
