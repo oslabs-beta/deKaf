@@ -49,7 +49,8 @@ const cookieController = {
 
 
     },
-
+//add this middleware before all middleware
+//add column 
     getUserFromSSID(req, res, next) {
 
         const { ssid } = req.params;
