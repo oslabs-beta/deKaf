@@ -6,7 +6,8 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production ts-node server/server.ts",
     "build": "cross-env NODE_ENV=production webpack",
-    "dev": "concurrently \"cross-env NODE_ENV=development webpack serve\" \"cross-env NODE_ENV=development nodemon --exec 'ts-node' server/server.ts\""
+    "dev": "concurrently \"cross-env NODE_ENV=development webpack serve\" \"cross-env NODE_ENV=development nodemon --exec 'ts-node' server/server.ts\"",
+    "dev:hot": "NODE_ENV=development nodemon ./server/server.js & webpack-dev-server --open --hot --inline --progress --colors --watch --content-base ./"
   },
   "repository": {
     "type": "git",
