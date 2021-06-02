@@ -4,29 +4,9 @@ import Vis from '../Vis.tsx';
 // @ts-ignore
 import Line from '../Line.tsx'
 
-const ConsumerMetrics = () => {
+const ConsumerMetrics = (props) => {
 
-    const [consumersData, setConsumerData] = useState(null);
-
-    // const iterate = () => setIterator(iterator + 1);
-    if (!consumersData) getConsumerData();
-
-    function getConsumerData() {
-        fetch('/kafka/requestData')
-            .then(data => data.json())
-            .then(responseData => {
-                console.log('Consumer data:');
-                console.log(responseData);
-                setTimeout(() => {
-                  getConsumerData();
-                }, 5000);
-                // if (topicsData.equals(topicData)) return;
-                setConsumerData(responseData);
-            })
-            .catch(err => 'Failed to fetch message data!');
-    }
-
-    if (!consumersData) {
+    if (!props.data) {
         return (
             <div className='metrics-container'>
               <div className='metric-panel'>
@@ -40,8 +20,8 @@ const ConsumerMetrics = () => {
       const quantity = {};
       const size = {};
 
-      for (let i = 0; i < consumersData.requestData.length; i += 1) {
-        const message = consumersData.requestData[i];
+      for (let i = 0; i < props.data.requestData.length; i += 1) {
+        const message = props.data.requestData[i];
         quantity[message.createdAt] = i;
         size[i] = message.size;
       }
@@ -50,7 +30,7 @@ const ConsumerMetrics = () => {
         <div className='metrics-container'>
           <div className='metric-panel'>
             <h3>Consumer metrics</h3>
-            <p>Total messages received by consumer: {consumersData.requestCounter}</p>
+            <p>Total messages received by consumer: {props.data.requestCounter}</p>
           </div>
 
         <div className='metric-panel'>
