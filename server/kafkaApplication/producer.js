@@ -6,21 +6,22 @@ const db = require('../models/userModel.ts');
 
 const producer = {};
 console.log('in producer file')
-producer.generateMessages = () => {
+producer.generateMessages = (producerData) => {
 
       setInterval(() => {
-        queueRandomMessage()
+        queueRandomMessage(producerData)
       }, 6500)
     }
   // }
   // whileLoppFunc();
 // }
 
-async function run(dataMessage) {
+async function run(dataMessage, producerData) {
+  const { port, topics } = producerData
   try {
     const kafka = new Kafka({
       clientId: 'my-app',
-      brokers: [':9092']
+      brokers: [`:${port}`]
     })
 
     const producer = kafka.producer();
@@ -32,19 +33,23 @@ async function run(dataMessage) {
     // const logger = await producer.logger().info();
     // console.log(logger)
     // function randomId () {
-     const messageId = Math.ceil(Math.random() * 10000) 
+    const messageId = Math.ceil(Math.random() * 1000000000000) 
     // }
-    console.log('producer events');
-    console.log(producer.events);
+    // console.log('producer events');
+    // console.log(producer.events);
     const { REQUEST } = producer.events;
-    producer.on(REQUEST, async (e) => {
-      console.log(e);
+    const prod = producer.on(REQUEST, async (e) => {
+      // console.log(e);
+      
+      const { timestamp, payload } = e;
+      let time = timestamp.toString();
       const queryString = {
-        text: `INSERT INTO producer (request_data, messageId) VALUES ($1, $2)`,
-        values: [e, messageId],
+        text: `INSERT INTO producer (request_data, messageId, timestamp) VALUES ($1, $2, $3)`,
+        values: [payload, messageId, time],
         rowMode: 'array'
       }
       await db.query(queryString);
+      prod();
     })
 
     
@@ -87,8 +92,22 @@ async function run(dataMessage) {
   //on the consumer, SELECT randomId WHERE = randomId of the latest received consumer data
   //upon reception, input the second timestamp and then subtract from the first
   //include that as latency in output middleware
-    console.log('sending producer message')
-    const newMessage = [dataMessage, messageId]
+    // const topicMessagesArray = (topics) => {
+    //   let newMessage = [dataMessage, messageId]
+    //   let topicArray = [];
+    //   let topicObject = {};
+    //   topics.forEach((el) => {
+    //     topicObject['topic'] = el;
+    //     topicObject['messages'] = [{key: 'key', value: JSON.stringify(newMessage)}]
+    //     topicArray.push(topicObject);
+    //     topicObject = {};
+    //   })
+    //   return topicArray;
+    // } 
+    // const topicArray = topicMessagesArray(topics)
+    // console.log(topicArray)
+    // console.log('sending producer message')
+    let newMessage = [dataMessage, messageId]
     const topicMessages = [
       {
       topic: 'RandomGeneratedData',
@@ -129,12 +148,12 @@ async function run(dataMessage) {
   }
 }
 
-function queueRandomMessage() {
+function queueRandomMessage(producerData) {
   console.log('in queue')
   const teammates = getRandomTeammate();
   const greetings = getRandomGreeting();
   const dataMessage = { teammates, greetings };
-  run(dataMessage);
+  run(dataMessage, producerData);
 }
 
 function getRandomTeammate() {
@@ -145,13 +164,14 @@ function getRandomTeammate() {
 // data1 = {'mike', 'hello'} => topic(1) => partion 1 => topic(2) => partion 3
 // data2 = {'jake', 'good morning'} => topic(1) => partion 2
 function getRandomGreeting() {
-  const greetings = ['hello!', 'good morning', 'good evening', 'nice to meet you', 'pleasure', 'hi', 'how are you', 'whats new', 'screw you', 'howdy'];
+  // const greetings = ['hello!', 'good morning', 'good evening', 'nice to meet you', 'pleasure', 'hi', 'how are you', 'whats new', 'screw you', 'howdy'];
+  const greetings = ['thisfdsgboooooooooooooooooooooooooooooooooo;sfdrughbbbbbbbbbbbatejfdzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzbog;swhh;ogswhswogh;', 'the', 'ihgrsonrsekjuolswg']
   return greetings[Math.floor(Math.random() * greetings.length)];
 }
 // run('test')
 
-
-// producer.generateMessages()
+// const producerData = {port: '9092', topics: ['RandomGeneratedData']}
+// producer.generateMessages(producerData)
 
 
 console.log('end of producer')

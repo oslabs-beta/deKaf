@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {select} from 'd3-selection';
 // @ts-ignore
 import Vis from './Vis.tsx';
-import { BrowserRouter as Router, Route, Switch, useLocation } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 // @ts-ignore
 import NavBar from './Navbar.tsx';
@@ -20,23 +20,6 @@ import About from './Base/About.tsx';
 import UserPage from './UserPage/UserPage.tsx';
 
 const App = () => {
-    // const [session, setSession] = useState(null);
-
-    // useEffect (() => {
-    //     fetch('/user/verifySession')
-    //     .then(data => data.json()
-    //     .then(data => {
-    //     //   check for session on server, return session id or no session
-    //     //   if (data.message) return;
-    //     //   if (data.ssid) setSession(data.ssid)
-    //     }))
-    //   }, [session])
-
-    // return (
-    //     <div className="app-container">
-    //         Component rendering test!
-    //     </div>
-    // )
 
     return (
         <div className='app-wrapper'>

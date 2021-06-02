@@ -7,14 +7,14 @@ const db = require('../models/userModel.ts')
 const topic = {};
 // run();
 console.log('in the topic')
-topic.run = async (topicData) => {
+topic.run = async ({port, topicData}) => {
   // console.log(topicName)
   // const { topicName } = topicName;
   try{
     const kafka = new Kafka({
       clientId: 'my-app',
       // ssl: true,
-      brokers: [':9092']
+      brokers: [`:${port}`]
     })
     console.log('creating kafka admin');
 
@@ -30,6 +30,7 @@ topic.run = async (topicData) => {
     topicDataArray = [];
     topicDataObj = {};
     // {topicName, partition, replicationFactor}
+    console.log(topicData)
     topicData.forEach((el) => {
       console.log(el);
       const { topicName, partition, replicationFactor } = el; 
@@ -99,8 +100,8 @@ topic.run = async (topicData) => {
     console.log(`Something bad happened in topic${e}`)
   }
   finally { 
-    console.log('in finally');
-    process.exit(0);
+    // console.log('in finally');
+    // process.exit(0);
   }
 }
 

@@ -8,7 +8,6 @@ const PORT = 3000;
 const path = require('path');
 
 //require routers
-const dbRouter = require("./routes/dbRouter.ts");
 const kafkaRouter = require("./routes/kafkaRouter.ts");
 const userRouter = require("./routes/userRouter.ts");
 
@@ -19,8 +18,7 @@ app.use('/build', express.static(path.join(__dirname, '../build')));
 //** Automatically parse urlencoded body content from incoming requests and place it in req.body **//
 app.use(express.json());
 app.use(express.urlencoded({ extended:true }));
-//** We can install body parser later if needed **//
-// app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieParser());
 
 
 //** Route handler to serve the basic file in case of no webpack build **//
@@ -31,7 +29,7 @@ app.get('/', (req, res) => {
 //functionality routes
 app.use('/user', userRouter);
 app.use('/kafka', kafkaRouter);
-app.use('/db', dbRouter);
+// app.use('/db', dbRouter);
 
 
 //** Middleware to serve the main html file **//

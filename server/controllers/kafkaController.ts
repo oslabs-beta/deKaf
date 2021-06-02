@@ -1,5 +1,7 @@
 // import topic from "../kafkaApplication/topic";
 
+import producer from "../kafkaApplication/producer";
+
 /* Path to databse*/
 const dbKafka = require('../models/userModel.ts');
 
@@ -10,20 +12,30 @@ const producerKafka = require('../kafkaApplication/producer');
 const consumerKafka = require('../kafkaApplication/consumer');
 
 const kafkaController = {
-  starttopic(topicData) {
-    // const topicData = [{topicName: 'thisIsATest', partition: 5, replicationFactor: 1}, {topicName: 'thisIsATest1', partition: 1, replicationFactor: 1}]
-    console.log('jere')
-    topicKafka.run(topicData);
-    // return next();
+  starttopic(req, res, next) {
+    // starttopic(brokerData) {
+    //grabbing the broker data which consists of the kafka port, topic names, quantity of partitions in each topic and replication factor
+    const { brokerData } = req.body;
+    
+    //Connecting our chassis to the existing kafka instances in order to grab metrics
+    topicKafka.run(brokerData);
+    
+    return next();
   },
 
-  startproducer() {
-    producerKafka.generateMessages();
-  },
+  startproducer(req, res, next) {
+    const { producerData } = req.body;
+    console.log('in start producer')
+    console.log(producerData)
+    producerKafka.generateMessages(producerData);
+    return next();
+  },  
 
-  startconsumer() {
-    console.log('here')
-    consumerKafka.run(3);
+  startconsumer(req, res, next) {
+    const { consumerData } = req.body;
+    console.log('here in start consumer')
+    consumerKafka.run(consumerData);
+    return next();
   },
 
   async getMessageData(req, res, next) {
@@ -73,7 +85,7 @@ const kafkaController = {
       rowMode: 'array'
     }
     const producerData = await dbKafka.query(producerQueryString);
-    // console.log(producerData);
+    console.log(producerData);
     producerCounter = producerData.rowCount;
     const producerDataArray = [];
     producerData.rows.forEach((el) => {
@@ -141,6 +153,64 @@ const kafkaController = {
     }
     getData(partitionArray)
     .catch(e => console.log('in the error of getData in totalDataInPartition', e));
+  },
+
+  async getMessageLag (req, res, next) {
+    const producerQueryString = {
+      text: `SELECT timestamp, messageid FROM producer`,
+      rowMode: 'array'
+    }
+    const consumerQueryString = {
+      text: `SELECT timestamp, messageid FROM consumer_requests`,
+      rowMode: 'array'
+    }
+    let producerData = await dbKafka.query(producerQueryString);
+    let requestData = await dbKafka.query(consumerQueryString);
+    console.log('producerData')
+    console.log(producerData.rows)
+    producerData = producerData.rows;
+    const realProducerData = [];
+    console.log('real prod');
+    console.log(realProducerData)
+    console.log('requestData')
+    console.log(requestData.rows)
+    requestData = requestData.rows;
+    const lagArray = [];
+    let lagObject = {};
+    let storedObj = {};
+    let storedProdObj = {};
+    producerData.forEach((el) => {
+      if (!storedProdObj[el[1]]) {
+        storedProdObj[el[1]] = true;
+        realProducerData.push(el)
+      }
+    })
+    let realRequestData = [];
+    console.log('RP:')
+    console.log(realProducerData)
+    //consumer request object is one greater than producer there is one duplicate
+    requestData.forEach((el, index) => {
+      if (!storedObj[el[1]]) {
+        storedObj[el[1]] = true;
+        realRequestData.push(el)
+        // lagObject['messageId'] = el[1];
+        // lagObject['lag'] = el[0] - realProducerData[index][0];
+        // lagArray.push(lagObject);
+        // lagObject = {};
+      }
+    })
+    realRequestData.forEach((el, index) => {
+      lagObject['messageId'] = el[1];
+      lagObject['lag'] = el[0] - realProducerData[index][0];
+      lagArray.push(lagObject);
+      lagObject = {};
+    })
+    console.log('DP:');
+    console.log(realRequestData)
+    console.log('lag')
+    console.log(lagArray)
+    res.locals.lag = lagArray;
+    return next();
   }
 
 };
