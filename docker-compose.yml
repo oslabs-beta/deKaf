@@ -8,7 +8,7 @@ services:
       - ALLOW_ANONYMOUS_LOGIN=yes
   kafka:
     image: 'bitnami/kafka:latest'
-    container_name: 'kafkaPP22'
+    container_name: 'kafkaPP24'
     ports:
       - '9092:9092'
     environment:

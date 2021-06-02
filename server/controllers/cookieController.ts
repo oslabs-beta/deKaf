@@ -2,6 +2,7 @@
 const dbCookie = require("../models/userModel");
 
 const cookieController = {
+  //middleware to create a cookie and add that cookie to user
     createSessionCookie(req, res, next) {
         console.log('********* COOKIE CONTROLLER START *********')
         // console.log(req.body)
@@ -41,6 +42,7 @@ const cookieController = {
         newSSID();
     },
 
+    //middleware to validate if the user has a cookie and if that cookie is a valid cookie to login
     sessionValidation(req, res, next) {
         console.log('entered verifySession')
         if (!req.cookies.SSID) return res.status(200).json({ message: 'noSession' });
@@ -56,6 +58,7 @@ const cookieController = {
         console.log('checking for session in db');
         dbCookie.query(queryString, queryArgs)
             .then(data => {
+              //if nothing is returned then the ssid does not exist in the db and it is not a valid user
                 if (!data.rows.length) return res.status(200).json({ message: 'noSession' })
                 res.locals.SSID = req.cookies.SSID;
                 return next();
@@ -63,7 +66,8 @@ const cookieController = {
 
 
     },
-
+//add this middleware before all middleware
+//add column 
     getUserFromSSID(req, res, next) {
 
         const { ssid } = req.params;
@@ -80,7 +84,5 @@ const cookieController = {
             })
     }
 };
-
-
 
 module.exports = cookieController;
