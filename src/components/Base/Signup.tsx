@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 const Signup = () => {
 
     const history = useHistory();
     const [info, setInfo] = useState(null);
+
+    useEffect (() => {
+        fetch('/user/verifySession')
+        .then(data => data.json())
+        .then(data => {
+          if (data.message) return;
+          if (data.ssid) history.push('/user');
+        })
+      }, [])
 
     function onUserLogin(e) {
         e.preventDefault();
@@ -46,7 +55,7 @@ const Signup = () => {
                         setInfo('Account created!')
                         setTimeout(() => {
                             setInfo('');
-                            history.push('/login');
+                            history.push('/user');
                         }, 1000)
                         break;
                     default:
