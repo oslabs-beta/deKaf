@@ -2,55 +2,90 @@
 const dbCookie = require("../models/userModel");
 
 const cookieController = {
-  //middleware to create a cookie and add that cookie to user
+    //middleware to create a cookie and add that cookie to user
     createSessionCookie(req, res, next) {
-        console.log('Inside cookie controller')
-        //grabbing the username from the req.body and grabbing the userID from res.locals
+        console.log('********* COOKIE CONTROLLER START *********')
+        // console.log(req.body)
         const { username } = req.body;
-        const { userID } = res.locals;
-        //initializing a timestamp for this cookie
-        const now = new Date();
-        //creating a query string to input the uuid username and the timestamp intp the sessions table
-        const query = {
-            text: 'INSERT INTO sessions (uuid,user_id,createdtime) VALUES ($1,$2,$3) RETURNING *',
-            values: [username,userID,now]
+
+        const newSSID = () => {
+            const SSID = Math.floor(Math.random() * 1000000000000000);
+            dbCookie.query(`SELECT ssid FROM sessions`)
+                .then(data => {
+                    console.log(data.rows);
+                    for (let session of data.rows) {
+                        if (session.ssid === SSID) return newSSID();
+                    }
+                    console.log(SSID);
+                    setCookie(SSID);
+                })
         }
-        //calling the query
-        dbCookie.query(query)
-            .then((session) => {
-              //if there is no problem verifying the cookie
-                res.cookie('SSID', session.rows[0]._id, { httpOnly: false, maxAge: 1000000 })
-                return next();
-            })
-            .catch(err => console.log('ERROR TRYING TO ADD INTO SESSIONS DB: ', err))
+
+        const setCookie = (SSID) => {
+
+            res.cookie('SSID', SSID, { httpOnly: false, maxAge: 1000000 })
+
+            const queryString: string =
+                `INSERT INTO sessions(ssid, uuid)
+                VALUES ($1, $2)`,
+                queryArgs = [SSID, username];
+
+            //const queryString = 'INSERT INTO sessions (ssid, username) VALUES ($1, $2)';
+
+            // server is running on 8080, if you want to test
+
+            dbCookie.query(queryString, queryArgs)
+                .then(() => next())
+                .catch(err => console.log('MAJOR PROBLEM TRYING TO ADD INTO SESSIONS DB: ', err))
+        }
+
+        newSSID();
     },
+
     //middleware to validate if the user has a cookie and if that cookie is a valid cookie to login
     sessionValidation(req, res, next) {
         console.log('entered verifySession')
-        // if there is no cookie let the frontend know that the user is not valid and needs to login or create an account
-        if (!req.cookies.ssid) return res.status(200).json({ message: 'noSession' });
-        // if there is a cookie with the name ssid then grab the value of the ssid
-        const { ssid } = req.cookies;
-        //create a query and check if the ssid is a valid ssid in our db
-        const query = {
-            text: `SELECT ssid FROM sessions WHERE ssid = $1`,
-            values: [ssid]
-        }
+        if (!req.cookies.SSID) return res.status(200).json({ message: 'failed' });
+
+        console.log('ssid cookie detected, verfifying...')
+        const { SSID } = req.cookies;
+
+        const queryString: string =
+            `SELECT ssid FROM sessions
+            WHERE ssid = $1`,
+            queryArgs = [SSID];
 
         console.log('checking for session in db');
-        dbCookie.query(query)
+        dbCookie.query(queryString, queryArgs)
             .then(data => {
-              //if nothing is returned then the ssid does not exist in the db and it is not a valid user
-                if (!data.rows.length) return res.status(200).json({ message: 'noSession' })
-                //if valid ssid then move on in the middleware
-                res.locals.ssid = req.cookies.ssid;
+                //if nothing is returned then the ssid does not exist in the db and it is not a valid user
+                console.log(data.rows, SSID, 'before check ssid')
+                if (data.rows[0] === undefined) return res.status(200).json('failed')
+                console.log(data.rows, SSID, 'after check ssid')
+                return next();
+            })
+    },
+
+    deleteSessionCookie(req, res, next) {
+        const { SSID } = req.cookies;
+
+        const queryString: string =
+            `DELETE FROM sessions 
+            WHERE ssid = $1`,
+            queryArgs = [SSID];
+
+        console.log('checking for session in db');
+        dbCookie.query(queryString, queryArgs)
+            .then(data => {
+                //if nothing is returned then the ssid does not exist in the db and it is not a valid user
+                res.clearCookie('SSID');
                 return next();
             })
 
-
     },
-//add this middleware before all middleware
-//add column 
+
+    //add this middleware before all middleware
+    //add column 
     getUserFromSSID(req, res, next) {
 
         const { ssid } = req.params;
