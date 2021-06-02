@@ -3,15 +3,17 @@ const { logLevel } = require('kafkajs')
 const winston = require('winston')
 const db = require('../models/userModel.ts');
 // const topic = require('./topic');
-const EventEmitter = require('events')
+const EventEmitter = require('events');
+const { least } = require('d3-array');
 
 
 //initializing a consumer object
 const consumer = {}
+console.log('in consumer file')
 class MyEmitter extends EventEmitter {};
 //everything in this function will be the consumer logic
 consumer.run = async (consumerData) => {
-  const { port, topics, userId} = consumerData;
+  let { port, topics, userId, username} = consumerData;
   if (userId === undefined) userId = 3;
   try 
   {
@@ -179,8 +181,8 @@ consumer.run = async (consumerData) => {
       }
       // console.log(`messageData ${messageData}`)
       const queryString = {
-        text: 'INSERT INTO consumers (user_id, message_data, partition) VALUES ($1, $2, $3) RETURNING _id AS dataId',
-        values: [userId, messageData, partition],
+        text: 'INSERT INTO consumers (user_id, message_data, partition, username) VALUES ($1, $2, $3, $4) RETURNING _id AS dataId',
+        values: [userId, messageData, partition, username],
         rowMode: 'array'
       }
       console.log('before query')
@@ -206,8 +208,8 @@ consumer.run = async (consumerData) => {
           // console.log('payload')
           // console.log(payload)
           const queryString = {
-            text: 'INSERT INTO consumer_requests (request_data, data_id, messageid, timestamp) VALUES ($1, $2, $3, $4)',
-            values: [payload, dataId, messageId, time],
+            text: 'INSERT INTO consumer_requests (request_data, data_id, messageid, timestamp, username) VALUES ($1, $2, $3, $4, $5)',
+            values: [payload, dataId, messageId, time, username],
             rowMode: 'array'
           }
           console.log('before query')

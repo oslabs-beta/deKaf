@@ -87,10 +87,11 @@ const BrokerOverview = () => {
     }
 
     fetchTopic();
-
+    console.log('after topic fetch')
     fetchConsumer();
-
+    console.log('after consumer fetch')
     fetchProducer();
+    console.log('after producer fetch')
   }
 
   // logic for topic data post request
@@ -126,7 +127,7 @@ const BrokerOverview = () => {
       body: JSON.stringify({consumerData})
     })
       .then(response => response.json())
-      .then(response => console.log(response))
+      .then(response => console.log('consumer function is complete'))
       .catch(err => 'Failed to submit topic info!')
   }
 

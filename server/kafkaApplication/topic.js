@@ -7,7 +7,7 @@ const db = require('../models/userModel.ts')
 const topic = {};
 // run();
 console.log('in the topic')
-topic.run = async ({port, topicData}) => {
+topic.run = async ({port, topicData, username}) => {
   // console.log(topicName)
   // const { topicName } = topicName;
   try{
@@ -32,7 +32,7 @@ topic.run = async ({port, topicData}) => {
     // {topicName, partition, replicationFactor}
     console.log(topicData)
     topicData.forEach((el) => {
-      console.log(el);
+      // console.log(el);
       const { topicName, partition, replicationFactor } = el; 
       topicDataObj['topic'] = topicName;
       topicDataObj['partition'] = partition;
@@ -40,7 +40,7 @@ topic.run = async ({port, topicData}) => {
       topicDataArray.push(topicDataObj);
       topicDataObj = {};
     })
-    console.log(topicDataArray)
+    // console.log(topicDataArray)
     console.log('creating new topics')
     await admin.createTopics({
       topics: topicDataArray
@@ -62,10 +62,10 @@ topic.run = async ({port, topicData}) => {
     
     console.log('fetch topic metaData')
     const fetchTopicMetadata = await admin.fetchTopicMetadata()
-    console.log(fetchTopicMetadata)
-    console.log(fetchTopicMetadata.topics[2])
+    // console.log(fetchTopicMetadata)
+    // console.log(fetchTopicMetadata.topics[2])
     const partionData = fetchTopicMetadata.topics[1];
-    console.log(partionData.partitions[3])
+    // console.log(partionData.partitions[3])
     // console.log(partionData[0])
 
     console.log('describing cluster');
@@ -73,8 +73,8 @@ topic.run = async ({port, topicData}) => {
     console.log(describeCluster)
 
     const topicQueryString = {
-      text: `INSERT INTO brokers (broker_data) VALUES ($1)`,
-      values: [{listTopics: listTopics, fetchTopicMetadata: fetchTopicMetadata, describeCluster: describeCluster}],
+      text: `INSERT INTO brokers (broker_data, username) VALUES ($1, $2)`,
+      values: [{listTopics: listTopics, fetchTopicMetadata: fetchTopicMetadata, describeCluster: describeCluster}, username],
       rowMode: 'array'
     };
     await db.query(topicQueryString)
@@ -100,7 +100,7 @@ topic.run = async ({port, topicData}) => {
     console.log(`Something bad happened in topic${e}`)
   }
   finally { 
-    // console.log('in finally');
+    console.log('in finally');
     // process.exit(0);
   }
 }
