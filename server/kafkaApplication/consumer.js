@@ -3,7 +3,8 @@ const { logLevel } = require('kafkajs')
 const winston = require('winston')
 const db = require('../models/userModel.ts');
 // const topic = require('./topic');
-const EventEmitter = require('events')
+const EventEmitter = require('events');
+const { least } = require('d3-array');
 
 
 //initializing a consumer object
@@ -11,7 +12,7 @@ const consumer = {}
 class MyEmitter extends EventEmitter {};
 //everything in this function will be the consumer logic
 consumer.run = async (consumerData) => {
-  const { port, topics, userId} = consumerData;
+  let { port, topics, userId} = consumerData;
   if (userId === undefined) userId = 3;
   try 
   {

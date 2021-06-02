@@ -87,10 +87,11 @@ const BrokerOverview = () => {
     }
 
     fetchTopic();
-
+    console.log('after topic fetch')
     fetchConsumer();
-
+    console.log('after consumer fetch')
     fetchProducer();
+    console.log('after producer fetch')
   }
 
   // logic for topic data post request

@@ -32,7 +32,7 @@ topic.run = async ({port, topicData}) => {
     // {topicName, partition, replicationFactor}
     console.log(topicData)
     topicData.forEach((el) => {
-      console.log(el);
+      // console.log(el);
       const { topicName, partition, replicationFactor } = el; 
       topicDataObj['topic'] = topicName;
       topicDataObj['partition'] = partition;
@@ -40,7 +40,7 @@ topic.run = async ({port, topicData}) => {
       topicDataArray.push(topicDataObj);
       topicDataObj = {};
     })
-    console.log(topicDataArray)
+    // console.log(topicDataArray)
     console.log('creating new topics')
     await admin.createTopics({
       topics: topicDataArray
@@ -62,10 +62,10 @@ topic.run = async ({port, topicData}) => {
     
     console.log('fetch topic metaData')
     const fetchTopicMetadata = await admin.fetchTopicMetadata()
-    console.log(fetchTopicMetadata)
-    console.log(fetchTopicMetadata.topics[2])
+    // console.log(fetchTopicMetadata)
+    // console.log(fetchTopicMetadata.topics[2])
     const partionData = fetchTopicMetadata.topics[1];
-    console.log(partionData.partitions[3])
+    // console.log(partionData.partitions[3])
     // console.log(partionData[0])
 
     console.log('describing cluster');
@@ -100,7 +100,7 @@ topic.run = async ({port, topicData}) => {
     console.log(`Something bad happened in topic${e}`)
   }
   finally { 
-    // console.log('in finally');
+    console.log('in finally');
     // process.exit(0);
   }
 }
