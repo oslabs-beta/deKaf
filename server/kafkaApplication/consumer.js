@@ -200,6 +200,8 @@ consumer.run = async (consumerData) => {
           console.log('in the request fun')
           // console.log(e)
           const { timestamp, payload } = e;
+          console.log('size:')
+          console.log(e.payload.size)
           let time = timestamp.toString();
           // console.log('payload')
           // console.log(payload)

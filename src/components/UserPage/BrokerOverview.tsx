@@ -86,19 +86,33 @@ const BrokerOverview = () => {
       return setErrorMessage('Please enter a valid port and at least one topic.');
     }
 
-    // post request for topic data
+    fetchTopic();
+
+    fetchConsumer();
+
+    fetchProducer();
+  }
+
+  // logic for topic data post request
+  const fetchTopic = () => {
     fetch('/kafka/connectTopic', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(brokerData)
+      body: JSON.stringify({brokerData})
     })
       .then(response => response.json())
-      .then(response => console.log(response))
+      .then(response => {
+        console.log('result from topic:')
+        console.log(response)
+      })
       .catch(err => 'Failed to submit topic info!')
+    console.log('finished topic starting consumer:')
+  }
 
-    // post request for consumer data
+  // logic for consumer data post request
+  const fetchConsumer = () => {
     const consumerData = {
       port: brokerData.port,
       topics: brokerData.topicData.map(topic => topic.topicName)
@@ -109,13 +123,15 @@ const BrokerOverview = () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(consumerData)
+      body: JSON.stringify({consumerData})
     })
       .then(response => response.json())
       .then(response => console.log(response))
       .catch(err => 'Failed to submit topic info!')
+  }
 
-    // post request for producer data
+  // logic for producer data post request
+  const fetchProducer = () => {
     const producerData = {
       random: brokerData.random,
       port: brokerData.port,
@@ -127,13 +143,14 @@ const BrokerOverview = () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(producerData)
+      body: JSON.stringify({producerData})
     })
       .then(response => response.json())
       .then(response => console.log(response))
       .catch(err => 'Failed to submit topic info!')
   }
 
+  // logic to render all topics stored in state
   const topicsArray = [];
 
   for (let i = 0; i < brokerData.topicData.length; i += 1) {
@@ -254,3 +271,9 @@ req.body = {
 //     </div>
 //   </div>
 // )
+/*
+get rid of uuid from users table
+
+store data with a username and return
+
+*/

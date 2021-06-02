@@ -100,8 +100,8 @@ topic.run = async ({port, topicData}) => {
     console.log(`Something bad happened in topic${e}`)
   }
   finally { 
-    console.log('in finally');
-    process.exit(0);
+    // console.log('in finally');
+    // process.exit(0);
   }
 }
 
