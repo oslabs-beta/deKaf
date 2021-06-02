@@ -58,10 +58,13 @@ const cookieController = {
         console.log('checking for session in db');
         dbCookie.query(queryString, queryArgs)
             .then(data => {
+              console.log('data:')
+              console.log(data)
                 //if nothing is returned then the ssid does not exist in the db and it is not a valid user
-                console.log(data.rows, SSID, 'before check ssid')
+                console.log('before check ssid')
                 if (data.rows[0] === undefined) return res.status(200).json('failed')
-                console.log(data.rows, SSID, 'after check ssid')
+                console.log('after check ssid')
+                res.locals.ssid = SSID;
                 return next();
             })
     },
@@ -88,10 +91,10 @@ const cookieController = {
     //add column 
     getUserFromSSID(req, res, next) {
 
-        const { ssid } = req.params;
+        const { ssid } = res.locals;
 
         const query = {
-            text: `SELECT username FROM sessions WHERE ssid = $1`,
+            text: `SELECT uuid FROM sessions WHERE ssid = $1`,
             values: [ssid]
         }
         dbCookie.query(query)

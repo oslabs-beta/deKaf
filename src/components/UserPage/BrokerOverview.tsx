@@ -127,7 +127,7 @@ const BrokerOverview = () => {
       body: JSON.stringify({consumerData})
     })
       .then(response => response.json())
-      .then(response => console.log(response))
+      .then(response => console.log('consumer function is complete'))
       .catch(err => 'Failed to submit topic info!')
   }
 
