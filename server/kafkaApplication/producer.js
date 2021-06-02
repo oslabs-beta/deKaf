@@ -49,6 +49,7 @@ async function run(dataMessage, producerData) {
         rowMode: 'array'
       }
       await db.query(queryString);
+      console.log('producer added to DB')
       prod();
     })
 
