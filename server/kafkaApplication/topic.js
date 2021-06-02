@@ -7,7 +7,7 @@ const db = require('../models/userModel.ts')
 const topic = {};
 // run();
 console.log('in the topic')
-topic.run = async ({port, topicData}) => {
+topic.run = async ({port, topicData, username}) => {
   // console.log(topicName)
   // const { topicName } = topicName;
   try{
@@ -73,8 +73,8 @@ topic.run = async ({port, topicData}) => {
     console.log(describeCluster)
 
     const topicQueryString = {
-      text: `INSERT INTO brokers (broker_data) VALUES ($1)`,
-      values: [{listTopics: listTopics, fetchTopicMetadata: fetchTopicMetadata, describeCluster: describeCluster}],
+      text: `INSERT INTO brokers (broker_data, username) VALUES ($1, $2)`,
+      values: [{listTopics: listTopics, fetchTopicMetadata: fetchTopicMetadata, describeCluster: describeCluster}, username],
       rowMode: 'array'
     };
     await db.query(topicQueryString)

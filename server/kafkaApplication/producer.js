@@ -17,7 +17,7 @@ producer.generateMessages = (producerData) => {
 // }
 
 async function run(dataMessage, producerData) {
-  const { port, topics } = producerData
+  const { port, topics, username } = producerData
   try {
     const kafka = new Kafka({
       clientId: 'my-app',
@@ -44,8 +44,8 @@ async function run(dataMessage, producerData) {
       const { timestamp, payload } = e;
       let time = timestamp.toString();
       const queryString = {
-        text: `INSERT INTO producer (request_data, messageId, timestamp) VALUES ($1, $2, $3)`,
-        values: [payload, messageId, time],
+        text: `INSERT INTO producer (request_data, messageId, timestamp, username) VALUES ($1, $2, $3, $4)`,
+        values: [payload, messageId, time, username],
         rowMode: 'array'
       }
       await db.query(queryString);

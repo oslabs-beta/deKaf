@@ -13,10 +13,11 @@ const consumerKafka = require('../kafkaApplication/consumer');
 
 const kafkaController = {
   starttopic(req, res, next) {
-    // starttopic(brokerData) {
+    
     //grabbing the broker data which consists of the kafka port, topic names, quantity of partitions in each topic and replication factor
     const { brokerData } = req.body;
-    
+    const { username } = res.locals;
+    brokerData['username'] = username;
     //Connecting our chassis to the existing kafka instances in order to grab metrics
     topicKafka.run(brokerData);
     
@@ -26,28 +27,35 @@ const kafkaController = {
   startproducer(req, res, next) {
     const { producerData } = req.body;
     console.log('in start producer')
-    console.log(producerData)
+    const { username } = res.locals;
+    producerData['username'] = username;
     producerKafka.generateMessages(producerData);
     return next();
   },  
 
   startconsumer(req, res, next) {
     const { consumerData } = req.body;
+    const { username } = res.locals;
+    console.log('username')
+    console.log(username)
+    consumerData['username'] = username;
     console.log('here in start consumer')
     consumerKafka.run(consumerData);
     return next();
   },
 
   async getMessageData(req, res, next) {
-    let messageCounter = 0;
+    // let messageCounter = 0;
     console.log('in the get message data')
+    const { username } = res.locals;
     const messageQueryString = {
-      text: `SELECT message_data AS messageData FROM consumers WHERE _id > ${messageCounter}`,      
+      text: `SELECT message_data AS messageData FROM consumers WHERE username = ($1)`,
+      values: [username],   
       rowMode: 'array'
     }
     const messageData = await dbKafka.query(messageQueryString);
     // console.log(messageData.rows);
-    messageCounter = messageData.rowCount;
+    let messageCounter = messageData.rowCount;
     const messageDataArray = [];
     messageData.rows.forEach((el) => {
       messageDataArray.push(el[0])
@@ -60,14 +68,15 @@ const kafkaController = {
   },
 
   async getRequestData(req, res, next) {
-    let requestCounter = 0;
+    const { username } = res.locals;
     const requestQueryString = {
-      text: `SELECT request_data AS requestData FROM consumer_requests WHERE _id > ${requestCounter}`,
+      text: `SELECT request_data AS requestData FROM consumer_requests WHERE username = ($1)`,
+      values: [username],
       rowMode: 'array'
     }
     const requestData = await dbKafka.query(requestQueryString);
     // console.log(requestData);
-    requestCounter = requestData.rowCount;
+    let requestCounter = requestData.rowCount;
     const requestDataArray = [];
     requestData.rows.forEach((el) => {
       requestDataArray.push(el[0])
@@ -79,14 +88,15 @@ const kafkaController = {
   },
 
   async getProducerData(req, res, next) {
-    let producerCounter = 0;
+    const { username } = res.locals;
     const producerQueryString = {
-      text: `SELECT request_data AS requestData FROM producer WHERE _id > ${producerCounter}`,
+      text: `SELECT request_data AS requestData FROM producer WHERE username = ($1)`,
+      values: [username],
       rowMode: 'array'
     }
     const producerData = await dbKafka.query(producerQueryString);
     console.log(producerData);
-    producerCounter = producerData.rowCount;
+    let producerCounter = producerData.rowCount;
     const producerDataArray = [];
     producerData.rows.forEach((el) => {
       producerDataArray.push(el[0])
@@ -97,16 +107,17 @@ const kafkaController = {
   },
 
   async getTopicData(req, res, next) {
-    let topicCounter = 0;
+    const { username } = res.locals;
     const topicQueryString = {
-      text: `SELECT broker_data AS brokerData FROM brokers WHERE _id > ${topicCounter}`,
+      text: `SELECT broker_data AS brokerData FROM brokers WHERE username = ($1)`,
+      values: [username],
       rowMode: 'array'
     }
     const topicData = await dbKafka.query(topicQueryString);
     const topicDataArray = [];
     const numOfPartitions = [];
     let temp;
-    topicCounter = topicData.rowCount;
+    let topicCounter = topicData.rowCount;
     topicData.rows.forEach((el) => {
       temp = el[0].fetchTopicMetadata.topics;
       topicDataArray.push(el[0])
@@ -121,8 +132,10 @@ const kafkaController = {
   },
 
   async totalDataInPartition(req, res, next) {
+    const { username } = res.locals;
     const partitionQueryString = {
-      text: `SELECT partition FROM consumers`,
+      text: `SELECT partition FROM consumers WHERE username = ($1)`,
+      values: [username],
       rowMode: 'array'
     }
     const totalPartitions = await dbKafka.query(partitionQueryString)
@@ -137,8 +150,8 @@ const kafkaController = {
       for (let i = 0; i < partitionArray.length; i++) {
         if (partitionArray[i] !== null) {
           let totalDataInPartitionQueryString = {
-            text: `SELECT * FROM consumers WHERE partition = ($1)`,
-            values: [partitionArray[i]],
+            text: `SELECT * FROM consumers WHERE partition = ($1) AND username = ($2)`,
+            values: [partitionArray[i], username],
             rowMode: 'array'
           }
           let result = await dbKafka.query(totalDataInPartitionQueryString);
@@ -156,12 +169,15 @@ const kafkaController = {
   },
 
   async getMessageLag (req, res, next) {
+    const { username } = res.locals;
     const producerQueryString = {
-      text: `SELECT timestamp, messageid FROM producer`,
+      text: `SELECT timestamp, messageid FROM producer WHERE username = ($1)`,
+      values: [username],
       rowMode: 'array'
     }
     const consumerQueryString = {
-      text: `SELECT timestamp, messageid FROM consumer_requests`,
+      text: `SELECT timestamp, messageid FROM consumer_requests WHERE username = ($1)`,
+      values: [username],
       rowMode: 'array'
     }
     let producerData = await dbKafka.query(producerQueryString);
