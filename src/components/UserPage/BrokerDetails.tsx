@@ -26,6 +26,12 @@ const BrokerDetails = () => {
     setMessageMet(false);
     setProducerMet(false);
     setConsumerMet(false);
+    if (document.getElementById('tabs')) {
+      document.getElementById('lead-button').style.background = '';
+      document.getElementById('message-button').style.background = '';
+      document.getElementById('producer-button').style.background = '';
+      document.getElementById('consumer-button').style.background = '';
+    }
 
     switch(buttonId) {
       case 'lead':
@@ -46,15 +52,27 @@ const BrokerDetails = () => {
   };
 
   let displayMetric = null;
-  if (leadMet) displayMetric = <LeadMetrics />;
-  if (messageMet) displayMetric = <MessageMetrics />;
-  if (producerMet) displayMetric = <ProducerMetrics />;
-  if (consumerMet) displayMetric = <ConsumerMetrics />;
+  if (leadMet) {
+    document.getElementById('lead-button').style.background = '#f9eae1';
+    displayMetric = <LeadMetrics />;
+  }
+  if (messageMet) {
+    document.getElementById('message-button').style.background = '#f9eae1';
+    displayMetric = <MessageMetrics />;
+  }
+  if (producerMet) {
+    document.getElementById('producer-button').style.background = '#f9eae1';
+    displayMetric = <ProducerMetrics />;
+  }
+  if (consumerMet) {
+    document.getElementById('consumer-button').style.background = '#f9eae1';
+    displayMetric = <ConsumerMetrics />;
+  }
 
   return (
     <div id='broker-wrapper'>
       <h2 className='gallery-header' id='details-header'>Broker: MyKafkaApp</h2>
-      <div className='tab-container'>
+      <div id='tabs' className='tab-container'>
         <button id='lead-button' onClick={() => {handleClick('lead')}}>Topic</button>
         <button id='message-button' onClick={() => {handleClick('message')}}>Message</button>
         <button id='producer-button' onClick={() => {handleClick('producer')}}>Producer</button>
