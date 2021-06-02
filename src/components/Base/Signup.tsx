@@ -10,8 +10,7 @@ const Signup = () => {
         fetch('/user/verifySession')
         .then(data => data.json())
         .then(data => {
-          if (data.message) return;
-          if (data.ssid) history.push('/user');
+          if (data === 'success') history.push('/user');
         })
       }, [])
 

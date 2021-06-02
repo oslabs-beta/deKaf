@@ -17,9 +17,9 @@ routerUser.post('/login', userControllerUser.verifyUser, cookieControllerUser.cr
   res.status(200).json('success');
 });
 
-// routerUser.post('/logout', userControllerUser.logoutUser, cookieControllerUser.deleteSessionCookie, (req, res) => {
-//   res.status(200).json('success');
-// });
+routerUser.post('/logout', cookieControllerUser.deleteSessionCookie, (req, res) => {
+  res.status(200).json('success');  
+});
 
 routerUser.get('/verifySession', cookieControllerUser.sessionValidation, (req, res) => {
   res.status(200).json('success');
