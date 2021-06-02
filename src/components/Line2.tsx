@@ -71,7 +71,6 @@ let dimensions = {
         let arr = [];
         let data = [];
 
-    //let dataconverted = [];
     const svgRef = useRef<SVGSVGElement | null>(null)
     // const [data, setData] = useState(dataconverted)
     //y is .count

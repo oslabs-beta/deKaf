@@ -17,28 +17,6 @@ const ProducerMetrics = (props) => {
     const [sizeGraphData, setsizeGraphData] = useState(null);
     const [timeGraphData, settimeGraphData] = useState(null);
 
-
-    // const iterate = () => setIterator(iterator + 1);
-    if (!producersData) getProducerData();
-
-    function getProducerData() {
-        fetch('/kafka/producerData')
-            .then(data => data.json())
-            .then(producersData=> {
-                console.log('Producer data:');
-                console.log(producersData.producerData[0]);
-                setTimeout(() => {
-                  getProducerData();
-                }, 5000);
-                // if (producerData.equals(producersData)) return;
-                setproducerData(producersData);
-                // setsizeGraphData()
-            })
-            .catch(err => 'Failed to fetch producer data!');
-    }
-
-    if (!producersData) {
-
     if (!props.data) {
 
         return (
@@ -69,8 +47,8 @@ const ProducerMetrics = (props) => {
             <div className='metric-panel'>
               <h3>Producer metrics</h3>
 
-              Renderinggg
-              {/* <Testing2 /> */}
+              Rendering
+              <Line dataa = {size} />
               {/* <p>Total messages sent by producer: {producersData.producerCounter}</p> */}
 
               <p>Total messages sent by producer: {props.data.producerCounter}</p>
@@ -79,7 +57,6 @@ const ProducerMetrics = (props) => {
 
             <div className='metric-panel'>
               <h3>Message quantity over time</h3>
-              Rendering
               <Vis dataa={size} />
               {/* <Vis dataa = {quantity} /> */}
 
@@ -88,8 +65,7 @@ const ProducerMetrics = (props) => {
             
             <div className='metric-panel'>
               <h3>Message size</h3>
-              <Line dataa = {size} />
-              Rendering
+              {/* <Line dataa = {size} /> */}
               <Testing />
               <div className='visualization-panel'></div>
             </div>
@@ -97,5 +73,6 @@ const ProducerMetrics = (props) => {
       )
     }
 }
+// }
 
 export default ProducerMetrics;
