@@ -41,6 +41,21 @@ body {
         .nav-right a {
             padding-left: 20px;
         }
+
+        .nav-right button {
+            padding-left: 20px;
+            padding-right: 0;
+            font-family: 'Baloo 2', cursive;
+            border: none;
+            background: transparent;
+            color: darken($avocado, 50%);
+            font-size: 16px;
+        }
+
+        .nav-right button:hover {
+            color: darken($avocado, 30%);
+            cursor: pointer;
+        }
     }
 
     #top-nav-flex {
@@ -327,6 +342,14 @@ body {
                     flex: 1;
                     border: 1px solid blue;
                     margin-left: 10px;
+                }
+            }
+
+            #contributors {
+                padding-bottom: 30px;
+
+                p {
+                    margin: 0;
                 }
             }
         }
