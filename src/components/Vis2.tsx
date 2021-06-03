@@ -63,8 +63,8 @@ import * as d3 from 'd3';
 let data = [];
 
 const Vis2 = (props) => {
-    console.log("length");
-    console.log(props.dataa.length);
+    // console.log("length");
+    // console.log(props.dataa.length);
     let dimensions = {
         width: 800, 
         height: 730,
@@ -101,8 +101,8 @@ const Vis2 = (props) => {
 
 
     
-    data.forEach(e => {console.log(e)}, "!!!!!!!!!!!!!!!!");
-    console.log(data, "!!!");
+    // data.forEach(e => {console.log(e)}, "!!!!!!!!!!!!!!!!");
+    // console.log(data, "!!!");
     ///////////////////////////////////////////////////////
 
     const [selection, setSelection] = useState<null | Selection<any, unknown, null, undefined>>(null);

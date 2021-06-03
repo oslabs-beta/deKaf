@@ -33,9 +33,10 @@ topic.run = async ({port, topicData, username}) => {
     console.log(topicData)
     topicData.forEach((el) => {
       // console.log(el);
-      const { topicName, partition, replicationFactor } = el; 
+      const { topicName, partition, replicationFactor } = el;
+      console.log(partition);
       topicDataObj['topic'] = topicName;
-      topicDataObj['partition'] = partition;
+      topicDataObj['numPartitions'] = partition;
       topicDataObj['replicationFactor'] = replicationFactor;
       topicDataArray.push(topicDataObj);
       topicDataObj = {};

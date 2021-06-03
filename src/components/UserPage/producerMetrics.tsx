@@ -46,27 +46,22 @@ const ProducerMetrics = (props) => {
           <div className='metrics-container'>
             <div className='metric-panel'>
               <h3>Producer metrics</h3>
-
-              Rendering
-              <Line dataa = {size} />
-              {/* <p>Total messages sent by producer: {producersData.producerCounter}</p> */}
-
+              {/* <Line dataa = {size} /> */}
+              <p>Total messages sent by producer: {producersData.producerCounter}</p>
+              {/* <Line dataa = {size} /> */}
               <p>Total messages sent by producer: {props.data.producerCounter}</p>
-
             </div>
 
             <div className='metric-panel'>
               <h3>Message quantity over time</h3>
-              <Vis dataa={size} />
-              {/* <Vis dataa = {quantity} /> */}
+              <Vis dataa = {quantity} />
 
               <div className='visualization-panel'></div>
             </div>
             
             <div className='metric-panel'>
               <h3>Message size</h3>
-              {/* <Line dataa = {size} /> */}
-              <Testing />
+              <Line dataa = {size} />
               <div className='visualization-panel'></div>
             </div>
           </div>

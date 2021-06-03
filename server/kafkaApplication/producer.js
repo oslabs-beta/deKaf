@@ -117,7 +117,7 @@ async function run(dataMessage, producerData) {
         return topicArray;
       } 
       const topicMessages = topicMessagesArray(topics)
-      console.log(topicArray)
+      // console.log(topicArray)
       console.log('sending producer message')
       // let newMessage = [dataMessage, messageId]
       // const topicMessages = [

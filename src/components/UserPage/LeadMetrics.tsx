@@ -9,7 +9,8 @@ import Vis2 from '../Vis2.tsx';
 import Testing from '../Testing.tsx'
 
 const LeadMetrics = (props) => {
-
+    console.log('props.data:')
+    console.log(props.data)
     if (!props.data) {
         return (
             <div className='metrics-overview-box'>
@@ -18,8 +19,11 @@ const LeadMetrics = (props) => {
             </div>
         )
     } else {
+        
         const topicsArray = [];
-        for (let index in props.data.topicData[0].listTopics) {
+        for (let index in props.data.partitionQuantity) {
+            console.log(index)
+            console.log(props.data.partitionQuantity)
             topicsArray.push(
                 <div className='single-topic'>
                     <p><strong>Topic:</strong> {props.data.partitionQuantity[index].name}</p>
