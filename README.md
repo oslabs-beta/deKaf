@@ -16,7 +16,7 @@ deKaf prides itself on simplicity. On the same server you have a kafka instance 
 5. If you do not have any data being sent to your producer but you still want to test your kakfa cluster, simply click the **_generate random data_** check box. We will generate mock data and send it to your produce for you.
 6. Once all the data has been enter, click **_View Metrics_**
 
-![](https://imgur.com/6AoxsAj)
+![](https://i.imgur.com/NoIubOI.png)
 
 ### Our Metrics:
 After entering the information you will be taken to our metrics overview page where live data will be rendered. Here we have seperated the metrics into four categories.
