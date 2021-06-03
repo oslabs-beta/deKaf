@@ -14,7 +14,7 @@ routerKafka.post('/connectTopic', cookieControllerKafka.sessionValidation, cooki
 })
 
 routerKafka.post('/connectProducer', cookieControllerKafka.sessionValidation, cookieControllerKafka.getUserFromSSID, kafkaControllerKafka.startproducer, (req, res) => {
-  console.log('done');
+  console.log('done in connect producer');
   res.sendStatus(200)
 })
 
