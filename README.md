@@ -52,7 +52,7 @@ Once the producer tab is clicked you will see the following data:
 - Message quantity over time
 - Message sizes
 
-[![Producer]](https://i.imgur.com/LBGDuCA.png)(https://i.imgur.com/LZ52PHN.mp4)
+[![Producer](https://i.imgur.com/LBGDuCA.png)](https://i.imgur.com/LZ52PHN.mp4)
   *Click on image to see live data rendering*
 
 
