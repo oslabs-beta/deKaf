@@ -27,6 +27,9 @@ Once topic tab is clicked you will see the following data:
 - Partitions in each topic
 - Quantity of messages within each partition
 
+[![Topic](https://i.imgur.com/176BayR.png)](https://i.imgur.com/kxPydsD.mp4)
+  *Click on image to see live data rendering*
+
 ***Messages:***
 Once the messages tab is clicked you will see the following data:
 - Latest message sent to the specified topic
@@ -39,11 +42,19 @@ Once the consumer tab is clicked you will see the following data:
 - Message quantity over time
 - Message sizes
 
+[![Consumer](https://i.imgur.com/J9dlbp3.png)](https://i.imgur.com/PpvJQgY.mp4)
+  *Click on image to see live data rendering*
+
+
 ***Producer:***
 Once the producer tab is clicked you will see the following data:
 - Total messages sent by the producer
 - Message quantity over time
 - Message sizes
+
+[![Producer]](https://i.imgur.com/LBGDuCA.png)(https://i.imgur.com/LZ52PHN.mp4)
+  *Click on image to see live data rendering*
+
 
 % Focal Techs incorporated %
 
