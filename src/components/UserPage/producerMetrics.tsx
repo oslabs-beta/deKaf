@@ -34,8 +34,17 @@ const ProducerMetrics = (props) => {
 
       for (let i = 0; i < props.data.producerData.length; i += 1) {
         const message = props.data.producerData[i];
-        quantity[message.timestamp] = i;
-
+        console.log('message')
+        console.log(message)
+        const time = message.createdAt
+        console.log(time);
+        // console.log(message.createdAt)
+        // console.log(typeof message.createdAt);
+        const timeString = time.toString().split('').splice(message.createdAt.length - 5, message.createdAt.length - 1).join('');
+        // console.log('time:')
+        console.log(timeString);
+        quantity[message.createdAt] = i;
+      
         size[i] = message.size;
 
         // size[i] = message.payload.size;
@@ -55,7 +64,6 @@ const ProducerMetrics = (props) => {
             <div className='metric-panel'>
               <h3>Message quantity over time</h3>
               <Vis dataa = {quantity} />
-
               <div className='visualization-panel'></div>
             </div>
             

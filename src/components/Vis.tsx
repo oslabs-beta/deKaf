@@ -78,7 +78,7 @@ let dimensions = {
     //x is .timestamp
 
     for (const [k, v] of Object.entries(props.dataa)) {
-        arr.push({timestamp: k, count: v, col: "brown"})
+        arr.push({timestamp: k, count: v, col: "#27AE60"})
         // console.log("IS THIS EVEN?????????????????")
         // if (!data.length) {
         //     data.push({timestamp: k, count: v, col: "brown"})
@@ -128,6 +128,13 @@ let dimensions = {
         if(!selection) {
             setSelection(select(svgRef.current))
         } else {
+
+        selection  
+            .append('rect')
+            .attr('width', dimensions.width)
+            .attr('height', dimensions.height)
+            .attr('fill', "white")
+        
             
         y = scaleLinear()
             .domain([0, max(data, d => d.count) + (max(data, d => d.count)*0.3)]) //count metric, in this case, latency
@@ -153,15 +160,6 @@ let dimensions = {
         // console.log(select(svgRef.current)) 
     // let pathOfLine = 100;
     // let LineEmUp = d3.line(pathOfLine);
-
-        // selection  
-        //     .append('rect')
-        //     .attr('width', dimensions.width)
-        //     .attr('height', dimensions.height)
-        //     .attr('fill', "white")
-        
-
-        
     
         ///////////////////////////////////////////////////////
         // if (xAxGroup) xAxGroup = null;
@@ -294,6 +292,12 @@ let dimensions = {
     useEffect(() => {
         //find a way to update y axis
         if(selection){
+
+            selection  
+            .append('rect')
+            .attr('width', dimensions.width)
+            .attr('height', dimensions.height)
+            .attr('fill', "white")
            
             
             // xAxGroup = selection
@@ -335,7 +339,6 @@ let dimensions = {
         
         selection
             .selectAll(".yaxis").remove()
-
 
         xAxGroup = selection
             .append('g')
