@@ -41,8 +41,8 @@ const LeadMetrics = (props) => {
 
                 <div className='metric-panel'>
                     <h3>Quantity of messages per partition</h3>
-                    <Testing />
-                    <div className='visualization-panel'><Vis2 dataa={props.data.quantityOfDataInEachPartition} /></div>
+                    <div className='visualization-panel'>
+                        <Vis dataa={props.data.quantityOfDataInEachPartition} /></div>
                 </div>
             </div>
         )
