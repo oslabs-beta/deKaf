@@ -64,8 +64,12 @@ const About = () => {
 
             <div className='panel'>
                 <h2>Contributors</h2>
-                <div>
-                    This one will be styled somewhat differently, with a grid of team member headshots, names, GitHub/LinkedIn links, etc.
+                <div id='contributors'>
+                    <p>Achille Perducat | <a href='https://github.com/Achilleees'>Github</a> | <a href='https://www.linkedin.com/in/achille-perducat/'>LinkedIn</a></p>
+                    <p>Billy Hepfinger | <a href='https://github.com/bulknskull/'>Github</a> | <a href='https://www.linkedin.com/in/billy-hepfinger'>LinkedIn</a></p>
+                    <p>Jake Song | <a href='https://github.com/jakesongweb'>Github</a></p>
+                    <p>Mike Feldman | <a href='https://github.com/mikeFeldman15'>Github</a> | <a href='https://www.linkedin.com/in/michael-feldman-eit-a82997106/'>LinkedIn</a></p>
+                    <p>Noah Mattingly | <a href='https://github.com/ohaxn'>Github</a> | <a href='https://www.linkedin.com/in/noah-mattingly/'>LinkedIn</a></p>
                 </div>
             </div>
         </div>
