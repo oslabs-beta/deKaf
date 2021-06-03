@@ -12,7 +12,7 @@ const About = () => {
                     </div>
 
                     <div id='about-banner-right'>
-                        <div>(Screenshot of some cool visualizations)</div>
+                        <div><img width='50%' src='https://i.imgur.com/XF8Hnic.gif' /></div>
                     </div>
                 </div>
                 {/* <div className='logo'>(Logo image will go here)</div>
@@ -40,16 +40,17 @@ const About = () => {
                 <h2>How to use deKaf</h2>
                 <div className='panel-content'>
                     <div className='panel-left'>
-                        <p>Some kind of explanation of how to use deKaf</p>
+                        <p>Using deKaf is easy. Once you've signed in or created an account, you'll be asked to provide the port where your Kafka server is running, as well as a few details about the Kafka topics you'd like to monitor. You can even choose to test your Kafka instance with random data, to make sure it's functioning properly.</p>
+                        <p>On the Metrics Overview page, you can easily select which category you'd like to monitor: Topic, Messages, Consumer, or Producer. deKaf will connect to your Kafka instance and render your metrics dynamically via D3, updating regularly to make sure you have access to the latest data.</p>
                     </div>
 
                     <div className='panel-right'>
-                        <div>Screenshot or whatever</div>
+                        <div><img width='100%' src='https://i.imgur.com/NoIubOI.png'/></div>
                     </div>
                 </div>
             </div>
 
-            <div className='panel'>
+            {/* <div className='panel'>
                 <h2>Another panel</h2>
                 <div className='panel-content'>
                     <div className='panel-left'>
@@ -60,7 +61,7 @@ const About = () => {
                         <p>Display of another panel</p>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             <div className='panel'>
                 <h2>Contributors</h2>
