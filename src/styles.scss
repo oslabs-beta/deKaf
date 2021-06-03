@@ -492,10 +492,12 @@ body {
 
                     #submit-button-wrapper {
                         text-align: center;
+                        margin: 30px;
 
-                        button {
+                        a {
                             height: 48px;
                             min-width: 120px;
+                            padding: 10px;
                             margin: 10px auto;
                             border-radius: 24px;
                             border: 1px solid transparent;
@@ -505,6 +507,7 @@ body {
                             font-size: 16px;
                             font-weight: 500;
                             box-shadow: 2px 5px 8px 1px darken($linen, 3%);
+                            text-decoration: none;
                         }
 
                         button:hover {
