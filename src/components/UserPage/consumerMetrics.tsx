@@ -41,7 +41,7 @@ const ConsumerMetrics = (props) => {
 
           <div className='metric-panel'>
             <h3>Message size</h3>
-            <Line dataa = {size} />
+            {/* <Line dataa = {size} /> */}
             <div className='visualization-panel'></div>
           </div>
         </div>

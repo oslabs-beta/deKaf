@@ -169,6 +169,8 @@ let dimensions = {
         
         selection
             .selectAll(".xaxis").remove()
+
+        selection
             .selectAll(".yaxis").remove()
 
         xAxGroup = selection
@@ -329,12 +331,13 @@ let dimensions = {
         // if (xAxGroup) xAxGroup = null;
         // if (yAxGroup) yAxGroup = null;
         selection
-        .selectAll(".xaxis").remove()
-        .selectAll(".yaxis").remove()
+            .selectAll(".xaxis").remove()
+        
+        selection
+            .selectAll(".yaxis").remove()
 
 
         xAxGroup = selection
-
             .append('g')
             .attr("class", "xaxis")
             .attr(
@@ -344,7 +347,6 @@ let dimensions = {
             .call(xAx)
 
         yAxGroup = selection
-        
             .append('g')
             .attr("class", "yaxis")
             .attr(

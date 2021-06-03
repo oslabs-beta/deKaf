@@ -41,10 +41,10 @@ const Line = (props) => {
 
     ///////////////////////////////////////////////////////
 
-    //let maxValue = max(data, d => d.count) // imported function from d3-array can be used in y and x
+    let maxValue = max(data, d => d.count) // imported function from d3-array can be used in y and x
 
     let y = scaleLinear()
-        .domain([0, max(data, d => d.count) + (max(data, d => d.count)*0.3)!]) //count metric, in this case, latency
+        .domain([0, max(data, d => d.count) + (max(data, d => d.count)*0.3)]) //count metric, in this case, latency
         .range([dimensions.chartH, 0]) // svg height range
 
     let x = scaleBand() //divide the range into uniform bands
@@ -54,8 +54,8 @@ const Line = (props) => {
         .paddingInner(0.3)
         .paddingOuter(0.3)
 
-    let yAx = axisLeft(y)
-    let xAx = axisBottom(x)
+    let yAx = axisLeft(y);
+    let xAx= axisBottom(x);
     let xAxGroup;
     let yAxGroup;
 
@@ -80,37 +80,19 @@ const Line = (props) => {
             
             .paddingInner(0.3)
             .paddingOuter(0.3)
-
-        pathOfLine = 100;
-        LineEmUp = d3.line(pathOfLine);
-    //let path = {fill: 'none', stroke: 'orange'};
-        line = d3.line()
-            .x(d => x(d.timestamp))
-            .y(d => y(d.count));
-
-        y = scaleLinear()
-            .domain([0, max(data, d => d.count) + (max(data, d => d.count)*0.3)]) 
-            .range([dimensions.chartH, 0]) 
-
-        x = scaleBand()
-            .domain(data.map(d=>d.timestamp))
-            .range([0, dimensions.chartW])
-            
-            .paddingInner(0.3)
-            .paddingOuter(0.3)
     
         yAx = axisLeft(y)
-        
         xAx = axisBottom(x)
         
         selection
             .selectAll(".xaxis").remove()
+
+        selection
             .selectAll(".yaxis").remove()
         
         ///////////////////////////////////////////////////////
 
         xAxGroup = selection
-
             .append('g')
             .attr("class","xaxis")
             .attr(
@@ -133,23 +115,59 @@ const Line = (props) => {
             .selectAll(".line").remove()
 
         pathOfLine = 100;
-        LineEmUp = d3.line(pathOfLine);
+        LineEmUp = d3.line()([[10, 60], [40, 90], [60, 10], [190, 10]])
+        //LineEmUp = d3.line(pathOfLine);
         line = d3.line()
             .x(d => x(d.timestamp))
             .y(d => y(d.count));
         ///////////////////////////////////////////////////////  
-      
-        selection
+        // if (selection.selectAll(".line")[0].length>1) {
+
+        //     selection
+        //         .selectAll(".line")
+        //         .datum(data)
+        //         .append('path')
+        //         .transition()
+        //         .duration(1000)
+        //         .attr("class", "line")
+        //         .attr('transform', `translate( ${dimensions.margin}, 0)`)
+        //         .attr('fill', 'none')
+        //         .attr('stroke', 'green')
+        //         .attr('stroke-width', 1.1)
+        //         .attr("d", line);
+    
+        //     } else {
+        // selection
+        //     .append('path')
+        //     .attr("class", "line")
+        //     .attr('transform', `translate( ${dimensions.margin}, 0)`)
+        //     .attr('fill', 'none')
+        //     .attr('stroke', 'green')
+        //     .attr('stroke-width', 1.1)
+        //     .datum(data)
+        //     .attr("d", line);
+           
+            selection
             .append('path')
             .attr("class", "line")
-            .attr('transform', `translate( ${dimensions.margin}, 0)`)
+            .attr('transform', `translate( ${dimensions.margin + 20}, 0)`)
             .attr('fill', 'none')
             .attr('stroke', 'green')
-            .attr('stroke-width', 1.1)
+            .attr('stroke-width', 2)
             .datum(data)
-            .attr("d", line);
-           
-            
+            .attr("d", LineEmUp)
+            .transition()
+            //delay((e,i) => i * 1000)
+            .duration(1000)
+            .ease(easeCircle)
+            //.datum(data)
+            .attr('stroke-width', 9)
+            .attr("d", 
+                d3.line()
+                .x(d => x(d.timestamp))
+                .y(d => y(d.count))
+            )
+        //     }
         ///////////////////////////////////////////////////////
 
             // const graph = selection
@@ -226,6 +244,8 @@ const Line = (props) => {
 
         selection
             .selectAll(".xaxis").remove()
+            
+        selection
             .selectAll(".yaxis").remove()
 
         xAxGroup = selection
@@ -246,20 +266,52 @@ const Line = (props) => {
             )
             .call(yAx)
 
-        pathOfLine = 100;
-        LineEmUp = d3.line(pathOfLine);
-
+        pathOfLine = -1000;
+        //LineEmUp = d3.line(pathOfLine);
+        LineEmUp = d3.line()([[10, 60], [40, 90], [60, 10], [190, 10]])
         // linezero = d3.line()
         // .x(d => x(d.timestamp))
         // .y(d => y(d.count));
 
         line = d3.line()
-            .x(d => x(d.timestamp))
-            .y(d => y(d.count));
+            .x(d => x(d.timestamp)!)
+            .y(d => y(d.count)!);
 
         selection
             .selectAll(".line").remove()
 
+            // if (selection.selectAll(".line")[0].length>1) {
+
+            //     selection
+            //         .selectAll(".line")
+            //         .append('path')
+            //         .datum(data)
+            //         .transition()
+            //         .duration(1000)
+            //         .ease(easeCircle)
+            //         .attr("class", "line")
+            //         .attr('transform', `translate( ${dimensions.margin}, 0)`)
+            //         .attr('fill', 'none')
+            //         .attr('stroke', 'green')
+            //         .attr('stroke-width', 1.1)
+            //         .attr("d", line);
+        
+            //     } else {
+    
+                
+            // selection
+            //     .append('path')
+            //     .attr("class", "line")
+            //     .attr('transform', `translate( ${dimensions.margin}, 0)`)
+            //     .attr('fill', 'none')
+            //     .attr('stroke', 'green')
+            //     .attr('stroke-width', 1.1)
+            //     .datum(data)
+            //     .attr("d", line);
+               
+            //     }
+
+                // ========================================
         selection
             .append('path')
             .attr("class", "line")
@@ -268,79 +320,23 @@ const Line = (props) => {
             .attr('stroke', 'green')
             .attr('stroke-width', 2)
             .datum(data)
-            //.attr("d", 0)
+            .attr("d", LineEmUp)
             .transition()
             //delay((e,i) => i * 1000)
             .duration(1000)
             .ease(easeCircle)
             //.datum(data)
-            .attr('stroke-width', 10)
+            .attr('stroke-width', 9)
             .attr("d", 
                 d3.line()
                 .x(d => x(d.timestamp))
                 .y(d => y(d.count))
             )
             
-           
-        // const grapheles = selection.selectAll('rect').data(data)
-
-        //     grapheles
-        //         .exit()
-        //         .remove()
-            
-        //     grapheles
-        //     .attr('transform', `translate( ${dimensions.margin}, 0)`)
-        //     .attr('width', x.bandwidth)
-        //     .attr('height', d=> dimensions.chartH - y(d.count))
-        //     //.attr('x', d =>x(d.timestamp)!) // typescript ignores possiblity of null d.timestamp
-        //     .attr('x', d=> {
-        //         const xX = x(d.timestamp)
-        //         if(xX) {
-        //             return xX;
-        //         }
-        //         return null;
-        //     })
-        //     .attr('y', d => y(d.count))
-        //     .attr('fill', d => d.col)
-
-        //     grapheles
-        //     .enter()
-        //     .append('rect')
-        //     .attr('width', x.bandwidth)
-        //     .attr('height', d=> dimensions.chartH - y(d.count))
-        //     //.attr('x', d =>x(d.timestamp)!) // typescript ignores possiblity of null d.timestamp
-        //     .attr('x', d=> {
-        //         const xX = x(d.timestamp)
-        //         if(xX) {
-        //             return xX;
-        //         }
-        //         return null;
-        //     })
-        //     .attr('y', d => y(d.count))
-        //     .attr('fill', d => d.col)
-
         }
     }, [data])
 
-    // const addData = () => {
-    //     let dataToAdd = {
-    //         timestamp: 'Random',
-    //         metric: 'random',
-    //         unit: 'random',
-    //         count: Math.floor(Math.random() * 300),
-    //         col: 'orange'
-    //     } 
-    //     setData([...data, dataToAdd]);
-    // }
-
-    // const removeData = () => {
-    //     if (data.length === 0) {
-    //         return
-    //     }
-    //     let slicedData = data.slice(0, data.length - 1);
-    //     setData(slicedData);
-    // }
-
+   
 
     return (
         <div>
