@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 // @ts-ignore
 import BrokerCard from './BrokerCard.tsx';
 // @ts-ignore 
@@ -77,7 +78,7 @@ const BrokerOverview = () => {
 
   // send broker info and view metrics; redirect to /details
   const submitBrokerInfo = e => {
-    e.preventDefault();
+    // e.preventDefault();
     console.log('submitting broker info');
 
     // check first to make sure there is a port and at least one topic in state
@@ -188,7 +189,7 @@ const BrokerOverview = () => {
           </div>
 
           <div id='submit-button-wrapper'>
-            <button onClick={submitBrokerInfo}>View metrics</button>
+            <Link to='/details' onClick={submitBrokerInfo}>View metrics</Link>
             <input type='checkbox' id='random-data-toggle' name='random-data-toggle' onClick={toggleRandom} />
             <label htmlFor='random-data-toggle'>Test with random data</label>
           </div>
