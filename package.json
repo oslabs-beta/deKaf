@@ -7,7 +7,8 @@
     "start": "cross-env NODE_ENV=production ts-node server/server.ts",
     "build": "cross-env NODE_ENV=production webpack",
     "dev": "concurrently \"cross-env NODE_ENV=development webpack serve\" \"cross-env NODE_ENV=development nodemon --exec 'ts-node' server/server.ts\"",
-    "dev:hot": "concurrently \"cross-env NODE_ENV=development webpack serve\" \"cross-env NODE_ENV=development nodemon --exec 'ts-node' server/server.ts\""
+    "dev:hot": "concurrently \"cross-env NODE_ENV=development webpack serve\" \"cross-env NODE_ENV=development nodemon --exec 'ts-node' server/server.ts\"",
+    "test": "jest --verbose"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,13 @@
     "sass": "^1.32.13",
     "ts-node": "^9.1.1",
     "winston": "^3.3.3"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-react",
+      "@babel/preset-env",
+      "@babel/preset-typescript"
+    ]
   },
   "devDependencies": {
     "@babel/core": "^7.14.0",
