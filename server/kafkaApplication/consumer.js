@@ -179,7 +179,7 @@ consumer.run = async (consumerData) => {
         partition: partition,
         topic: topic
       }
-      // console.log(`messageData ${messageData}`)
+      console.log(`messageData ${messageData.partition}`)
       const queryString = {
         text: 'INSERT INTO consumers (user_id, message_data, partition, username) VALUES ($1, $2, $3, $4) RETURNING _id AS dataId',
         values: [userId, messageData, partition, username],
