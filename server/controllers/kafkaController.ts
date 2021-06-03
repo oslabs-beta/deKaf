@@ -1,5 +1,6 @@
 // import topic from "../kafkaApplication/topic";
 
+import { csvParseRows } from "d3-dsv";
 import producer from "../kafkaApplication/producer";
 
 /* Path to databse*/
@@ -120,10 +121,13 @@ const kafkaController = {
     const numOfPartitions = [];
     let temp;
     let topicCounter = topicData.rowCount;
+    console.log('topicCounter')
+    console.log(topicData.rows[0][topicData.rows.length - 1])
     topicData.rows.forEach((el) => {
       temp = el[0].fetchTopicMetadata.topics;
       topicDataArray.push(el[0])
     });
+    console.log(temp)
     temp.forEach((el) => {
       numOfPartitions.push({name: el.name, partitionQuantity: el.partitions.length})
     })
@@ -141,13 +145,14 @@ const kafkaController = {
       rowMode: 'array'
     }
     const totalPartitions = await dbKafka.query(partitionQueryString)
-    // console.log(totalPartitions)
     const partitionSet = new Set();
     totalPartitions.rows.forEach((el) => {
       partitionSet.add(el[0])
     })
     const partitionArray = [...partitionSet];
     const partitionObject = {}
+    console.log('Partition Array:')
+    console.log(partitionArray)
     async function getData(partitionArray) {
       for (let i = 0; i < partitionArray.length; i++) {
         if (partitionArray[i] !== null) {

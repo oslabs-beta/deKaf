@@ -72,12 +72,17 @@ topic.run = async ({port, topicData, username}) => {
     console.log('describing cluster');
     const describeCluster = await admin.describeCluster();
     console.log(describeCluster)
-
+    const deleteQueryString = {
+      text: `DELETE FROM brokers WHERE username = ($1)`,
+      values: [username],
+      rowMode: 'array'
+    }
     const topicQueryString = {
       text: `INSERT INTO brokers (broker_data, username) VALUES ($1, $2)`,
       values: [{listTopics: listTopics, fetchTopicMetadata: fetchTopicMetadata, describeCluster: describeCluster}, username],
       rowMode: 'array'
     };
+    await db.query(deleteQueryString)
     await db.query(topicQueryString)
     // .catch(e => 'error adding topic into db ', e)
     // const data = {value: 'hello', partition: 2};
