@@ -26,6 +26,8 @@ const kafkaController = {
 
   startproducer(req, res, next) {
     const { producerData } = req.body;
+    console.log('producer Data:')
+    console.log(producerData)
     console.log('in start producer')
     const { username } = res.locals;
     producerData['username'] = username;
