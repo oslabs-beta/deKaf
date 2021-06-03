@@ -1,7 +1,8 @@
 # deKaf
 
 ### What is it?
-Streaming data is so common these days that naturally there has been a shift in the markey towards data processing and real time analytics. deKaf brings the gap. We are a metrics data vizualisation tool built with D3 to easily view the current activity and monitor health on your kafka clusters. 
+
+Streaming data is so common these days that naturally there has been a shift in the markey towards data processing and real time analytics. deKaf brings the gap. We built a metric visualization tool based on kafka activity, focusing on performance and spread relevant metrics of the producers, topics, and consumers.
 
 ### How it Works:
 deKaf prides itself on simplicity. On the same server you have a kafka instance running, follow these steps.
@@ -19,3 +20,12 @@ After entering the information you will be taken to our metrics overview page. H
 
 ***Topic Data***:
 Once clicked on the topic tab you will be able to see the following data. 
+
+
+% Focal Techs incorporated %
+
+React Hooks/Router, SCSS/CSS, D3, Typescript, Kafka w/ KafkaJS, Docker, AWS 
+- Testing: Enzyme, Supertest
+
+
+
