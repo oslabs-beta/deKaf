@@ -16,11 +16,23 @@ deKaf prides itself on simplicity. On the same server you have a kafka instance 
 6. Once all the data has been enter, click **_View Metrics_**
 
 ### Our Metrics:
-After entering the information you will be taken to our metrics overview page. Here we have seperated the metrics into four categories.
+After entering the information you will be taken to our metrics overview page where live data will be rendered. Here we have seperated the metrics into four categories.
 
-***Topic Data***:
-Once clicked on the topic tab you will be able to see the following data. 
+***Topic Data:***
+Once topic tab is clicked you will see the following data:
+- Topic Names
+- Partitions in each topic
+- Quantity of messages within each partition
 
+***Messages:***
+Once the messages tab is clicked you will see the following data:
+- Latest message sent to the specified topic
+- Partition the message was sent to
+- Total messages within that consumer
+
+***Consumer:***
+Once the consumer tab is clicked you will see the following data:
+- 
 
 % Focal Techs incorporated %
 
