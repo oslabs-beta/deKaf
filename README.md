@@ -33,7 +33,15 @@ Once the messages tab is clicked you will see the following data:
 
 ***Consumer:***
 Once the consumer tab is clicked you will see the following data:
-- 
+- Total messages recieved by that consumer
+- Message quantity over time
+- Message sizes
+
+***Producer:***
+Once the producer tab is clicked you will see the following data:
+- Total messages sent by the producer
+- Message quantity over time
+- Message sizes
 
 % Focal Techs incorporated %
 
