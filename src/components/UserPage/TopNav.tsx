@@ -16,7 +16,7 @@ const TopNav = () => {
             <div className='logo'><Link to='/'><img src='https://i.imgur.com/r1RbvKv.png'/></Link></div>
             <div className='nav-right'>
                 <Link to='/about'>About</Link>
-                <button className='logout' onClick={logout}>Logout</button>
+                <button className='logout' onClick={logout}>Log out</button>
                 <a href='https://github.com/oslabs-beta/deKaf' target='_blank'>GitHub</a>
             </div>
         </nav>
