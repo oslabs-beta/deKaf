@@ -109,3 +109,6 @@ package-lock
 
 # error log
 myapp.log
+
+#mock data
+mockData.js
