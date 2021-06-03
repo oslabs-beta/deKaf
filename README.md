@@ -6,10 +6,8 @@ A metric visualization tool based on kafka activity, focusing on performance and
 
 % Focal Techs incorporated %
 
-Frontend: React Hooks/Router, SCSS/CSS, D3
-Middleware: Typescript
-Backend: Kafka w/ KafkaJS, Docker, AWS 
-Testing: Enzyme, Supertest
+React Hooks/Router, SCSS/CSS, D3, Typescript, Kafka w/ KafkaJS, Docker, AWS 
+- Testing: Enzyme, Supertest
 
 
 % Instructions %
