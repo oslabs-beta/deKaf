@@ -4,7 +4,6 @@ import {scaleLinear, scaleBand} from 'd3-scale';
 import {max} from 'd3-array';
 import {axisLeft, axisBottom} from 'd3-axis';
 import * as d3 from 'd3';
-import { easeCircle } from 'd3';
 
 
 ///////////////////////////////////////////////////////
@@ -19,31 +18,31 @@ import { easeCircle } from 'd3';
 //     {width: 100, height: 300, col: "cream"}
 // ];
 
-// const dataa = [
-//     {timestamp: 100, 
-//         //timestamp: "Monday", 
-//         metric: 'latency', unit:'milliseconds', count: 1000, col:'red'},
-//     {timestamp:200,
-//         //timestamp: "Tuesday", 
-//         metric: 'latency', unit:'milliseconds', count: 200, col: 'orange'},
-//     {timestamp:300,
-//         //timestamp: "Wednesday", 
-//     metric: 'latency', unit:'milliseconds', count: 342, col: 'yellow'},
-//     {timestamp: 400,
-//         //timestamp: "Thursday", 
-//     metric: 'latency', unit:'milliseconds', count: 132, col: 'green'},
-//     {timestamp: 500,
-//         //timestamp: "Friday", 
-//     metric: 'latency', unit:'milliseconds', count: 10, col: 'blue'},
-//     {timestamp: 600,
-//         //timestamp: "Saturday", 
-//     metric: 'latency', unit:'milliseconds', count: 123, col: 'purple'},
-//     {timestamp: 700,
-//         //timestamp: "Sunday", 
-//     metric: 'latency', unit:'milliseconds', count: 550, col: 'black'},
+const dataa = [
+    {timestamp: 100, 
+        //timestamp: "Monday", 
+        metric: 'latency', unit:'milliseconds', count: 1000, col:'red'},
+    {timestamp:200,
+        //timestamp: "Tuesday", 
+        metric: 'latency', unit:'milliseconds', count: 200, col: 'orange'},
+    {timestamp:300,
+        //timestamp: "Wednesday", 
+    metric: 'latency', unit:'milliseconds', count: 342, col: 'yellow'},
+    {timestamp: 400,
+        //timestamp: "Thursday", 
+    metric: 'latency', unit:'milliseconds', count: 132, col: 'green'},
+    {timestamp: 500,
+        //timestamp: "Friday", 
+    metric: 'latency', unit:'milliseconds', count: 10, col: 'blue'},
+    {timestamp: 600,
+        //timestamp: "Saturday", 
+    metric: 'latency', unit:'milliseconds', count: 123, col: 'purple'},
+    {timestamp: 700,
+        //timestamp: "Sunday", 
+    metric: 'latency', unit:'milliseconds', count: 550, col: 'black'},
     
 
-// ]
+]
 
 
 let dimensions = {
@@ -61,50 +60,47 @@ let dimensions = {
 //: React.FC
 
 
-//let data = arr.slice(arr.length-11, arr.length-1)
-// interface {
+let data = [];
+
+const Testing = () => {
     
-    // }
-    
-    const Vis = (props) => {
-        
-        let arr = [];
-        let data = [];
 
     //let dataconverted = [];
     const svgRef = useRef<SVGSVGElement | null>(null)
-    // const [data, setData] = useState(dataconverted)
+    const [data, setData] = useState(dataa)
     //y is .count
     //x is .timestamp
 
-    for (const [k, v] of Object.entries(props.dataa)) {
-        arr.push({timestamp: k, count: v, col: "brown"})
-        // console.log("IS THIS EVEN?????????????????")
-        // if (!data.length) {
-        //     data.push({timestamp: k, count: v, col: "brown"})
-        // } else {
-        //     data.forEach(e => {
-        //         if (e.timestamp === k) e.count += v;
+    // for (const [k, v] of Object.entries(props.dataa)) {
+    //     data.push({timestamp: k, count: v, col: "brown"})
+    //     console.log("IS THIS EVEN?????????????????")
+    //     // if (!data.length) {
+    //     //     data.push({timestamp: k, count: v, col: "brown"})
+    //     // } else {
+    //     //     data.forEach(e => {
+    //     //         if (e.timestamp === k) e.count += v;
     
-        //         else data.push({timestamp: k, count: v, col: "brown"})
-        //     })
-        // }
-        //setData(dataconverted);
-    }
-    data = arr.slice(arr.length-20, arr.length-1);
+    //     //         else data.push({timestamp: k, count: v, col: "brown"})
+    //     //     })
+    //     // }
+    //     //setData(dataconverted);
+    // }
 
 
 
     
-    // data.forEach(e => {console.log(e)}, "!!!!!!!!!!!!!!!!");
-    // console.log(data, "!!!");
+    //data.forEach(e => {console.log(e)}, "!!!!!!!!!!!!!!!!");
+    //console.log(data, "!!!");
     ///////////////////////////////////////////////////////
 
     const [selection, setSelection] = useState<null | Selection<any, unknown, null, undefined>>(null);
-    //let maxValue = max(data, d => d.count) // imported function from d3-array can be used in y and x
-    
+
+    ///////////////////////////////////////////////////////
+
+    let maxValue = max(data, d => d.count) // imported function from d3-array can be used in y and x
+
     let y = scaleLinear()
-        .domain([0, max(data, d => d.count) + (max(data, d => d.count)*0.3)]) //count metric, in this case, latency
+        .domain([0, max(data, d => d.count) + (max(data, d => d.count)*0.3)!]) //count metric, in this case, latency
         .range([dimensions.chartH, 0]) // svg height range
 
     let x = scaleBand() //divide the range into uniform bands
@@ -117,42 +113,21 @@ let dimensions = {
     let yAx = axisLeft(y)//.ticks
         //.tickFormat((d) => (`${d}`) )
     let xAx = axisBottom(x)
-    let xAxGroup;
-    let yAxGroup;
+
+    let pathOfLine = 100;
+    let LineEmUp = d3.line(pathOfLine);
+    //let path = {fill: 'none', stroke: 'orange'};
+    // let line = d3.line()
+    //     .x(d => x(d.timestamp))
+    //     .y(d => y(d.count));
     ///////////////////////////////////////////////////////
 
-    ///////////////////////////////////////////////////////
-    
     useEffect(() => {
-      
+        console.log(select(svgRef.current)) 
+
         if(!selection) {
             setSelection(select(svgRef.current))
         } else {
-            
-        y = scaleLinear()
-            .domain([0, max(data, d => d.count) + (max(data, d => d.count)*0.3)]) //count metric, in this case, latency
-            .range([dimensions.chartH, 0]) // svg height range
-    
-        x = scaleBand() //divide the range into uniform bands
-            .domain(data.map(d=>d.timestamp)) //domain accepts unique identifiers for divison
-            .range([0, dimensions.chartW]) //svg width range
-            //.padding(0.1) //closer to 1 = more space between bars
-            .paddingInner(0.3)
-            .paddingOuter(0.3)
-    
-        yAx = axisLeft(y)//.ticks
-            //.tickFormat((d) => (`${d}`) )
-        xAx = axisBottom(x)
-    
-        // let pathOfLine = 100;
-        // let LineEmUp = d3.line(pathOfLine);
-        // let path = {fill: 'none', stroke: 'orange'};
-        // let line = d3.line()
-        //     .x(d => x(d.timestamp))
-        //     .y(d => y(d.count));
-        // console.log(select(svgRef.current)) 
-    // let pathOfLine = 100;
-    // let LineEmUp = d3.line(pathOfLine);
 
         // selection  
         //     .append('rect')
@@ -164,29 +139,19 @@ let dimensions = {
         
     
         ///////////////////////////////////////////////////////
-        // if (xAxGroup) xAxGroup = null;
-        // if (yAxGroup) yAxGroup = null;
-        
-        selection
-            .selectAll(".xaxis").remove()
 
-        selection
-            .selectAll(".yaxis").remove()
-
-        xAxGroup = selection
+        const xAxGroup = selection
 
             .append('g')
-            .attr("class","xaxis")
             .attr(
                 'transform',
                 `translate(${dimensions.margin}, ${dimensions.chartH})`
             )
             .call(xAx)
 
-        yAxGroup = selection
+        const yAxGroup = selection
         
             .append('g')
-            .attr("class","yaxis")
             .attr(
                 'transform',
                 `translate(${dimensions.margin}, 0)`
@@ -198,11 +163,15 @@ let dimensions = {
 
         selection
             .append('g')
-            //.attr('transform', `translate( ${dimensions.margin}, 0)`) // second arg is ^ or v
+            .attr('transform', `translate( ${dimensions.margin}, 0)`) // second arg is ^ or v
             .selectAll('rect')
             .data(data)
             .enter()
             .append('rect')
+            .attr('width', x.bandwidth)
+            .attr('height', d=> dimensions.chartH - y(d.count))
+            //.attr('x', d =>x(d.timestamp)!) // typescript ignores possiblity of null d.timestamp
+            //.attr('x', d=>(d.timestamp)!)
             .attr('x', d=> {
                 const xX = x(d.timestamp)
                 if(xX) {
@@ -210,21 +179,10 @@ let dimensions = {
                 }
                 return null;
             })
-            .attr('width', x.bandwidth)
-            .attr('y', dimensions.chartH)
-            .attr('height', 0)
-            //.attr('x', d =>x(d.timestamp)!) // typescript ignores possiblity of null d.timestamp
-            //.attr('x', d=>(d.timestamp)!)
-            .attr('fill', d => d.col)
-      
-            .transition()
-            .duration(1000)
-            // .delay((e,i) => i * 100)
-            .ease(easeCircle)
-
-
             .attr('y', d => y(d.count))
-            .attr('height', d=> dimensions.chartH - y(d.count))
+            .attr('fill', d => d.col)
+            //y scales the input
+
             // selection
             // .append('path')
             // .attr('transform', `translate( ${dimensions.margin + 50}, 0)`)
@@ -294,7 +252,19 @@ let dimensions = {
     useEffect(() => {
         //find a way to update y axis
         if(selection){
-           
+            y = scaleLinear()
+            .domain([0, max(data, d => d.count)]) //count metric, in this case, latency
+            .range([dimensions.chartH, 0]) // svg height range
+    
+            x = scaleBand() //divide the range into uniform bands
+            .domain(data.map(d=>d.timestamp)) //domain accepts unique identifiers for divison
+            .range([0, dimensions.chartW]) //svg width range
+            //.padding(0.1) //closer to 1 = more space between bars
+            .paddingInner(0.1)
+
+            yAx = axisLeft(y)//.ticks
+            .tickFormat((d) => (`${d} messages`) )
+            xAx = axisBottom(x)
             
             // xAxGroup = selection
 
@@ -313,72 +283,19 @@ let dimensions = {
             //     `translate(${dimensions.margin}, 0)`
             // )
             // .call(yAx)
-        y = scaleLinear()
-            .domain([0, max(data, d => d.count) + (max(data, d => d.count)*0.3)]) //count metric, in this case, latency
-            .range([dimensions.chartH, 0]) // svg height range
-    
-        x = scaleBand() //divide the range into uniform bands
-            .domain(data.map(d=>d.timestamp)) //domain accepts unique identifiers for divison
-            .range([0, dimensions.chartW]) //svg width range
-            //.padding(0.1) //closer to 1 = more space between bars
-            .paddingInner(0.3)
-            .paddingOuter(0.3)
-    
-        yAx = axisLeft(y)//.ticks
-            //.tickFormat((d) => (`${d}`) )
-        xAx = axisBottom(x)
-
-        // if (xAxGroup) xAxGroup = null;
-        // if (yAxGroup) yAxGroup = null;
-        selection
-            .selectAll(".xaxis").remove()
-        
-        selection
-            .selectAll(".yaxis").remove()
 
 
-        xAxGroup = selection
-            .append('g')
-            .attr("class", "xaxis")
-            .attr(
-                'transform',
-                `translate(${dimensions.margin}, ${dimensions.chartH})`
-            )
-            .call(xAx)
-
-        yAxGroup = selection
-            .append('g')
-            .attr("class", "yaxis")
-            .attr(
-                'transform',
-                `translate(${dimensions.margin}, 0)`
-            )
-            .call(yAx)
-
-
-            let grapheles = selection.selectAll('rect').data(data)
+            const grapheles = selection.selectAll('rect').data(data)
 
             grapheles
                 .exit()
                 .remove()
             
-            // grapheles
-            // .attr('transform', `translate( ${dimensions.margin}, 0)`)
-            // .attr('width', x.bandwidth)
-            // .attr('height', d=> dimensions.chartH - y(d.count))
-            // //.attr('x', d =>x(d.timestamp)!) // typescript ignores possiblity of null d.timestamp
-            // .attr('x', d=> {
-            //     const xX = x(d.timestamp)
-            //     if(xX) {
-            //         return xX;
-            //     }
-            //     return null;
-            // })
-            // .attr('y', d => y(d.count))
-            // .attr('fill', d => d.col)
-
             grapheles
             .attr('transform', `translate( ${dimensions.margin}, 0)`)
+            .attr('width', x.bandwidth)
+            .attr('height', d=> dimensions.chartH - y(d.count))
+            //.attr('x', d =>x(d.timestamp)!) // typescript ignores possiblity of null d.timestamp
             .attr('x', d=> {
                 const xX = x(d.timestamp)
                 if(xX) {
@@ -386,17 +303,8 @@ let dimensions = {
                 }
                 return null;
             })
-            .attr('width', x.bandwidth)
-            .attr('y', d => dimensions.chartH)
-            .attr('height', 0)
-            .attr('fill', d => d.col)
-
-            .transition()
-            .duration(1000)
-            .ease(easeCircle)
-
             .attr('y', d => y(d.count))
-            .attr('height', d=> dimensions.chartH - y(d.count))
+            .attr('fill', d => d.col)
 
             grapheles
             .enter()
@@ -463,4 +371,4 @@ let dimensions = {
 //<rect width={100} height = {100} fill={}/>
 //<circle/>
 
-export default Vis;
+export default Testing;

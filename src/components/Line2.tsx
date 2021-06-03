@@ -71,7 +71,6 @@ let dimensions = {
         let arr = [];
         let data = [];
 
-    //let dataconverted = [];
     const svgRef = useRef<SVGSVGElement | null>(null)
     // const [data, setData] = useState(dataconverted)
     //y is .count
@@ -169,8 +168,6 @@ let dimensions = {
         
         selection
             .selectAll(".xaxis").remove()
-
-        selection
             .selectAll(".yaxis").remove()
 
         xAxGroup = selection
@@ -331,13 +328,12 @@ let dimensions = {
         // if (xAxGroup) xAxGroup = null;
         // if (yAxGroup) yAxGroup = null;
         selection
-            .selectAll(".xaxis").remove()
-        
-        selection
-            .selectAll(".yaxis").remove()
+        .selectAll(".xaxis").remove()
+        .selectAll(".yaxis").remove()
 
 
         xAxGroup = selection
+
             .append('g')
             .attr("class", "xaxis")
             .attr(
@@ -347,6 +343,7 @@ let dimensions = {
             .call(xAx)
 
         yAxGroup = selection
+        
             .append('g')
             .attr("class", "yaxis")
             .attr(

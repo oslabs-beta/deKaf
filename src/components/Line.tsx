@@ -4,48 +4,12 @@ import {scaleLinear, scaleBand} from 'd3-scale';
 import {max} from 'd3-array';
 import {axisLeft, axisBottom} from 'd3-axis';
 import * as d3 from 'd3';
+import { easeCircle } from 'd3';
 
 
 ///////////////////////////////////////////////////////
-
-//local
-
-// const data = [
-//     {width: 100, height: 250, col: "wine"},
-//     {width: 100, height: 100, col: "black"},
-//     {width: 100, height: 55, col: "yellow"},
-//     {width: 100, height: 55, col: "burgundy"},
-//     {width: 100, height: 300, col: "cream"}
-// ];
-
-// const dataa = [
-//     {timestamp: 100, 
-//         //timestamp: "Monday", 
-//         metric: 'latency', unit:'milliseconds', count: 1000, col:'red'},
-//     {timestamp:200,
-//         //timestamp: "Tuesday", 
-//         metric: 'latency', unit:'milliseconds', count: 200, col: 'orange'},
-//     {timestamp:300,
-//         //timestamp: "Wednesday", 
-//     metric: 'latency', unit:'milliseconds', count: 342, col: 'yellow'},
-//     {timestamp: 400,
-//         //timestamp: "Thursday", 
-//     metric: 'latency', unit:'milliseconds', count: 132, col: 'green'},
-//     {timestamp: 500,
-//         //timestamp: "Friday", 
-//     metric: 'latency', unit:'milliseconds', count: 10, col: 'blue'},
-//     {timestamp: 600,
-//         //timestamp: "Saturday", 
-//     metric: 'latency', unit:'milliseconds', count: 123, col: 'purple'},
-//     {timestamp: 700,
-//         //timestamp: "Sunday", 
-//     metric: 'latency', unit:'milliseconds', count: 550, col: 'black'},
-    
-
-// ]
-
-
 let dimensions = {
+    
     width: 800, 
     height: 730,
 
@@ -53,40 +17,25 @@ let dimensions = {
     chartH: 700,
 
     margin: 70
+
 }
-
-
 ///////////////////////////////////////////////////////
 //: React.FC
 
 
 
 const Line = (props) => {
-    let dataconverted = [];
-    //let dataconverted = [];
+    let arr = [];
+    let data = [];
 
-    //let dataconverted = [];
     const svgRef = useRef<SVGSVGElement | null>(null)
-    const [data, setData] = useState(dataconverted)
-    //y is .count
-    //x is .timestamp
-
+    //const [data, setData] = useState(dataconverted)
+  
     for (const [k, v] of Object.entries(props.dataa)) {
-        
-        dataconverted.push({timestamp: k, count: v, col: "green"})
+        arr.push({timestamp: k, count: v, col: "green"})
  
-        // dataconverted.forEach(e => {
-        //     if (e.timestamp === k) e.count += v;
-        //     else dataconverted.push({timestamp: k, count: v, col: "green"})
-        // })
-        //setData(dataconverted);
     }
-
-
-    
-    dataconverted.forEach(e => {console.log(e)}, "!!!!!!!!!!!!!!!!");
-    console.log(dataconverted, "!!!");
-    ///////////////////////////////////////////////////////
+        data = arr.slice(arr.length-20, arr.length-1);
 
     const [selection, setSelection] = useState<null | Selection<any, unknown, null, undefined>>(null);
 
@@ -95,7 +44,7 @@ const Line = (props) => {
     let maxValue = max(data, d => d.count) // imported function from d3-array can be used in y and x
 
     let y = scaleLinear()
-        .domain([0, max(data, d => d.count) + (max(data, d => d.count)*0.3)!]) //count metric, in this case, latency
+        .domain([0, max(data, d => d.count) + (max(data, d => d.count)*0.3)]) //count metric, in this case, latency
         .range([dimensions.chartH, 0]) // svg height range
 
     let x = scaleBand() //divide the range into uniform bands
@@ -105,89 +54,120 @@ const Line = (props) => {
         .paddingInner(0.3)
         .paddingOuter(0.3)
 
-    let yAx = axisLeft(y)//.ticks
-        //.tickFormat((d) => (`${d}`) )
-    let xAx = axisBottom(x)
+    let yAx = axisLeft(y);
+    let xAx= axisBottom(x);
+    let xAxGroup;
+    let yAxGroup;
 
-    let pathOfLine = 100;
-    let LineEmUp = d3.line(pathOfLine);
+    let pathOfLine ;
+    let LineEmUp;
     //let path = {fill: 'none', stroke: 'orange'};
-    let line = d3.line()
-        .x(d => x(d.timestamp))
-        .y(d => y(d.count));
+    let line;
     ///////////////////////////////////////////////////////
 
     useEffect(() => {
-        console.log(select(svgRef.current)) 
-
         if(!selection) {
             setSelection(select(svgRef.current))
         } else {
 
-        // selection  
-        //     .append('rect')
-        //     .attr('width', dimensions.width)
-        //     .attr('height', dimensions.height)
-        //     .attr('fill', "white")
-        
+        y = scaleLinear()
+            .domain([0, max(data, d => d.count) + (max(data, d => d.count)*0.3)]) 
+            .range([dimensions.chartH, 0]) 
 
-        
+        x = scaleBand()
+            .domain(data.map(d=>d.timestamp))
+            .range([0, dimensions.chartW])
+            
+            .paddingInner(0.3)
+            .paddingOuter(0.3)
     
+        yAx = axisLeft(y)
+        xAx = axisBottom(x)
+        
+        selection
+            .selectAll(".xaxis").remove()
+
+        selection
+            .selectAll(".yaxis").remove()
+        
         ///////////////////////////////////////////////////////
 
-        const xAxGroup = selection
-
+        xAxGroup = selection
             .append('g')
+            .attr("class","xaxis")
             .attr(
                 'transform',
                 `translate(${dimensions.margin}, ${dimensions.chartH})`
             )
             .call(xAx)
 
-        const yAxGroup = selection
+        yAxGroup = selection
         
             .append('g')
+            .attr("class","xaxis")
             .attr(
                 'transform',
                 `translate(${dimensions.margin}, 0)`
             )
             .call(yAx)
 
-    
-        ///////////////////////////////////////////////////////  
-
         selection
-            // .append('g')
-            // .attr('transform', `translate( ${dimensions.margin}, 0)`) // second arg is ^ or v
-            // .selectAll('rect')
-            // .data(data)
-            // .enter()
-            // .append('rect')
-            // .attr('width', x.bandwidth)
-            // .attr('height', d=> dimensions.chartH - y(d.count))
-            // //.attr('x', d =>x(d.timestamp)!) // typescript ignores possiblity of null d.timestamp
-            // //.attr('x', d=>(d.timestamp)!)
-            // .attr('x', d=> {
-            //     const xX = x(d.timestamp)
-            //     if(xX) {
-            //         return xX;
-            //     }
-            //     return null;
-            // })
-            // .attr('y', d => y(d.count))
-            // .attr('fill', d => d.col)
-            //y scales the input
+            .selectAll(".line").remove()
 
+        pathOfLine = 100;
+        LineEmUp = d3.line()([[10, 60], [40, 90], [60, 10], [190, 10]])
+        //LineEmUp = d3.line(pathOfLine);
+        line = d3.line()
+            .x(d => x(d.timestamp))
+            .y(d => y(d.count));
+        ///////////////////////////////////////////////////////  
+        // if (selection.selectAll(".line")[0].length>1) {
+
+        //     selection
+        //         .selectAll(".line")
+        //         .datum(data)
+        //         .append('path')
+        //         .transition()
+        //         .duration(1000)
+        //         .attr("class", "line")
+        //         .attr('transform', `translate( ${dimensions.margin}, 0)`)
+        //         .attr('fill', 'none')
+        //         .attr('stroke', 'green')
+        //         .attr('stroke-width', 1.1)
+        //         .attr("d", line);
+    
+        //     } else {
+        // selection
+        //     .append('path')
+        //     .attr("class", "line")
+        //     .attr('transform', `translate( ${dimensions.margin}, 0)`)
+        //     .attr('fill', 'none')
+        //     .attr('stroke', 'green')
+        //     .attr('stroke-width', 1.1)
+        //     .datum(data)
+        //     .attr("d", line);
+           
             selection
             .append('path')
-            .attr('transform', `translate( ${dimensions.margin}, 0)`)
+            .attr("class", "line")
+            .attr('transform', `translate( ${dimensions.margin + 20}, 0)`)
             .attr('fill', 'none')
             .attr('stroke', 'green')
-            .attr('stroke-width', 1.1)
+            .attr('stroke-width', 2)
             .datum(data)
-            .attr("d", line);
-           
-            
+            //.attr("d", LineEmUp)
+            .transition()
+            //delay((e,i) => i * 1000)
+            .duration(1000)
+            .ease(easeCircle)
+            //.datum(data)
+            .attr('stroke-width', 9)
+            .attr("d", 
+                d3.line()
+                .x(d => x(d.timestamp))
+                .y(d => y(d.count))
+            )
+        //     }
         ///////////////////////////////////////////////////////
 
             // const graph = selection
@@ -247,98 +227,116 @@ const Line = (props) => {
     useEffect(() => {
         //find a way to update y axis
         if(selection){
-            y = scaleLinear()
+
+        y = scaleLinear()
             .domain([0, max(data, d => d.count)]) //count metric, in this case, latency
             .range([dimensions.chartH, 0]) // svg height range
     
-            x = scaleBand() //divide the range into uniform bands
+        x = scaleBand() //divide the range into uniform bands
             .domain(data.map(d=>d.timestamp)) //domain accepts unique identifiers for divison
             .range([0, dimensions.chartW]) //svg width range
             //.padding(0.1) //closer to 1 = more space between bars
             .paddingInner(0.1)
 
-            yAx = axisLeft(y)//.ticks
-            .tickFormat((d) => (`${d} messages`) )
-            xAx = axisBottom(x)
+        yAx = axisLeft(y)
+
+        xAx = axisBottom(x)
+
+        selection
+            .selectAll(".xaxis").remove()
             
-            // xAxGroup = selection
+        selection
+            .selectAll(".yaxis").remove()
 
-            // .append('g')
-            // .attr(
-            //     'transform',
-            //     `translate(${dimensions.margin}, ${dimensions.chartH})`
-            // )
-            // .call(xAx)
+        xAxGroup = selection
+            .append('g')
+            .attr("class", "xaxis")
+            .attr(
+                'transform',
+                `translate(${dimensions.margin}, ${dimensions.chartH})`
+            )
+            .call(xAx)
 
-            // yAxGroup = selection
+        yAxGroup = selection
+            .append('g')
+            .attr("class", "yaxis")
+            .attr(
+                'transform',
+                `translate(${dimensions.margin}, 0)`
+            )
+            .call(yAx)
+
+        pathOfLine = -1000;
+        //LineEmUp = d3.line(pathOfLine);
+        LineEmUp = d3.line()([[10, 60], [40, 90], [60, 10], [190, 10]])
+        // linezero = d3.line()
+        // .x(d => x(d.timestamp))
+        // .y(d => y(d.count));
+
+        line = d3.line()
+            .x(d => x(d.timestamp)!)
+            .y(d => y(d.count)!);
+
+        selection
+            .selectAll(".line").remove()
+
+            // if (selection.selectAll(".line")[0].length>1) {
+
+            //     selection
+            //         .selectAll(".line")
+            //         .append('path')
+            //         .datum(data)
+            //         .transition()
+            //         .duration(1000)
+            //         .ease(easeCircle)
+            //         .attr("class", "line")
+            //         .attr('transform', `translate( ${dimensions.margin}, 0)`)
+            //         .attr('fill', 'none')
+            //         .attr('stroke', 'green')
+            //         .attr('stroke-width', 1.1)
+            //         .attr("d", line);
         
-            // .append('g')
-            // .attr(
-            //     'transform',
-            //     `translate(${dimensions.margin}, 0)`
-            // )
-            // .call(yAx)
+            //     } else {
+    
+                
+            // selection
+            //     .append('path')
+            //     .attr("class", "line")
+            //     .attr('transform', `translate( ${dimensions.margin}, 0)`)
+            //     .attr('fill', 'none')
+            //     .attr('stroke', 'green')
+            //     .attr('stroke-width', 1.1)
+            //     .datum(data)
+            //     .attr("d", line);
+               
+            //     }
 
-
-            const grapheles = selection.selectAll('rect').data(data)
-
-            grapheles
-                .exit()
-                .remove()
+                // ========================================
+        selection
+            .append('path')
+            .attr("class", "line")
+            .attr('transform', `translate( ${dimensions.margin + 20}, 0)`)
+            .attr('fill', 'none')
+            .attr('stroke', 'green')
+            .attr('stroke-width', 2)
+            .datum(data)
+            //.attr("d", LineEmUp)
+            .transition()
+            //delay((e,i) => i * 1000)
+            .duration(1000)
+            .ease(easeCircle)
+            //.datum(data)
+            .attr('stroke-width', 9)
+            .attr("d", 
+                d3.line()
+                .x(d => x(d.timestamp))
+                .y(d => y(d.count))
+            )
             
-            grapheles
-            .attr('transform', `translate( ${dimensions.margin}, 0)`)
-            .attr('width', x.bandwidth)
-            .attr('height', d=> dimensions.chartH - y(d.count))
-            //.attr('x', d =>x(d.timestamp)!) // typescript ignores possiblity of null d.timestamp
-            .attr('x', d=> {
-                const xX = x(d.timestamp)
-                if(xX) {
-                    return xX;
-                }
-                return null;
-            })
-            .attr('y', d => y(d.count))
-            .attr('fill', d => d.col)
-
-            grapheles
-            .enter()
-            .append('rect')
-            .attr('width', x.bandwidth)
-            .attr('height', d=> dimensions.chartH - y(d.count))
-            //.attr('x', d =>x(d.timestamp)!) // typescript ignores possiblity of null d.timestamp
-            .attr('x', d=> {
-                const xX = x(d.timestamp)
-                if(xX) {
-                    return xX;
-                }
-                return null;
-            })
-            .attr('y', d => y(d.count))
-            .attr('fill', d => d.col)
-
         }
     }, [data])
 
-    const addData = () => {
-        let dataToAdd = {
-            timestamp: 'Random',
-            metric: 'random',
-            unit: 'random',
-            count: Math.floor(Math.random() * 300),
-            col: 'orange'
-        } 
-        setData([...data, dataToAdd]);
-    }
-
-    const removeData = () => {
-        if (data.length === 0) {
-            return
-        }
-        let slicedData = data.slice(0, data.length - 1);
-        setData(slicedData);
-    }
-
+   
 
     return (
         <div>

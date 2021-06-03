@@ -5,10 +5,12 @@ import BrokerCard from './BrokerCard.tsx';
 import Vis from '../Vis.tsx';
 // @ts-ignore
 import Vis2 from '../Vis2.tsx';
+// @ts-ignore
+import Testing from '../Testing.tsx'
 
 const LeadMetrics = (props) => {
-
-    console.log('in lead: ', props);
+    console.log('props.data:')
+    console.log(props.data)
     if (!props.data) {
         return (
             <div className='metrics-overview-box'>
@@ -17,8 +19,11 @@ const LeadMetrics = (props) => {
             </div>
         )
     } else {
+        
         const topicsArray = [];
-        for (let index in props.data.topicData[0].listTopics) {
+        for (let index in props.data.partitionQuantity) {
+            console.log(index)
+            console.log(props.data.partitionQuantity)
             topicsArray.push(
                 <div className='single-topic'>
                     <p><strong>Topic:</strong> {props.data.partitionQuantity[index].name}</p>
@@ -36,6 +41,7 @@ const LeadMetrics = (props) => {
 
                 <div className='metric-panel'>
                     <h3>Quantity of messages per partition</h3>
+                    <Testing />
                     <div className='visualization-panel'><Vis2 dataa={props.data.quantityOfDataInEachPartition} /></div>
                 </div>
             </div>
