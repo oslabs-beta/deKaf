@@ -3,7 +3,7 @@
 ### What is it?
 
 
-Streaming data is so common these days that naturally there has been a shift in the markey towards data processing and real time analytics. deKaf brings the gap. We built a metric visualization tool based on kafka activity, focusing on performance and spread relevant metrics of the producers, topics, and consumers.
+Streaming data is so common these days that naturally there has been a shift in the markey towards data processing and real time analytics. deKaf bridges the gap. We built a metric visualization tool based on kafka activity, focusing on performance and spread relevant metrics of the producers, topics, and consumers.
 
 ### How it Works:
 deKaf prides itself on simplicity. On the same server you have a kafka instance running, follow these steps.
