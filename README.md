@@ -3,9 +3,9 @@
 ### What is it?
 
 
-Streaming data is so common these days that naturally there has been a shift in the markey towards data processing and real time analytics. deKaf bridges the gap. We built a metric visualization tool based on kafka activity, focusing on performance and spread relevant metrics of the producers, topics, and consumers.
+As streaming grows increasingly common, data processing and real-time analytics become more of a necessity — but Kafka has no built-in functionality allowing users to view key performance metrics. deKaf bridges that gap: it's a web-based metrics visualization tool that monitors Kafka activity, focusing on performance and spread relevant metrics of the producers, topics, and consumers.
 
-### How it Works:
+### How it works
 deKaf prides itself on simplicity. On the same server you have a kafka instance running, follow these steps.
 1. In the browser navigate to deKaf.app.
 2. Follow the prompts to create an account and log in. You will be redirected to the Broker Overview page.
@@ -18,7 +18,7 @@ deKaf prides itself on simplicity. On the same server you have a kafka instance 
 
 ![](https://i.imgur.com/NoIubOI.png)
 
-### Our Metrics:
+### Our Metrics
 After entering the information you will be taken to our metrics overview page where live data will be rendered. Here we have seperated the metrics into four categories.
 
 ***Topic Data:***
